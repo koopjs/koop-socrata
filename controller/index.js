@@ -166,7 +166,7 @@ var Controller = extend({
 
   
   preview: function(req, res){
-   res.render(__dirname + '../views/demo', { locals:{ host: req.params.id, item: req.params.item } });
+   res.render(__dirname + '/../views/demo', { locals:{ host: req.params.id, item: req.params.item } });
   }
 
 
