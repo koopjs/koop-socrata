@@ -54,6 +54,9 @@ var Controller = extend({
           if (error) {
             res.send( error, 500);
           } else if ( req.params.format ) {
+            // change geojson to json
+            req.params.format = req.params.format.replace('geojson', 'json');
+
             var dir = ['socrata', req.params.id ].join(':');
             // build the file key as an MD5 hash that's a join on the paams and look for the file 
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
