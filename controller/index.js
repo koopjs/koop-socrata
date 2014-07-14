@@ -1,5 +1,5 @@
 var extend = require('node.extend'),
-  var sm = require('sphericalmercator'),
+  sm = require('sphericalmercator'),
   merc = new sm({size:256}),
   fs = require('fs'),
   crypto = require('crypto');
