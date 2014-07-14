@@ -1,4 +1,6 @@
 var extend = require('node.extend'),
+  var sm = require('sphericalmercator'),
+  merc = new sm({size:256}),
   fs = require('fs'),
   crypto = require('crypto');
 
@@ -123,6 +125,86 @@ var Controller = extend({
     });
     
   },
+
+  tiles: function( req, res ){
+    var callback = req.query.callback;
+    delete req.query.callback;
+
+    var key,
+      layer = req.params.layer || 0;
+
+    var _send = function( err, data ){
+        req.params.key = key + ':' + layer;
+        if (req.query.style){
+          req.params.style = req.query.style;
+        }
+        Tiles.get( req.params, data[ layer ], function(err, tile){
+          if ( req.params.format == 'png' || req.params.format == 'pbf'){
+            res.sendfile( tile );
+          } else {
+            if ( callback ){
+              res.send( callback + '(' + JSON.stringify( tile ) + ')' );
+            } else {
+              if (typeof tile == 'string'){
+                res.sendfile( tile );
+              } else {
+                res.json( tile );
+              }
+            }
+          }
+        });
+    }
+
+    // build the geometry from z,x,y
+    var bounds = merc.bbox( req.params.x, req.params.y, req.params.z );
+
+    req.query.geometry = {
+        xmin: bounds[0],
+        ymin: bounds[1],
+        xmax: bounds[2],
+        ymax: bounds[3],
+        spatialReference: { wkid: 4326 }
+    };
+
+    var _sendImmediate = function( file ){
+      if ( req.params.format == 'png' || req.params.format == 'pbf'){
+        res.sendfile( file );
+      } else {
+        fs.readFile(file, function(err, data){
+          if ( callback ){
+            res.send( callback + '(' + JSON.parse(data) + ')' );
+          } else {
+            res.json( JSON.parse(data) );
+          }
+        })
+      }
+    };
+
+    var key = ['socrata', req.params.id, req.params.item].join(':');
+    var file = config.data_dir + '/tiles/';
+      file += key + '/' + req.params.format;
+      file += '/' + req.params.z + '/' + req.params.x + '/' + req.params.y + '.' + req.params.format;
+
+    var jsonFile = file.replace(/png|pbf|utf/g, 'json');
+
+    // if the json file alreadty exists, dont hit the db, just send the data
+    if (fs.existsSync(jsonFile) && !fs.existsSync( file ) ){
+      _send( null, fs.readFileSync( jsonFile ) );
+    } else if ( !fs.existsSync( file ) ) {
+      Socrata.find(req.params.id, function(err, data){
+        if (err) {
+          res.send( err, 500);
+        } else {
+          // Get the item 
+          Socrata.getResource( data.host, req.params.item, req.query, _send );
+        }
+      });
+    } else {
+      _sendImmediate(file);
+    }
+
+  },
+
 
   thumbnail: function(req, res){
 

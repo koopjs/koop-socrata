@@ -35,6 +35,7 @@ var Socrata = function(){
     Cache.get( type, key, options, function(err, entry ){
       if ( err ){
         var url = host + self.socrata_path + id + '.json';
+        console.log(url)
         request.get(url, function(err, data, response ){
           if (err) {
             callback(err, null);

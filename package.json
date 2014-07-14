@@ -13,6 +13,7 @@
     "koop-server": "https://github.com/Esri/koop-server/tarball/master",
     "config": "~0.4.35",
     "ejs": "~1.0.0",
+    "sphericalmercator": "~1.0.2",
     "node.extend": "~1.0.10"
   },
   "author": "Chris Helm",

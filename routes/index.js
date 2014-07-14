@@ -59,6 +59,11 @@ module.exports = {
     controller: 'socrata',
     action: 'thumbnail'
   },
+  
+  'get /socrata/:id/:item/tiles/:z/:x/:y.:format': {
+    controller : 'socrata',
+    action: 'tiles'
+  },
 
   'delete /socrata/:id': {
     controller: 'socrata',
