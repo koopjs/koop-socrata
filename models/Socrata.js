@@ -85,6 +85,10 @@ var Socrata = function(){
            geojsonFeature.geometry.type = 'Point';
            geojsonFeature.properties = feature;
            geojson.features.push( geojsonFeature );
+        } else {
+          geojsonFeature.geometry = null;
+          geojsonFeature.properties = feature;
+          geojson.features.push( geojsonFeature );
         }
       });
       callback(null, geojson);
@@ -122,6 +126,13 @@ var Socrata = function(){
       });
     }
 
+  };
+
+   // drops the item from the cache
+  this.dropItem = function( host, itemId, options, callback ){
+    Cache.remove('Socrata:'+host+':', itemId, options, function(err, res){
+      callback(err, res);
+    });
   };
 
 }

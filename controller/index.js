@@ -46,6 +46,24 @@ var Controller = extend({
     Controller.findResource( req, res );
   },
 
+  // drops the cache for an item
+  drop: function(req, res){
+    Socrata.find(req.params.id, function(err, data){
+      if (err) {
+        res.send( err, 500);
+      } else {
+        // Get the item 
+        Socrata.dropItem( data.host, req.params.item, req.query, function(error, itemJson){
+          if (error) {
+            res.send( error, 500);
+          } else {
+            res.json( itemJson );
+          }
+        });
+      }
+    });
+  },
+
   findResource: function(req, res){
     Socrata.find(req.params.id, function(err, data){
       if (err) {

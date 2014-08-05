@@ -1,5 +1,5 @@
 module.exports = {
-  'post /socrata/register': {
+  'post /socrata': {
     controller: 'socrata',
     action: 'register'
   },
@@ -74,5 +74,10 @@ module.exports = {
     controller: 'socrata',
     action: 'preview'
   },
+
+  'get /socrata/:id/:item/drop': {
+    controller: 'socrata',
+    action: 'drop'
+  }
 
 }
