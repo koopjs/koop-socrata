@@ -1,13 +1,7 @@
 ## Socrata Provider for [Koop](https://github.com/Esri/koop)
 -----------
 
-This provider makes it possible to access Socrata's JSON API as either GeoJSON or an Esri FeatureService. 
-
-## Socrata Data 
-
-Socrata is an open data platform that is hosted 
-
-[https://data.nola.gov/resource/psp3-bvzw.json](https://data.nola.gov/resource/psp3-bvzw.json)
+This provider makes it possible to access [Socrata's JSON API](http://dev.socrata.com/docs/formats/json.html) as either GeoJSON or an Esri FeatureService. This is particular useful for making maps and doing analysis on the web.
 
 ## Installation
 
