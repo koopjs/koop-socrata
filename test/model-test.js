@@ -1,13 +1,15 @@
 var should = require('should'),
   config = require('config'),
-  koopserver = require('koop-server')(config);
-
-global.config = config;
+  koop = require('koop-server/lib');
 
 var data = require('./fixtures/earthquakes.json');
 
-before(function (done) {
-  global['Socrata'] = require('../models/Socrata.js');
+before(function(done){
+  // setup koop 
+  koop.Cache.db = koop.PostGIS.connect( config.db.postgis.conn );
+  var data_dir = __dirname + '/output/';
+  koop.Cache.data_dir = data_dir;
+  Socrata = new require('../models/Socrata.js')( koop );
   done();
 });
 
@@ -19,7 +21,6 @@ describe('Socrata Model', function(){
 
     describe('socrata model methods', function() {
       before(function(done ){
-        Cache.db = PostGIS.connect( config.db.postgis.conn );
         done();
       });
       it('toGeoJSON should err when given no data', function(done) {

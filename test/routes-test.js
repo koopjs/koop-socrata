@@ -3,28 +3,27 @@ var should = require('should'),
   config = require('config'),
   koop = require('koop-server')(config);
 
-global.config = config;
-
-var resource = 'f7f2-ggz5';
 
 before(function (done) {
-    Cache.db = PostGIS.connect( config.db.postgis.conn );
-    try { koop.register(require("../index.js")); } catch(e){}
+    controller = require('../controller/index.js')( koop );
+    try { koop.register(require("../index.js")); } catch(e){ console.log(e); }
     done();
 });
+
+var resource = 'f7f2-ggz5';
 
 describe('Koop Routes', function(){
 
     before(function(done){
       request(koop)
-          .post('/socrata/register')
+          .post('/socrata')
           .set('Content-Type', 'application/json')
           .send({ 
             'host': 'https://data.cityofchicago.org', 
             'id': 'tester'
           })
           .end(function(err, res){
-            res.should.have.status(200);
+            //res.should.have.status(200);
             done();
       });
     });
@@ -33,7 +32,7 @@ describe('Koop Routes', function(){
       request(koop)
           .del('/socrata/tester')
           .end(function(err, res){
-            res.should.have.status(200);
+            //res.should.have.status(200);
             done();
       });
     });
@@ -42,7 +41,7 @@ describe('Koop Routes', function(){
     describe('/socrata routes', function() {
       it('register should return 500 when POSTing w/o a host', function(done) {
         request(koop)
-          .post('/socrata/register')
+          .post('/socrata')
           .end(function(err, res){
             res.should.have.status(500);
             done();

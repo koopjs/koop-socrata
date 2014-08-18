@@ -4,11 +4,13 @@ var extend = require('node.extend'),
   fs = require('fs'),
   crypto = require('crypto');
 
-// inherit from base controller
-var Controller = extend({
-  serviceName: 'socrata',
+// a function that is given an instance of Koop at init
+var Controller = function( koop ){
 
-  register: function(req, res){
+  this.Socrata = Socrata = new require('../models/Socrata.js')( koop );
+
+  // register a socrata instance 
+  this.register = function(req, res){
     if ( !req.body.host ){
       res.send('Must provide a host to register:', 500); 
     } else { 
@@ -20,9 +22,9 @@ var Controller = extend({
         }
     });
     }
-  },
+  };
 
-  list: function(req, res){
+  this.list = function(req, res){
     Socrata.find(null, function(err, data){
       if (err) {
         res.send( err, 500);
@@ -30,9 +32,9 @@ var Controller = extend({
         res.json( data );
       }
     });
-  }, 
+  };
 
-  find: function(req, res){
+  this.find = function(req, res){
     Socrata.find(req.params.id, function(err, data){
       if (err) {
         res.send( err, 404);
@@ -40,14 +42,10 @@ var Controller = extend({
         res.json( data );
       }
     });
-  },
-
-  findResourcePost: function( req, res ){
-    Controller.findResource( req, res );
-  },
+  };
 
   // drops the cache for an item
-  drop: function(req, res){
+  this.drop = function(req, res){
     Socrata.find(req.params.id, function(err, data){
       if (err) {
         res.send( err, 500);
@@ -62,9 +60,9 @@ var Controller = extend({
         });
       }
     });
-  },
+  };
 
-  findResource: function(req, res){
+  this.findResource = function(req, res){
     Socrata.find(req.params.id, function(err, data){
       if (err) {
         res.send( err, 500);
@@ -82,12 +80,12 @@ var Controller = extend({
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
             var key = crypto.createHash('md5').update( toHash ).digest('hex');
 
-            var fileName = [sails.config.data_dir + 'files', dir, key + '.' + req.params.format].join('/');
+            var fileName = [koop.Cache.data_dir + 'files', dir, key + '.' + req.params.format].join('/');
 
             if (fs.existsSync( fileName )){
               res.sendfile( fileName );
             } else {
-              Exporter.exportToFormat( req.params.format, key, key, itemJson[0], {}, function(err, file){
+              koop.exporter.exportToFormat( req.params.format, key, key, itemJson[0], {}, function(err, file){
                 if (err){
                   res.send(err, 500);
                 } else {
@@ -101,9 +99,9 @@ var Controller = extend({
         });
       }
     });
-  },
+  };
 
-  del: function(req, res){
+  this.del = function(req, res){
     if ( !req.params.id ){
       res.send( 'Must specify a service id', 500 );
     } else { 
@@ -115,9 +113,9 @@ var Controller = extend({
         }
       });
     }
-  }, 
+  };
   
-  featureserver: function( req, res ){
+  this.featureserver = function( req, res ){
     var callback = req.query.callback;
     delete req.query.callback;
     
@@ -136,15 +134,15 @@ var Controller = extend({
           } else {
             // pass to the shared logic for FeatureService routing
             delete req.query.geometry;
-            Controller._processFeatureServer( req, res, err, geojson, callback);
+            koop.Controller._processFeatureServer( req, res, err, geojson, callback);
           }
         });
       }
     });
     
-  },
+  };
 
-  tiles: function( req, res ){
+  this.tiles = function( req, res ){
     var callback = req.query.callback;
     delete req.query.callback;
 
@@ -156,7 +154,7 @@ var Controller = extend({
         if (req.query.style){
           req.params.style = req.query.style;
         }
-        Tiles.get( req.params, data[ layer ], function(err, tile){
+        koop.Tiles.get( req.params, data[ layer ], function(err, tile){
           if ( req.params.format == 'png' || req.params.format == 'pbf'){
             res.sendfile( tile );
           } else {
@@ -199,7 +197,7 @@ var Controller = extend({
     };
 
     var key = ['socrata', req.params.id, req.params.item].join(':');
-    var file = config.data_dir + '/tiles/';
+    var file = koop.Cache.data_dir + '/tiles/';
       file += key + '/' + req.params.format;
       file += '/' + req.params.z + '/' + req.params.x + '/' + req.params.y + '.' + req.params.format;
 
@@ -221,19 +219,19 @@ var Controller = extend({
       _sendImmediate(file);
     }
 
-  },
+  };
 
 
-  thumbnail: function(req, res){
+  this.thumbnail = function(req, res){
 
     // check the image first and return if exists
     var key = ['socrata', req.params.id, req.params.item].join(':');
-    var dir = sails.config.data_dir + '/thumbs/';
+    var dir = koop.Cache.data_dir + '/thumbs/';
     req.query.width = parseInt( req.query.width ) || 150;
     req.query.height = parseInt( req.query.height ) || 150;
     req.query.f_base = dir + key + '/' + req.query.width + '::' + req.query.height;
 
-    var fileName = Thumbnail.exists(key, req.query);
+    var fileName = koop.Thumbnail.exists(key, req.query);
     if ( fileName ){
       res.sendfile( fileName );
     } else {
@@ -250,7 +248,7 @@ var Controller = extend({
               var key = ['socrata', req.params.id, req.params.item].join(':');
 
               // generate a thumbnail
-              Thumbnail.generate( itemJson[0], key, req.query, function(err, file){
+              koop.Thumbnail.generate( itemJson[0], key, req.query, function(err, file){
                 if (err){
                   res.send(err, 500);
                 } else {
@@ -265,15 +263,15 @@ var Controller = extend({
       });
     }
 
-  },
+  };
 
   
-  preview: function(req, res){
-   res.render(__dirname + '/../views/demo', { locals:{ host: req.params.id, item: req.params.item } });
-  }
+  this.preview = function(req, res){
+    res.render(__dirname + '/../views/demo', { locals:{ host: req.params.id, item: req.params.item } });
+  };
 
+  return this;
 
-
-}, BaseController);
+}
 
 module.exports = Controller;
