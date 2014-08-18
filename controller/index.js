@@ -2,12 +2,11 @@ var extend = require('node.extend'),
   sm = require('sphericalmercator'),
   merc = new sm({size:256}),
   fs = require('fs'),
+  BaseController = require('koop-server/lib/Controller.js'),
   crypto = require('crypto');
 
 // a function that is given an instance of Koop at init
-var Controller = function( koop ){
-
-  this.Socrata = Socrata = new require('../models/Socrata.js')( koop );
+var Controller = function( Socrata ){
 
   // register a socrata instance 
   this.register = function(req, res){
@@ -80,12 +79,12 @@ var Controller = function( koop ){
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
             var key = crypto.createHash('md5').update( toHash ).digest('hex');
 
-            var fileName = [koop.Cache.data_dir + 'files', dir, key + '.' + req.params.format].join('/');
+            var fileName = [Socrata.cacheDir() + 'files', dir, key + '.' + req.params.format].join('/');
 
             if (fs.existsSync( fileName )){
               res.sendfile( fileName );
             } else {
-              koop.exporter.exportToFormat( req.params.format, key, key, itemJson[0], {}, function(err, file){
+              Socrata.exportToFormat( req.params.format, key, key, itemJson[0], {}, function(err, file){
                 if (err){
                   res.send(err, 500);
                 } else {
@@ -134,7 +133,7 @@ var Controller = function( koop ){
           } else {
             // pass to the shared logic for FeatureService routing
             delete req.query.geometry;
-            koop.Controller._processFeatureServer( req, res, err, geojson, callback);
+            BaseController._processFeatureServer( req, res, err, geojson, callback);
           }
         });
       }
@@ -154,7 +153,7 @@ var Controller = function( koop ){
         if (req.query.style){
           req.params.style = req.query.style;
         }
-        koop.Tiles.get( req.params, data[ layer ], function(err, tile){
+        Socrata.tileGet( req.params, data[ layer ], function(err, tile){
           if ( req.params.format == 'png' || req.params.format == 'pbf'){
             res.sendfile( tile );
           } else {
@@ -197,7 +196,7 @@ var Controller = function( koop ){
     };
 
     var key = ['socrata', req.params.id, req.params.item].join(':');
-    var file = koop.Cache.data_dir + '/tiles/';
+    var file = Socrata.cacheDir() + '/tiles/';
       file += key + '/' + req.params.format;
       file += '/' + req.params.z + '/' + req.params.x + '/' + req.params.y + '.' + req.params.format;
 
@@ -226,12 +225,12 @@ var Controller = function( koop ){
 
     // check the image first and return if exists
     var key = ['socrata', req.params.id, req.params.item].join(':');
-    var dir = koop.Cache.data_dir + '/thumbs/';
+    var dir = Socrata.cacheDir() + '/thumbs/';
     req.query.width = parseInt( req.query.width ) || 150;
     req.query.height = parseInt( req.query.height ) || 150;
     req.query.f_base = dir + key + '/' + req.query.width + '::' + req.query.height;
 
-    var fileName = koop.Thumbnail.exists(key, req.query);
+    var fileName = Socrata.thumbnailExists(key, req.query);
     if ( fileName ){
       res.sendfile( fileName );
     } else {
@@ -248,7 +247,7 @@ var Controller = function( koop ){
               var key = ['socrata', req.params.id, req.params.item].join(':');
 
               // generate a thumbnail
-              koop.Thumbnail.generate( itemJson[0], key, req.query, function(err, file){
+              Socrata.thumbnailExists( itemJson[0], key, req.query, function(err, file){
                 if (err){
                   res.send(err, 500);
                 } else {

@@ -1,13 +1,15 @@
 var should = require('should'),
   request = require('supertest'),
   config = require('config'),
-  koop = require('koop-server')(config);
+  koop = require('koop-server')(config),
+  kooplib = require('koop-server/lib');
 
-
-before(function (done) {
-    controller = require('../controller/index.js')( koop );
-    try { koop.register(require("../index.js")); } catch(e){ console.log(e); }
-    done();
+before(function(done){
+  var provider = require('../index.js');
+  agol = new provider.model( kooplib );
+  controller = new provider.controller( agol );
+  koop._bindRoutes( provider.routes, controller );
+  done();
 });
 
 var resource = 'f7f2-ggz5';

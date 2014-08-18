@@ -1,10 +1,14 @@
-var request = require('request');
+var request = require('request'),
+  BaseModel = require('koop-server/lib/BaseModel.js');
 
 var Socrata = function( koop ){
 
+  var socrata = {};
+  socrata.__proto__ = BaseModel( koop );
+
   // adds a service to the koop.Cache.db
   // needs a host, generates an id 
-  this.register = function( id, host, callback ){
+  socrata.register = function( id, host, callback ){
     var type = 'socrata:services';
     koop.Cache.db.serviceCount( type, function(error, count){
       id = id || count++;
@@ -14,20 +18,20 @@ var Socrata = function( koop ){
     });
   };
 
-  this.remove = function( id, callback ){
+  socrata.remove = function( id, callback ){
     koop.Cache.db.serviceRemove( 'socrata:services', parseInt(id) || id,  callback);
   }; 
 
   // get service by id, no id == return all
-  this.find = function( id, callback ){
+  socrata.find = function( id, callback ){
     koop.Cache.db.serviceGet( 'socrata:services', parseInt(id) || id, callback);
   };
 
-  this.socrata_path = '/resource/';
-  this.socrata_view_path = '/views/';
+  socrata.socrata_path = '/resource/';
+  socrata.socrata_view_path = '/resource/';
 
   // got the service and get the item
-  this.getResource = function( host, id, options, callback ){
+  socrata.getResource = function( host, id, options, callback ){
     var self = this,
       type = 'Socrata',
       key = [host,id].join('::'); 
@@ -73,7 +77,7 @@ var Socrata = function( koop ){
 
   };
 
-  this.toGeojson = function(json, locationField, callback){
+  socrata.toGeojson = function(json, locationField, callback){
     if (!json || !json.length){
       callback('Error converting data to geojson', null);
     } else {
@@ -106,7 +110,7 @@ var Socrata = function( koop ){
 
   // compares the sha on the cached data and the hosted data
   // this method name is special reserved name that will get called by the cache model
-  this.checkCache = function(key, data, options, callback){
+  socrata.checkCache = function(key, data, options, callback){
     var self = this;
     var parts = key.split('::');
     url = parts[0] + this.socrata_path + parts[1] + '.json';
@@ -139,13 +143,13 @@ var Socrata = function( koop ){
   };
 
    // drops the item from the cache
-  this.dropItem = function( host, itemId, options, callback ){
+  socrata.dropItem = function( host, itemId, options, callback ){
     koop.Cache.remove('Socrata:'+host+':', itemId, options, function(err, res){
       callback(err, res);
     });
   };
 
-  return this;
+  return socrata;
 
 };
   
