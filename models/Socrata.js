@@ -35,7 +35,6 @@ var Socrata = function(){
     Cache.get( type, key, options, function(err, entry ){
       if ( err ){
         var url = host + self.socrata_path + id + '.json';
-        console.log(url)
         request.get(url, function(err, data, response ){
           if (err) {
             callback(err, null);
@@ -102,7 +101,8 @@ var Socrata = function(){
     var parts = key.split('::');
     url = parts[0] + this.socrata_path + parts[1] + '.json';
 
-    if (data.updated_at && (new Date().getTime() - data.updated_at) > (1000*60*60)){
+    var lapsed = (new Date().getTime() - data.updated_at);
+    if (typeof(data.updated_at) == "undefined" || (lapsed > (1000*60*60))){
       callback(null, false);
     } else { 
       request.get(url, function( err, data, response ){
