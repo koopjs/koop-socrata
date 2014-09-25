@@ -25,6 +25,7 @@ var Socrata = function(){
   };
 
   this.socrata_path = '/resource/';
+  this.socrata_view_path = '/views/';
 
   // got the service and get the item
   this.getResource = function( host, id, options, callback ){
@@ -35,6 +36,16 @@ var Socrata = function(){
     Cache.get( type, key, options, function(err, entry ){
       if ( err ){
         var url = host + self.socrata_path + id + '.json';
+        var meta_url = host + self.socrata_view_path + id + '.json';
+        //dmf: have to make a request to the views endpoint in order to get metadata
+        var name;
+        request.get(meta_url, function(err, data, response){
+          if (err){
+            callback(err, null)
+          } else {
+            name = JSON.parse( data.body ).name;
+          }
+        });
         request.get(url, function(err, data, response ){
           if (err) {
             callback(err, null);
@@ -49,7 +60,7 @@ var Socrata = function(){
             });
             self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
               geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-              geojson.name = id;
+              geojson.name = name;
               Cache.insert( type, key, geojson, 0, function( err, success){
                 if ( success ) callback( null, [geojson] );
               });
