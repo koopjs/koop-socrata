@@ -144,8 +144,15 @@ var Socrata = function( koop ){
 
    // drops the item from the cache
   socrata.dropItem = function( host, itemId, options, callback ){
-    koop.Cache.remove('Socrata:'+host+':', itemId, options, function(err, res){
-      callback(err, res);
+    var dir = [ 'socrata', host, itemId].join(':');
+    koop.Cache.remove('socrata:'+host+':', itemId, options, function(err, res){
+      koop.files.removeDir( 'files/' + dir, function(err, res){
+        koop.files.removeDir( 'tiles/'+ dir, function(err, res){
+          koop.files.removeDir( 'thumbs/'+ dir, function(err, res){
+            callback(err, true);
+          });
+        });
+      });
     });
   };
 

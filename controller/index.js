@@ -53,7 +53,7 @@ var Controller = function( Socrata ){
         res.send( err, 500);
       } else {
         // Get the item 
-        Socrata.dropItem( data.host, req.params.item, req.query, function(error, itemJson){
+        Socrata.dropItem( req.params.id, req.params.item, req.query, function(error, itemJson){
           if (error) {
             res.send( error, 500);
           } else {
@@ -77,24 +77,30 @@ var Controller = function( Socrata ){
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json');
 
-            var dir = ['socrata', req.params.id ].join(':');
+            var dir = ['socrata', req.params.id, req.params.item ].join(':');
             // build the file key as an MD5 hash that's a join on the paams and look for the file 
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
             var key = crypto.createHash('md5').update( toHash ).digest('hex');
 
-            var fileName = [Socrata.files.localDir,'files', dir, key + '.' + req.params.format].join('/');
-
-            if (fs.existsSync( fileName )){
-              res.sendfile( fileName );
-            } else {
-              Socrata.exportToFormat( req.params.format, key, key, itemJson[0], {}, function(err, file){
-                if (err){
-                  res.send(err, 500);
+            var path = ['files', dir].join('/');
+            var fileName = key + '.' + req.params.format;
+            Socrata.files.exists( path, fileName, function( exists, path ){
+              if ( exists ){
+                if (path.substr(0, 4) == 'http'){
+                  res.redirect( path );      
                 } else {
-                  res.sendfile( file );
+                  res.sendfile( path );
                 }
-              });
-            }
+              } else {
+                Socrata.exportToFormat( req.params.format, dir, key, itemJson[0], {}, function(err, file){
+                  if (err){
+                    res.send(err, 500);
+                  } else {
+                    res.sendfile( file );
+                  }
+                });
+              }
+            });
           } else { 
             res.json( itemJson[0] );
           }
