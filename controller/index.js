@@ -2,14 +2,17 @@ var extend = require('node.extend'),
   sm = require('sphericalmercator'),
   merc = new sm({size:256}),
   fs = require('fs'),
-  BaseController = require('koop-server/lib/Controller.js'),
+  BaseController = require('koop-server/lib/BaseController.js'),
   crypto = require('crypto');
 
 // a function that is given an instance of Koop at init
 var Controller = function( Socrata ){
 
+  var controller = {};
+  controller.__proto__ = BaseController(); 
+
   // register a socrata instance 
-  this.register = function(req, res){
+  controller.register = function(req, res){
     if ( !req.body.host ){
       res.send('Must provide a host to register:', 500); 
     } else { 
@@ -23,7 +26,7 @@ var Controller = function( Socrata ){
     }
   };
 
-  this.list = function(req, res){
+  controller.list = function(req, res){
     Socrata.find(null, function(err, data){
       if (err) {
         res.send( err, 500);
@@ -33,7 +36,7 @@ var Controller = function( Socrata ){
     });
   };
 
-  this.find = function(req, res){
+  controller.find = function(req, res){
     Socrata.find(req.params.id, function(err, data){
       if (err) {
         res.send( err, 404);
@@ -44,7 +47,7 @@ var Controller = function( Socrata ){
   };
 
   // drops the cache for an item
-  this.drop = function(req, res){
+  controller.drop = function(req, res){
     Socrata.find(req.params.id, function(err, data){
       if (err) {
         res.send( err, 500);
@@ -61,7 +64,7 @@ var Controller = function( Socrata ){
     });
   };
 
-  this.findResource = function(req, res){
+  controller.findResource = function(req, res){
     Socrata.find(req.params.id, function(err, data){
       if (err) {
         res.send( err, 500);
@@ -79,7 +82,7 @@ var Controller = function( Socrata ){
             var toHash = JSON.stringify( req.params ) + JSON.stringify( req.query );
             var key = crypto.createHash('md5').update( toHash ).digest('hex');
 
-            var fileName = [Socrata.cacheDir() + 'files', dir, key + '.' + req.params.format].join('/');
+            var fileName = [Socrata.files.localDir,'files', dir, key + '.' + req.params.format].join('/');
 
             if (fs.existsSync( fileName )){
               res.sendfile( fileName );
@@ -100,7 +103,7 @@ var Controller = function( Socrata ){
     });
   };
 
-  this.del = function(req, res){
+  controller.del = function(req, res){
     if ( !req.params.id ){
       res.send( 'Must specify a service id', 500 );
     } else { 
@@ -114,7 +117,7 @@ var Controller = function( Socrata ){
     }
   };
   
-  this.featureserver = function( req, res ){
+  controller.featureserver = function( req, res ){
     var callback = req.query.callback;
     delete req.query.callback;
     
@@ -133,7 +136,8 @@ var Controller = function( Socrata ){
           } else {
             // pass to the shared logic for FeatureService routing
             delete req.query.geometry;
-            BaseController._processFeatureServer( req, res, err, geojson, callback);
+            delete req.query.where;
+            controller.processFeatureServer( req, res, err, geojson, callback);
           }
         });
       }
@@ -141,7 +145,7 @@ var Controller = function( Socrata ){
     
   };
 
-  this.tiles = function( req, res ){
+  controller.tiles = function( req, res ){
     var callback = req.query.callback;
     delete req.query.callback;
 
@@ -196,7 +200,7 @@ var Controller = function( Socrata ){
     };
 
     var key = ['socrata', req.params.id, req.params.item].join(':');
-    var file = Socrata.cacheDir() + '/tiles/';
+    var file = Socrata.files.localDir + '/tiles/';
       file += key + '/' + req.params.format;
       file += '/' + req.params.z + '/' + req.params.x + '/' + req.params.y + '.' + req.params.format;
 
@@ -221,11 +225,11 @@ var Controller = function( Socrata ){
   };
 
 
-  this.thumbnail = function(req, res){
+  controller.thumbnail = function(req, res){
 
     // check the image first and return if exists
     var key = ['socrata', req.params.id, req.params.item].join(':');
-    var dir = Socrata.cacheDir() + '/thumbs/';
+    var dir = Socrata.files.localDir + '/thumbs/';
     req.query.width = parseInt( req.query.width ) || 150;
     req.query.height = parseInt( req.query.height ) || 150;
     req.query.f_base = dir + key + '/' + req.query.width + '::' + req.query.height;
@@ -265,11 +269,11 @@ var Controller = function( Socrata ){
   };
 
   
-  this.preview = function(req, res){
+  controller.preview = function(req, res){
     res.render(__dirname + '/../views/demo', { locals:{ host: req.params.id, item: req.params.item } });
   };
 
-  return this;
+  return controller;
 
 }
 
