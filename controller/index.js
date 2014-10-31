@@ -53,7 +53,7 @@ var Controller = function( Socrata ){
         res.send( err, 500);
       } else {
         // Get the item 
-        Socrata.dropItem( req.params.id, req.params.item, req.query, function(error, itemJson){
+        Socrata.dropItem( data.host, req.params.item, req.query, function(error, itemJson){
           if (error) {
             res.send( error, 500);
           } else {
