@@ -7,7 +7,7 @@ var Socrata = function( koop ){
   socrata.__proto__ = BaseModel( koop );
 
   // adds a service to the koop.Cache.db
-  // needs a host, generates an id 
+  // needs a host, generates an id
   socrata.register = function( id, host, callback ){
     var type = 'socrata:services';
     koop.Cache.db.serviceCount( type, function(error, count){
@@ -20,11 +20,18 @@ var Socrata = function( koop ){
 
   socrata.remove = function( id, callback ){
     koop.Cache.db.serviceRemove( 'socrata:services', parseInt(id) || id,  callback);
-  }; 
+  };
 
   // get service by id, no id == return all
   socrata.find = function( id, callback ){
-    koop.Cache.db.serviceGet( 'socrata:services', parseInt(id) || id, callback);
+    koop.Cache.db.serviceGet( 'socrata:services', parseInt(id) || id, function(err, res){
+      if (err){
+        callback('No datastores have been registered with this provider yet. Try POSTing {"host":"url", "id":"yourId"} to /socrata', null);
+      }
+      else{
+        callback(null, res);
+      }
+    });
   };
 
   socrata.socrata_path = '/resource/';
@@ -34,7 +41,7 @@ var Socrata = function( koop ){
   socrata.getResource = function( host, id, options, callback ){
     var self = this,
       type = 'Socrata',
-      key = [host,id].join('::'); 
+      key = [host,id].join('::');
 
     koop.Cache.get( type, key, options, function(err, entry ){
       if ( err ){
@@ -44,7 +51,7 @@ var Socrata = function( koop ){
         var name;
         request.get(meta_url, function(err, data, response){
           if (err){
-            callback(err, null)
+            callback(err, null);
           } else {
             name = JSON.parse( data.body ).name;
           }
@@ -59,7 +66,7 @@ var Socrata = function( koop ){
             types.forEach(function(t,i){
               if (t == 'location'){
                 locationField = fields[i];
-              } 
+              }
             });
             self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
               geojson.updated_at = new Date(data.headers['last-modified']).getTime();
@@ -92,7 +99,7 @@ var Socrata = function( koop ){
             delete feature.location;
             geojsonFeature.properties = feature;
             geojson.features.push( geojsonFeature );
-          } 
+          }
         } else if ( feature && feature.latitude && feature.longitude ){
            geojsonFeature.geometry.coordinates = [parseFloat(feature.longitude), parseFloat(feature.latitude)];
            geojsonFeature.geometry.type = 'Point';
@@ -118,7 +125,7 @@ var Socrata = function( koop ){
     var lapsed = (new Date().getTime() - data.updated_at);
     if (typeof(data.updated_at) == "undefined" || (lapsed > (1000*60*60))){
       callback(null, false);
-    } else { 
+    } else {
       request.get(url, function( err, data, response ){
         if (err) {
           callback( err, null );
@@ -159,7 +166,7 @@ var Socrata = function( koop ){
   return socrata;
 
 };
-  
+
 
 module.exports = Socrata;
-  
+
