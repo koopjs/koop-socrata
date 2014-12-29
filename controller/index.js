@@ -2,11 +2,10 @@ var extend = require('node.extend'),
   sm = require('sphericalmercator'),
   merc = new sm({size:256}),
   fs = require('fs'),
-  BaseController = require('koop-server/lib/BaseController.js'),
   crypto = require('crypto');
 
 // a function that is given an instance of Koop at init
-var Controller = function( Socrata ){
+var Controller = function( Socrata, BaseController ){
 
   var controller = {};
   controller.__proto__ = BaseController(); 

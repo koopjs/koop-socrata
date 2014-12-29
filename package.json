@@ -10,7 +10,6 @@
     "test": "mocha test/ -t 5000"
   },
   "dependencies": {
-    "koop-server": "~0.1.1",
     "config": "~0.4.35",
     "ejs": "~1.0.0",
     "sphericalmercator": "~1.0.2",
@@ -21,6 +20,7 @@
   "devDependencies": {
     "supertest": "~0.11.0",
     "should": "~3.3.1",
-    "yaml": "~0.2.3"
+    "yaml": "~0.2.3",
+    "koop": "~1.0.0"
   }
 }

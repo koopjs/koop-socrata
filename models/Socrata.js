@@ -1,10 +1,9 @@
-var request = require('request'),
-  BaseModel = require('koop-server/lib/BaseModel.js');
+var request = require('request');
 
 var Socrata = function( koop ){
 
   var socrata = {};
-  socrata.__proto__ = BaseModel( koop );
+  socrata.__proto__ = koop.BaseModel( koop );
 
   // adds a service to the koop.Cache.db
   // needs a host, generates an id 
