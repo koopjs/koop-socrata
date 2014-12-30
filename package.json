@@ -1,6 +1,6 @@
 {
   "name": "koop-socrata",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A socrata wrapper for koop ",
   "main": "index.js",
   "directories": {
@@ -22,5 +22,9 @@
     "should": "~3.3.1",
     "yaml": "~0.2.3",
     "koop": "~1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:chelm/koop-socrata.git"
   }
 }
