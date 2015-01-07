@@ -1,6 +1,6 @@
 var should = require('should'),
   config = require('config'),
-  koop = require('koop-server/lib');
+  koop = require('koop/lib');
 
 var data = require('./fixtures/earthquakes.json');
 
@@ -41,7 +41,7 @@ describe('Socrata Model', function(){
       });
 
       it('getResource should return geojson', function(done) {
-        Socrata.getResource('https://data.seattle.gov', '2tje-83f6', {}, function(err, geojson){
+        Socrata.getResource('https://data.seattle.gov', 'seattle', '2tje-83f6', {}, function(err, geojson){
           should.not.exist(err);
           should.exist( geojson );
           geojson[0].features.length.should.not.equal(0);

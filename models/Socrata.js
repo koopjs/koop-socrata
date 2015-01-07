@@ -37,10 +37,10 @@ var Socrata = function( koop ){
   socrata.socrata_view_path = '/resource/';
 
   // got the service and get the item
-  socrata.getResource = function( host, id, options, callback ){
+  socrata.getResource = function( host, hostId, id, options, callback ){
     var self = this,
       type = 'Socrata',
-      key = [host,id].join('::');
+      key = id;
 
     koop.Cache.get( type, key, options, function(err, entry ){
       if ( err ){
@@ -70,6 +70,11 @@ var Socrata = function( koop ){
             self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
               geojson.updated_at = new Date(data.headers['last-modified']).getTime();
               geojson.name = name;
+              geojson.host = {
+                url: host,
+                id: hostId
+              };
+              
               koop.Cache.insert( type, key, geojson, 0, function( err, success){
                 if ( success ) callback( null, [geojson] );
               });
@@ -118,8 +123,7 @@ var Socrata = function( koop ){
   // this method name is special reserved name that will get called by the cache model
   socrata.checkCache = function(key, data, options, callback){
     var self = this;
-    var parts = key.split('::');
-    url = parts[0] + this.socrata_path + parts[1] + '.json';
+    url = data.host + this.socrata_path + key + '.json';
 
     var lapsed = (new Date().getTime() - data.updated_at);
     if (typeof(data.updated_at) == "undefined" || (lapsed > (1000*60*60))){
@@ -139,7 +143,8 @@ var Socrata = function( koop ){
           });
           self.toGeojson( JSON.parse( data.body ), locationField, function( error, geojson ){
             geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-            geojson.name = parts[1];
+            geojson.name = key;
+            geojson.host = data.host;
             callback( error, [geojson] );
           });
         }

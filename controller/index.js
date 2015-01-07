@@ -69,7 +69,7 @@ var Controller = function( Socrata, BaseController ){
         res.send( err, 500);
       } else {
         // Get the item 
-        Socrata.getResource( data.host, req.params.item, req.query, function(error, itemJson){
+        Socrata.getResource( data.host, req.params.id, req.params.item, req.query, function(error, itemJson){
           if (error) {
             res.send( error, 500);
           } else if ( req.params.format ) {
