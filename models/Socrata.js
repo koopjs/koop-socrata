@@ -156,7 +156,7 @@ var Socrata = function( koop ){
    // drops the item from the cache
   socrata.dropItem = function( host, itemId, options, callback ){
     var dir = [ 'socrata', host, itemId].join(':');
-    koop.Cache.remove('Socrata:'+host+':', itemId, options, function(err, res){
+    koop.Cache.remove('Socrata:', itemId, options, function(err, res){
       koop.files.removeDir( 'files/' + dir, function(err, res){
         koop.files.removeDir( 'tiles/'+ dir, function(err, res){
           koop.files.removeDir( 'thumbs/'+ dir, function(err, res){
