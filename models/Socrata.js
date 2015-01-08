@@ -69,7 +69,7 @@ var Socrata = function( koop ){
             });
             self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
               geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-              geojson.name = name;
+              geojson.name = name || key;
               geojson.host = {
                 url: host,
                 id: hostId
@@ -143,7 +143,7 @@ var Socrata = function( koop ){
           });
           self.toGeojson( JSON.parse( data.body ), locationField, function( error, geojson ){
             geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-            geojson.name = key;
+            geojson.name = data.name || key;
             geojson.host = data.host;
             callback( error, [geojson] );
           });
@@ -156,7 +156,7 @@ var Socrata = function( koop ){
    // drops the item from the cache
   socrata.dropItem = function( host, itemId, options, callback ){
     var dir = [ 'socrata', host, itemId].join(':');
-    koop.Cache.remove('Socrata:', itemId, options, function(err, res){
+    koop.Cache.remove('Socrata', itemId, options, function(err, res){
       koop.files.removeDir( 'files/' + dir, function(err, res){
         koop.files.removeDir( 'tiles/'+ dir, function(err, res){
           koop.files.removeDir( 'thumbs/'+ dir, function(err, res){
