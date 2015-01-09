@@ -1,6 +1,6 @@
 var request = require('request');
 
-var Socrata = function(){
+var Socrata = function( koop ){
 
   // adds a service to the Cache.db
   // needs a host, generates an id 
@@ -39,21 +39,26 @@ var Socrata = function(){
           if (err) {
             callback(err, null);
           } else {
-            var types = JSON.parse( data.headers['x-soda2-types'] );
-              fields = JSON.parse( data.headers['x-soda2-fields'] );
-            var locationField;
-            types.forEach(function(t,i){
-              if (t == 'location'){
-                locationField = fields[i];
-              } 
-            });
-            self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
-              geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-              geojson.name = id;
-              Cache.insert( type, key, geojson, 0, function( err, success){
-                if ( success ) callback( null, [geojson] );
+            try {
+              var types = JSON.parse( data.headers['x-soda2-types'] );
+                fields = JSON.parse( data.headers['x-soda2-fields'] );
+              var locationField;
+              types.forEach(function(t,i){
+                if (t == 'location'){
+                  locationField = fields[i];
+                } 
               });
-            });
+              self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
+                geojson.updated_at = new Date(data.headers['last-modified']).getTime();
+                geojson.name = id;
+                Cache.insert( type, key, geojson, 0, function( err, success){
+                  if ( success ) callback( null, [geojson] );
+                });
+              });
+            } catch(e){
+              koop.log.error('Unable to parse response %s', url);
+              callback(e, null); 
+            }
           }
         });
       } else {
