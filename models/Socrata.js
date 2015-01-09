@@ -2,39 +2,59 @@ var request = require('request');
 
 var Socrata = function( koop ){
 
-  // adds a service to the Cache.db
-  // needs a host, generates an id 
-  this.register = function( id, host, callback ){
+  var socrata = {};
+  socrata.__proto__ = koop.BaseModel( koop );
+
+  // adds a service to the koop.Cache.db
+  // needs a host, generates an id
+  socrata.register = function( id, host, callback ){
     var type = 'socrata:services';
-    //var id = (new Date()).getTime();
-    Cache.db.services.count( type, function(error, count){
+    koop.Cache.db.serviceCount( type, function(error, count){
       id = id || count++;
-      Cache.db.services.register( type, {'id': id, 'host': host},  function( err, success ){
+      koop.Cache.db.serviceRegister( type, {'id': id, 'host': host},  function( err, success ){
         callback( err, id );
       });
     });
   };
 
-  this.remove = function( id, callback ){
-    Cache.db.services.remove( 'socrata:services', parseInt(id) || id,  callback);
-  }; 
-
-  // get service by id, no id == return all
-  this.find = function( id, callback ){
-    Cache.db.services.get( 'socrata:services', parseInt(id) || id, callback);
+  socrata.remove = function( id, callback ){
+    koop.Cache.db.serviceRemove( 'socrata:services', parseInt(id) || id,  callback);
   };
 
-  this.socrata_path = '/resource/';
+  // get service by id, no id == return all
+  socrata.find = function( id, callback ){
+    koop.Cache.db.serviceGet( 'socrata:services', parseInt(id) || id, function(err, res){
+      if (err){
+        callback('No datastores have been registered with this provider yet. Try POSTing {"host":"url", "id":"yourId"} to /socrata', null);
+      }
+      else{
+        callback(null, res);
+      }
+    });
+  };
+
+  socrata.socrata_path = '/resource/';
+  socrata.socrata_view_path = '/resource/';
 
   // got the service and get the item
-  this.getResource = function( host, id, options, callback ){
+  socrata.getResource = function( host, hostId, id, options, callback ){
     var self = this,
       type = 'Socrata',
-      key = [host,id].join('::'); 
+      key = id;
 
-    Cache.get( type, key, options, function(err, entry ){
+    koop.Cache.get( type, key, options, function(err, entry ){
       if ( err ){
         var url = host + self.socrata_path + id + '.json';
+        var meta_url = host + self.socrata_view_path + id + '.json';
+        //dmf: have to make a request to the views endpoint in order to get metadata
+        var name;
+        request.get(meta_url, function(err, data, response){
+          if (err){
+            callback(err, null);
+          } else {
+            name = JSON.parse( data.body ).name;
+          }
+        });
         request.get(url, function(err, data, response ){
           if (err) {
             callback(err, null);
@@ -47,6 +67,8 @@ var Socrata = function( koop ){
                 if (t == 'location'){
                   locationField = fields[i];
                 } 
+              koop.Cache.insert( type, key, geojson, 0, function( err, success){
+                if ( success ) callback( null, [geojson] );
               });
               self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
                 geojson.updated_at = new Date(data.headers['last-modified']).getTime();
@@ -68,7 +90,7 @@ var Socrata = function( koop ){
 
   };
 
-  this.toGeojson = function(json, locationField, callback){
+  socrata.toGeojson = function(json, locationField, callback){
     if (!json || !json.length){
       callback('Error converting data to geojson', null);
     } else {
@@ -83,12 +105,16 @@ var Socrata = function( koop ){
             delete feature.location;
             geojsonFeature.properties = feature;
             geojson.features.push( geojsonFeature );
-          } 
+          }
         } else if ( feature && feature.latitude && feature.longitude ){
            geojsonFeature.geometry.coordinates = [parseFloat(feature.longitude), parseFloat(feature.latitude)];
            geojsonFeature.geometry.type = 'Point';
            geojsonFeature.properties = feature;
            geojson.features.push( geojsonFeature );
+        } else {
+          geojsonFeature.geometry = null;
+          geojsonFeature.properties = feature;
+          geojson.features.push( geojsonFeature );
         }
       });
       callback(null, geojson);
@@ -97,14 +123,14 @@ var Socrata = function( koop ){
 
   // compares the sha on the cached data and the hosted data
   // this method name is special reserved name that will get called by the cache model
-  this.checkCache = function(key, data, options, callback){
+  socrata.checkCache = function(key, data, options, callback){
     var self = this;
-    var parts = key.split('::');
-    url = parts[0] + this.socrata_path + parts[1] + '.json';
+    url = data.host + this.socrata_path + key + '.json';
 
-    if (data.updated_at && (new Date().getTime() - data.updated_at) > (1000*60*60)){
+    var lapsed = (new Date().getTime() - data.updated_at);
+    if (typeof(data.updated_at) == "undefined" || (lapsed > (1000*60*60))){
       callback(null, false);
-    } else { 
+    } else {
       request.get(url, function( err, data, response ){
         if (err) {
           callback( err, null );
@@ -119,7 +145,8 @@ var Socrata = function( koop ){
           });
           self.toGeojson( JSON.parse( data.body ), locationField, function( error, geojson ){
             geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-            geojson.name = parts[1];
+            geojson.name = data.name || key;
+            geojson.host = data.host;
             callback( error, [geojson] );
           });
         }
@@ -128,8 +155,24 @@ var Socrata = function( koop ){
 
   };
 
-}
-  
+   // drops the item from the cache
+  socrata.dropItem = function( host, itemId, options, callback ){
+    var dir = [ 'socrata', host, itemId].join(':');
+    koop.Cache.remove('Socrata', itemId, options, function(err, res){
+      koop.files.removeDir( 'files/' + dir, function(err, res){
+        koop.files.removeDir( 'tiles/'+ dir, function(err, res){
+          koop.files.removeDir( 'thumbs/'+ dir, function(err, res){
+            callback(err, true);
+          });
+        });
+      });
+    });
+  };
 
-module.exports = new Socrata();
-  
+  return socrata;
+
+};
+
+
+module.exports = Socrata;
+
