@@ -66,13 +66,16 @@ var Socrata = function( koop ){
               types.forEach(function(t,i){
                 if (t == 'location'){
                   locationField = fields[i];
-                } 
-              koop.Cache.insert( type, key, geojson, 0, function( err, success){
-                if ( success ) callback( null, [geojson] );
+                }
               });
+ 
               self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
                 geojson.updated_at = new Date(data.headers['last-modified']).getTime();
                 geojson.name = id;
+                geojson.host = {
+                  id: hostId,
+                  url: host
+                };
                 Cache.insert( type, key, geojson, 0, function( err, success){
                   if ( success ) callback( null, [geojson] );
                 });
