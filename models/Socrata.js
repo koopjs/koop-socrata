@@ -80,11 +80,12 @@ var Socrata = function( koop ){
                     id: hostId,
                     url: host
                   };
-                  Cache.insert( type, key, geojson, 0, function( err, success){
+                  koop.Cache.insert( type, key, geojson, 0, function( err, success){
                     if ( success ) callback( null, [geojson] );
                   });
                 });
               } catch(e){
+                console.log('shit?', e);
                 koop.log.error('Unable to parse response %s', url);
                 callback(e, null); 
               }
