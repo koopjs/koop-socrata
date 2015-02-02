@@ -1,6 +1,6 @@
 {
   "name": "koop-socrata",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A socrata wrapper for koop ",
   "main": "index.js",
   "directories": {

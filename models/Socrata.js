@@ -52,39 +52,44 @@ var Socrata = function( koop ){
           if (err){
             callback(err, null);
           } else {
-            name = JSON.parse( data.body ).name;
-          }
-        });
-        request.get(url, function(err, data, response ){
-          if (err) {
-            callback(err, null);
-          } else {
             try {
-              var types = JSON.parse( data.headers['x-soda2-types'] );
-                fields = JSON.parse( data.headers['x-soda2-fields'] );
-              var locationField;
-              types.forEach(function(t,i){
-                if (t == 'location'){
-                  locationField = fields[i];
-                }
-              });
- 
-              self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
-                geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-                geojson.name = id;
-                geojson.host = {
-                  id: hostId,
-                  url: host
-                };
-                Cache.insert( type, key, geojson, 0, function( err, success){
-                  if ( success ) callback( null, [geojson] );
-                });
-              });
-            } catch(e){
-              koop.log.error('Unable to parse response %s', url);
-              callback(e, null); 
+              name = JSON.parse( data.body ).name;
+            } catch( e ){
+              callback(e, null);
             }
           }
+
+          request.get(url, function(err, data, response ){
+            if (err) {
+              callback(err, null);
+            } else {
+              try {
+                var types = JSON.parse( data.headers['x-soda2-types'] );
+                  fields = JSON.parse( data.headers['x-soda2-fields'] );
+                var locationField;
+                types.forEach(function(t,i){
+                  if (t == 'location'){
+                    locationField = fields[i];
+                  }
+                });
+ 
+                self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
+                  geojson.updated_at = new Date(data.headers['last-modified']).getTime();
+                  geojson.name = id;
+                  geojson.host = {
+                    id: hostId,
+                    url: host
+                  };
+                  Cache.insert( type, key, geojson, 0, function( err, success){
+                    if ( success ) callback( null, [geojson] );
+                  });
+                });
+              } catch(e){
+                koop.log.error('Unable to parse response %s', url);
+                callback(e, null); 
+              }
+            }
+          });
         });
       } else {
         callback( null, entry );
