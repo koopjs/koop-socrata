@@ -40,12 +40,23 @@ var Socrata = function( koop ){
   socrata.getResource = function( host, hostId, id, options, callback ){
     var self = this,
       type = 'Socrata',
-      key = id;
+      key = id,
+      locFieldName,
+      urlid;
+
+    // test id for '!' character indicating presence of a column name and handle
+    if (id.indexOf("!") != -1){
+      locFieldName = id.substring(id.indexOf("!") + 1,id.length);
+      urlid = id.substring(0, id.indexOf("!"));
+    }
+    else{
+      urlid = id;
+    }
 
     koop.Cache.get( type, key, options, function(err, entry ){
       if ( err ){
-        var url = host + self.socrata_path + id + '.json';
-        var meta_url = host + self.socrata_view_path + id + '.json';
+        var url = host + self.socrata_path + urlid + '.json';
+        var meta_url = host + self.socrata_view_path + urlid + '.json';
         //dmf: have to make a request to the views endpoint in order to get metadata
         var name;
         request.get(meta_url, function(err, data, response){
@@ -67,11 +78,16 @@ var Socrata = function( koop ){
                 var types = JSON.parse( data.headers['x-soda2-types'] );
                   fields = JSON.parse( data.headers['x-soda2-fields'] );
                 var locationField;
-                types.forEach(function(t,i){
-                  if (t == 'location'){
-                    locationField = fields[i];
-                  }
-                });
+                if (locFieldName){
+                  locationField = locFieldName;
+                }
+                else {
+                  types.forEach(function(t,i){
+                    if (t == 'location'){
+                      locationField = fields[i];
+                    }
+                  });
+                }
  
                 self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
                   geojson.updated_at = new Date(data.headers['last-modified']).getTime();
