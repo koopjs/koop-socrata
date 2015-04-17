@@ -33,6 +33,14 @@ And then the ID `fwm6-d78i` can be referenced in Koop like so:
 
 http://koop.dc.esri.com/socrata/nola/fwm6-d78i
 
+If your Socrata data has more than one location column, you can specify the desired location column in the http request like this:
+
+https://<pathToKoop>/socrata/<socrataProviderId>/<datasetId>!<spatialColumn>
+
+## Handle Large Datasets
+
+The Socrata API defaults to 1000 results per request, but can be set to return up to 50,000. Koop will page through large datasets to capture all the points. To change the number of results per request, modify the <limit> variable in the socrata.getResoruce function in models/Socrata.js.
+
 ## Examples 
 
 Here are a few examples of data hosted in Socrata and accessed via Koop.
