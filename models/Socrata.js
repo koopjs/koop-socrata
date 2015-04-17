@@ -27,14 +27,13 @@ var Socrata = function( koop ){
       if (err){
         callback('No datastores have been registered with this provider yet. Try POSTing {"host":"url", "id":"yourId"} to /socrata', null);
       }
-      else{
+      else {
         callback(null, res);
       }
     });
   };
 
   socrata.socrata_path = '/resource/';
-  socrata.socrata_view_path = '/resource/';
 
   // got the service and get the item
   socrata.getResource = function( host, hostId, id, options, callback ){
@@ -42,71 +41,124 @@ var Socrata = function( koop ){
       type = 'Socrata',
       key = id,
       locFieldName,
-      urlid;
+      urlid,
+      paging = false,
+      limit = 1000;
 
     // test id for '!' character indicating presence of a column name and handle
     if (id.indexOf("!") != -1){
       locFieldName = id.substring(id.indexOf("!") + 1,id.length);
       urlid = id.substring(0, id.indexOf("!"));
     }
-    else{
+    else {
       urlid = id;
     }
 
+    // attempt to load from cache, if error perform new request and get first page
     koop.Cache.get( type, key, options, function(err, entry ){
       if ( err ){
-        var url = host + self.socrata_path + urlid + '.json';
-        var meta_url = host + self.socrata_view_path + urlid + '.json';
-        //dmf: have to make a request to the views endpoint in order to get metadata
-        var name;
-        request.get(meta_url, function(err, data, response){
-          if (err){
+        var url = host + self.socrata_path + urlid + '.json?$order=:id&$limit=' + limit;
+        request.get(url, function(err, data, response ){
+          if (err) {
             callback(err, null);
-          } else {
+          } else {      
+
+            // test to see if paging will be needed later
+            if (Object.keys(JSON.parse(data.body)).length == limit){
+              paging = true;
+            }
+
+            // get name of location field
             try {
-              name = JSON.parse( data.body ).name;
-            } catch( e ){
-              callback(e, null);
+              var locationField;
+              if (locFieldName){
+                locationField = locFieldName;
+              }
+              else {
+                var types = JSON.parse( data.headers['x-soda2-types'] );
+                var fields = JSON.parse( data.headers['x-soda2-fields'] );
+                types.forEach(function(t,i){
+                  if (t == 'location'){
+                    locationField = fields[i];
+                  }
+                });
+              }
+
+              // parse first page to geoJSON and insert
+              self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
+                geojson.updated_at = new Date(data.headers['last-modified']).getTime();
+                geojson.name = id;
+                geojson.host = {
+                  id: hostId,
+                  url: host
+                };
+                koop.Cache.insert( type, key, geojson, 0, function( err, success){
+                  if ( success ) {
+                    // check to see if paging is needed
+                    if (paging === false){
+                      callback( null, [geojson] );  
+                    }
+                    else {
+                      // create GeoJSON return object
+                      retGeoJSON = geojson;
+                      // detrmine count of table and needed pages
+                      var count, pages;
+                      var pagesComplete = 0;
+                      var countUrl = host + self.socrata_path + urlid + '.json?$select=count(*)';
+                      request.get(countUrl, function(err, data, response){
+                        count = parseInt(JSON.parse(data.body)[0].count,10);
+                        if ((count/limit) % 1 === 0){
+                          pages = (count/limit - 1);
+                        }
+                        else {
+                          pages = Math.floor(count/limit);
+                        }
+                        // page through data
+                        for (var p = 1; p <= pages; p++){
+                          var pUrl = host + self.socrata_path + urlid + '.json?$order=:id&$limit=' + limit + '&$offset=' + (p*limit);
+                          request.get(pUrl,function(err, data, response){
+                            // parse pages to GeoJSON and insert partial
+                            self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
+                              geojson.updated_at = new Date(data.headers['last-modified']).getTime();
+                              geojson.name = id;
+                              geojson.host = {
+                                id: hostId,
+                                url: host
+                              };
+                              koop.Cache.insertPartial( type, key, geojson, 0, function( err, success){
+                                if ( success ) {
+                                  // append geojson to return object
+                                  for (f = 0; f < geojson.features.length; f++){
+                                    retGeoJSON.features.push(geojson.features[f]);
+                                  }
+                                  // update pages completed and check for completion of pages
+                                  pagesComplete++;
+                                  checkDone();
+                                }
+                              });
+                            });
+                          });
+                        }
+
+                        // function to check completion of pages
+                        var checkDone = function(){
+                          if (pagesComplete == pages){
+                            callback( null, [retGeoJSON])
+                          }
+                          else {
+                          }
+                        };
+                      });
+                    }
+                  }
+                });
+              });
+            } catch (e){
+              console.log('Error?', e);
+              koop.log.error('Unable to parse response %s', url);
+              callback(e, null); 
             }
           }
-
-          request.get(url, function(err, data, response ){
-            if (err) {
-              callback(err, null);
-            } else {
-              try {
-                var types = JSON.parse( data.headers['x-soda2-types'] );
-                  fields = JSON.parse( data.headers['x-soda2-fields'] );
-                var locationField;
-                if (locFieldName){
-                  locationField = locFieldName;
-                }
-                else {
-                  types.forEach(function(t,i){
-                    if (t == 'location'){
-                      locationField = fields[i];
-                    }
-                  });
-                }
- 
-                self.toGeojson( JSON.parse( data.body ), locationField, function(err, geojson){
-                  geojson.updated_at = new Date(data.headers['last-modified']).getTime();
-                  geojson.name = id;
-                  geojson.host = {
-                    id: hostId,
-                    url: host
-                  };
-                  koop.Cache.insert( type, key, geojson, 0, function( err, success){
-                    if ( success ) callback( null, [geojson] );
-                  });
-                });
-              } catch(e){
-                console.log('shit?', e);
-                koop.log.error('Unable to parse response %s', url);
-                callback(e, null); 
-              }
-            }
-          });
         });
       } else {
         callback( null, entry );
@@ -150,7 +202,7 @@ var Socrata = function( koop ){
   // this method name is special reserved name that will get called by the cache model
   socrata.checkCache = function(key, data, options, callback){
     var self = this;
-    url = data.host + this.socrata_path + key + '.json';
+    var url = data.host + this.socrata_path + key + '.json';
 
     var lapsed = (new Date().getTime() - data.updated_at);
     if (typeof(data.updated_at) == "undefined" || (lapsed > (1000*60*60))){
