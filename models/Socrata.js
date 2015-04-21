@@ -176,18 +176,30 @@ var Socrata = function( koop ){
       json.forEach(function(feature, i){
         geojsonFeature = {type: 'Feature', geometry: {}, id: i+1};
         if (feature && locationField){
-          if (feature[locationField] && feature[locationField].latitude && feature[locationField].longitude){
+          if (feature[locationField] && (parseFloat(feature[locationField].latitude) <= 90) && (parseFloat(feature[locationField].longitude) <= 180)){
             geojsonFeature.geometry.coordinates = [parseFloat(feature[locationField].longitude), parseFloat(feature[locationField].latitude)];
             geojsonFeature.geometry.type = 'Point';
             delete feature.location;
             geojsonFeature.properties = feature;
             geojson.features.push( geojsonFeature );
           }
+          else {
+            geojsonFeature.geometry = null;
+            geojsonFeature.properties = feature;
+            geojson.features.push( geojsonFeature );
+          }
         } else if ( feature && feature.latitude && feature.longitude ){
-           geojsonFeature.geometry.coordinates = [parseFloat(feature.longitude), parseFloat(feature.latitude)];
-           geojsonFeature.geometry.type = 'Point';
-           geojsonFeature.properties = feature;
-           geojson.features.push( geojsonFeature );
+          if ((parseFloat(feature.latitude) <= 90) && (parseFloat(feature.longitude) <= 180)){
+            geojsonFeature.geometry.coordinates = [parseFloat(feature.longitude), parseFloat(feature.latitude)];
+            geojsonFeature.geometry.type = 'Point';
+            geojsonFeature.properties = feature;
+            geojson.features.push( geojsonFeature ); 
+          }
+          else {
+            geojsonFeature.geometry = null;
+            geojsonFeature.properties = feature;
+            geojson.features.push( geojsonFeature );
+          }
         } else {
           geojsonFeature.geometry = null;
           geojsonFeature.properties = feature;
