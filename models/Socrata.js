@@ -174,31 +174,36 @@ var Socrata = function( koop ){
       var geojson = {type: 'FeatureCollection', features: []};
       var geojsonFeature;
       json.forEach(function(feature, i){
+        var lat, lon;
         geojsonFeature = {type: 'Feature', geometry: {}, id: i+1};
         if (feature && locationField){
-          if (feature[locationField] && (parseFloat(feature[locationField].latitude) <= 90) && (parseFloat(feature[locationField].longitude) <= 180)){
-            geojsonFeature.geometry.coordinates = [parseFloat(feature[locationField].longitude), parseFloat(feature[locationField].latitude)];
+          lon = parseFloat(feature[locationField].longitude);
+          lat = parseFloat(feature[locationField].latitude);
+          if ((lon < -180 || lon > 180) || (lat < -90 || lat > 90)){
+            geojsonFeature.geometry = null;
+            geojsonFeature.properties = feature;
+            geojson.features.push( geojsonFeature );
+          }
+          else {
+            geojsonFeature.geometry.coordinates = [lon, lat];
             geojsonFeature.geometry.type = 'Point';
             delete feature.location;
             geojsonFeature.properties = feature;
             geojson.features.push( geojsonFeature );
           }
-          else {
+        } else if ( feature && feature.latitude && feature.longitude ){
+          lon = parseFloat(feature.longitude);
+          lat = parseFloat(feature.latitude);
+          if ((lon < -180 || lon > 180) || (lat < -90 || lat > 90)){
             geojsonFeature.geometry = null;
             geojsonFeature.properties = feature;
             geojson.features.push( geojsonFeature );
           }
-        } else if ( feature && feature.latitude && feature.longitude ){
-          if ((parseFloat(feature.latitude) <= 90) && (parseFloat(feature.longitude) <= 180)){
-            geojsonFeature.geometry.coordinates = [parseFloat(feature.longitude), parseFloat(feature.latitude)];
+          else {
+            geojsonFeature.geometry.coordinates = [lon, lat];
             geojsonFeature.geometry.type = 'Point';
             geojsonFeature.properties = feature;
             geojson.features.push( geojsonFeature ); 
-          }
-          else {
-            geojsonFeature.geometry = null;
-            geojsonFeature.properties = feature;
-            geojson.features.push( geojsonFeature );
           }
         } else {
           geojsonFeature.geometry = null;
