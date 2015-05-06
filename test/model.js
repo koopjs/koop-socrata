@@ -41,7 +41,7 @@ test('parsing geojson', function (t) {
       latitude: 0,
       longitude: 0
     }
-  },{
+  }, {
     location: {
       latitude: 0,
       longitude: 0
