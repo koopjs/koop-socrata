@@ -1,6 +1,6 @@
 {
   "name": "koop-socrata",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A socrata wrapper for koop ",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,6 @@
   "dependencies": {
     "config": "~0.4.35",
     "ejs": "~1.0.0",
-    "node.extend": "~1.0.10",
     "request": "^2.51.0",
     "sphericalmercator": "~1.0.2"
   },
