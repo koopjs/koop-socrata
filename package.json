@@ -1,6 +1,6 @@
 {
   "name": "koop-socrata",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A socrata wrapper for koop ",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,9 @@
   "author": "Chris Helm",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "koop": "*",
+    "koop": "~1.0.0",
     "sinon": "^1.14.1",
-    "standard": "*",
+    "standard": "^3.3.0",
     "supertest": "~0.11.0",
     "tap-spec": "^2.2.2",
     "tape": "^3.5.0"

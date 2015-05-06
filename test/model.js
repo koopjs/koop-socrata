@@ -22,15 +22,36 @@ test('adding a socrata instance', function (t) {
 })
 
 test('parsing geojson', function (t) {
-  t.plan(2)
+  t.plan(5)
 
-  socrata.toGeojson([], 'location', function (err, geojson) {
+  socrata.toGeojson([], 'location', [], function (err, geojson) {
     t.deepEqual(err, 'Error converting data to geojson')
   })
 
-  socrata.toGeojson(data, 'location', function (err, geojson) {
+  socrata.toGeojson(data, 'location', [], function (err, geojson) {
     if (err) throw err
     t.deepEqual(geojson.features.length, 1000)
+  })
+
+  var features = [{
+    obj: {
+      prop: true
+    },
+    location: {
+      latitude: 0,
+      longitude: 0
+    }
+  },{
+    location: {
+      latitude: 0,
+      longitude: 0
+    }
+  }]
+  socrata.toGeojson(features, 'location', ['obj'], function (err, geojson) {
+    if (err) throw err
+    t.deepEqual(geojson.features[0].properties, {obj_prop: true})
+    t.deepEqual(geojson.features[1].properties, {obj_prop: null})
+    t.deepEqual(geojson.features.length, 2)
   })
 
 })
@@ -55,7 +76,7 @@ test('stub the request method', function (t) {
     }
   }
 
-  sinon.stub(socrata, 'toGeojson', function (features, locationField, callback) {
+  sinon.stub(socrata, 'toGeojson', function (features, locationField, fields, callback) {
     callback(null, { features: [feature] })
   })
   sinon.stub(koop.Cache, 'insert', function (type, key, geojson, layer, callback) {
