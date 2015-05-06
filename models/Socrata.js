@@ -184,7 +184,7 @@ var Socrata = function (koop) {
 
   socrata.toGeojson = function (json, locationField, callback) {
     if (!json || !json.length) {
-      callback('Error converting data to geojson', null)
+      callback('Error converting data to GeoJSON: JSON not returned from Socrata or blank JSON returned', null)
     } else {
       var geojson = { type: 'FeatureCollection', features: [] }
       var geojsonFeature
