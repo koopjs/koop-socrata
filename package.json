@@ -15,7 +15,7 @@
   "author": "Chris Helm",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "koop": "~1.0.0",
+    "koop": "*",
     "sinon": "^1.14.1",
     "standard": "^3.3.0",
     "supertest": "~0.11.0",
