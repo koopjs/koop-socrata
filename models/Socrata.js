@@ -127,7 +127,7 @@ var Socrata = function (koop) {
                               return callback(err)
                             }
                             // parse pages to GeoJSON and insert partial
-                            socrata.toGeojson(JSON.parse(data.body), locationField, function (err, geojson) {
+                            socrata.toGeojson(JSON.parse(data.body), locationField, fields, function (err, geojson) {
                               if (err) {
                                 return callback(err)
                               }
@@ -191,21 +191,7 @@ var Socrata = function (koop) {
         var lat, lon
         geojsonFeature = { type: 'Feature', geometry: {}, id: i + 1 }
 
-        // make sure each feature has each property and flatten objects
-        fields.forEach(function (f) {
-          if (f.substring(0, 1) !== ':') {
-            if (typeof feature[f] === 'object') {
-              for (var v in feature[f]) {
-                var newAttr = f + '_' + v
-                feature[newAttr] = feature[f][v]
-                newFields.push(newAttr)
-              }
-              delete feature[f]
-            }
-          }
-        })
-
-        if (feature && locationField) {
+        if (feature && locationField && feature[locationField]) {
           lon = parseFloat(feature[locationField].longitude)
           lat = parseFloat(feature[locationField].latitude)
           if ((lon < -180 || lon > 180) || (lat < -90 || lat > 90)) {
@@ -237,8 +223,22 @@ var Socrata = function (koop) {
           geojsonFeature.properties = feature
           geojson.features.push(geojsonFeature)
         }
+
+        // make sure each feature has flattened object props
+        fields.forEach(function (f) {
+          if (f.substring(0, 1) !== ':') {
+            if (typeof geojson.features[i].properties[f] === 'object') {
+              for (var v in geojson.features[i].properties[f]) {
+                var newAttr = f + '_' + v
+                geojson.features[i].properties[newAttr] = geojson.features[i].properties[f][v]
+                newFields.push(newAttr)
+              }
+              delete geojson.features[i].properties[f]
+            }
+          }
+        })
       })
-      // 2nd loop over the data to ensure all new fields are present
+      // 2nd loop over the data to ensure all new fields are present in each feature
       if (newFields && newFields.length) {
         geojson.features.forEach(function (feature) {
           newFields.forEach(function (field) {

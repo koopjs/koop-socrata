@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.2] - 2015-05-07
+### Changed
+* Changed the order in which object properties get flattened. Location objects were getting flattened too early in the process and cause location lookups to fail when building the geojson
+
 ## [0.1.1] - 2015-05-06
 ### Added 
 * Flattening all object based properties
@@ -13,5 +17,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Keeping a legit changelog
 * Added tape testing with sinon stubs in the controller tests
 
+[0.1.2]: https://github.com/Esri/koop/releases/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/Esri/koop/releases/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Esri/koop/releases/tag/v0.1.0
