@@ -102,7 +102,10 @@ var Controller = function (Socrata, BaseController) {
               }
             })
           } else {
-            res.json(itemJson[0])
+            req.query.limit = req.query.limit || 100
+            var geojson = itemJson[0]
+            geojson.features = geojson.features.slice(0, req.query.limit)
+            res.json(geojson)
           }
         })
       }
