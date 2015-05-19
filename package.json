@@ -1,12 +1,13 @@
 {
   "name": "koop-socrata",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A socrata wrapper for koop ",
   "main": "index.js",
   "scripts": {
     "test": "standard && node test/*.js | tap-spec"
   },
   "dependencies": {
+    "async": "^0.9.2",
     "config": "~0.4.35",
     "ejs": "~1.0.0",
     "request": "^2.51.0",

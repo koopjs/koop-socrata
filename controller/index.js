@@ -67,8 +67,16 @@ var Controller = function (Socrata, BaseController) {
       } else {
         // Get the item
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, itemJson) {
-          if (error) {
-            res.send(error, 500)
+          // return 202 when processing
+          if (itemJson && itemJson.length && itemJson[0].status === 'processing') {
+            Socrata.getCount(['Socrata', req.params.item, (req.query.layer || 0)].join(':'), req.query, function (err, count) {
+              if (err) {
+                console.log('Could not socrata feature count', req.params.item)
+              }
+              return res.status(202).json({status: 'processing', count: count})
+            })
+          } else if (error) {
+            res.status(500).send(error)
           } else if (req.params.format) {
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json')
@@ -102,9 +110,10 @@ var Controller = function (Socrata, BaseController) {
               }
             })
           } else {
-            req.query.limit = req.query.limit || 100
             var geojson = itemJson[0]
-            geojson.features = geojson.features.slice(0, req.query.limit)
+            if (geojson && geojson.features && geojson.features.length) {
+              geojson.features = geojson.features.slice(0, req.query.limit || 100)
+            }
             res.json(geojson)
           }
         })

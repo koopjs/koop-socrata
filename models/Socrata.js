@@ -1,4 +1,5 @@
-var request = require('request')
+var request = require('request'),
+  async = require('async')
 
 var Socrata = function (koop) {
   var socrata = koop.BaseModel(koop)
@@ -43,10 +44,14 @@ var Socrata = function (koop) {
   socrata.getResource = function (host, hostId, id, options, callback) {
     var type = 'Socrata',
       key = id,
+      table = [type, id, (options.layer || 0)].join(':'),
       locFieldName,
       urlid,
       paging = false,
-      limit = 1000
+      limit = 1000,
+      fields,
+      retGeoJSON,
+      locationField
 
     // test id for '!' character indicating presence of a column name and handle
     if (id.indexOf('!') !== -1) {
@@ -54,6 +59,44 @@ var Socrata = function (koop) {
       urlid = id.substring(0, id.indexOf('!'))
     } else {
       urlid = id
+    }
+
+    // request queue for paging data in a controlled way
+    var pageQueue = async.queue(function (url, cb) {
+      socrata.request(url, function (err, data, response) {
+        if (err) {
+          return callback(err)
+        }
+        // parse pages to GeoJSON and insert partial
+        socrata.toGeojson(JSON.parse(data.body), locationField, fields, function (err, geojson) {
+          if (err) {
+            return callback(err)
+          }
+          koop.Cache.insertPartial(type, key, geojson, 0, function (err, success) {
+            if (err) {
+              return callback(err)
+            }
+            if (success) {
+              // append geojson to return object
+              retGeoJSON.features = retGeoJSON.features.concat(geojson.features)
+              cb()
+            }
+          })
+        })
+      })
+    }, 4)
+
+    pageQueue.drain = function () {
+      koop.Cache.getInfo(table, function (err, info) {
+        if (err) {
+          console.log('Could not get info', err)
+          info = {}
+        }
+        delete info.status
+        koop.Cache.updateInfo(table, info, function () {
+          koop.log.debug('Finished paging ' + table)
+        })
+      })
     }
 
     // attempt to load from cache, if error perform new request and get first page
@@ -70,12 +113,11 @@ var Socrata = function (koop) {
             }
             // get name of location field
             try {
-              var locationField
               if (locFieldName) {
                 locationField = locFieldName
               } else {
                 var types = JSON.parse(data.headers['x-soda2-types'])
-                var fields = JSON.parse(data.headers['x-soda2-fields'])
+                fields = JSON.parse(data.headers['x-soda2-fields'])
                 types.forEach(function (t, i) {
                   if (t === 'location') {
                     locationField = fields[i]
@@ -103,13 +145,16 @@ var Socrata = function (koop) {
                     if (paging === false) {
                       callback(null, [geojson])
                     } else {
+                      // return as processing while we page
+                      callback(null, [{status: 'processing'}])
+
                       // create GeoJSON return object
-                      var retGeoJSON = geojson
+                      retGeoJSON = geojson
                       // detrmine count of table and needed pages
-                      var count, pages,
-                        pagesComplete = 0,
+                      var count, pages, pageUrls = [],
                         countUrl = host + socrata.socrata_path + urlid + '.json?$select=count(*)'
-                      request.get(countUrl, function (err, data, response) {
+
+                      socrata.request(countUrl, function (err, data, response) {
                         if (err) {
                           return callback(err)
                         }
@@ -121,48 +166,28 @@ var Socrata = function (koop) {
                         }
                         // page through data
                         for (var p = 1; p <= pages; p++) {
-                          var pUrl = host + socrata.socrata_path + urlid + '.json?$order=:id&$limit=' + limit + '&$offset=' + (p * limit)
-                          request.get(pUrl, function (err, data, response) {
-                            if (err) {
-                              return callback(err)
-                            }
-                            // parse pages to GeoJSON and insert partial
-                            socrata.toGeojson(JSON.parse(data.body), locationField, fields, function (err, geojson) {
-                              if (err) {
-                                return callback(err)
-                              }
-                              geojson.updated_at = new Date(data.headers['last-modified']).getTime()
-                              geojson.name = id
-                              geojson.host = {
-                                id: hostId,
-                                url: host
-                              }
-                              koop.Cache.insertPartial(type, key, geojson, 0, function (err, success) {
-                                if (err) {
-                                  return callback(err)
-                                }
-                                if (success) {
-                                  // append geojson to return object
-                                  geojson.features.forEach(function (f) {
-                                    retGeoJSON.features.push(f)
-                                  })
-                                  // update pages completed and check for completion of pages
-                                  pagesComplete++
-                                  checkDone()
-                                }
-                              })
-                            })
-                          })
+                          var page = [
+                            host,
+                            socrata.socrata_path,
+                            urlid,
+                            '.json?$order=:id&$limit=',
+                            limit,
+                            '&$offset=',
+                            (p * limit)
+                          ].join('')
+                          pageUrls.push(page)
                         }
 
-                        // function to check completion of pages
-                        var checkDone = function () {
-                          if (pagesComplete === pages) {
-                            callback(null, [retGeoJSON])
-                          } else {
-
+                        koop.Cache.getInfo(table, function (err, info) {
+                          if (err) {
+                            console.log('Could not get info', err)
+                            info = {}
                           }
-                        }
+                          info.status = 'processing'
+                          koop.Cache.updateInfo(table, info, function () {
+                            pageQueue.push(pageUrls, function () {})
+                          })
+                        })
                       })
                     }
                   }
@@ -301,6 +326,10 @@ var Socrata = function (koop) {
         })
       })
     })
+  }
+
+  socrata.getCount = function (key, options, callback) {
+    koop.Cache.getCount(key, options, callback)
   }
 
   return socrata
