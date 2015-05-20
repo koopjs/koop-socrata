@@ -10,6 +10,16 @@ To install/use this provider you first need a working installation of [Koop](htt
 npm install https://github.com/koopjs/koop-socrata/tarball/master
 ```
 
+## Add your app key
+1. Go to dev.socrata.com/register to create an app key
+2. Edit the default.json in your koop-app config to add
+```json
+{
+	"socrata": {
+		token: 'your-app-token'
+	}
+}
+```
 ## Register Socrata Hosts
 
 Once this provider's been installed you need to "register" a particular instance of Socrata with your Koop instance. To do this you make `POST` request to the `/socrata` endpoint like so: 

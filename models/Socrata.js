@@ -6,7 +6,11 @@ var Socrata = function (koop) {
 
   // wrap request into a central place
   socrata.request = function (url, callback) {
-    request.get(url, callback)
+    var options = {url: url}
+    if (koop.config.socrata && koop.config.socrata.token) {
+      options['X-App-Token'] = koop.config.socrata.token
+    }
+    request(options, callback)
   }
 
   // adds a service to the koop.Cache.db
