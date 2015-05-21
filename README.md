@@ -16,7 +16,7 @@ npm install https://github.com/koopjs/koop-socrata/tarball/master
 ```json
 {
 	"socrata": {
-		token: 'your-app-token'
+		"token": "your-app-token"
 	}
 }
 ```
