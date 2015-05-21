@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.1] - 2015-05-08
+### Added
+* Allows provider to make requests using an app token, if available
+
 ## [0.2.0] - 2015-05-08
 ### Changed
 * Implements a new paging style that uses an async request queue to control how many requests we make at once
