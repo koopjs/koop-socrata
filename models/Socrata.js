@@ -8,7 +8,7 @@ var Socrata = function (koop) {
   socrata.request = function (url, callback) {
     var options = {url: url}
     if (koop.config.socrata && koop.config.socrata.token) {
-      options.headers = {['X-App-Token'] = koop.config.socrata.token}
+      options.headers = {'X-App-Token': koop.config.socrata.token}
     }
     request(options, callback)
   }
