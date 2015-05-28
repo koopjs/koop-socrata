@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.2] - 2015-05-28
+### Changed
+* Respecting resultOffset, resultOffsetCount, and limit/offset when querying featureservices
+
 ## [0.2.1] - 2015-05-08
 ### Added
 * Allows provider to make requests using an app token, if available
@@ -26,6 +30,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Keeping a legit changelog
 * Added tape testing with sinon stubs in the controller tests
 
+[0.2.2]: https://github.com/Esri/koop/releases/compare/v0.2.1...v0.2.2
+[0.2.1]: https://github.com/Esri/koop/releases/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/Esri/koop/releases/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/Esri/koop/releases/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/Esri/koop/releases/compare/v0.1.0...v0.1.1

@@ -148,7 +148,8 @@ var Controller = function (Socrata, BaseController) {
         res.send(err, 500)
       } else {
         // Get the item
-        req.query.limit = 10000000
+        req.query.limit = req.query.limit || req.query.resultRecordCount || 1000000000
+        req.query.offset = req.query.resultOffset || null
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, geojson) {
           if (error) {
             res.send(error, 500)
