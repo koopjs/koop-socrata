@@ -153,6 +153,8 @@ var Controller = function (Socrata, BaseController) {
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, geojson) {
           if (error) {
             res.send(error, 500)
+          } else if (geojson[0] && geojson[0].status === 'processing') {
+            res.send(geojson, 202)
           } else {
             // pass to the shared logic for FeatureService routing
             delete req.query.geometry
