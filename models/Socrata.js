@@ -6,6 +6,8 @@ var request = require('request'),
 var Socrata = function (koop) {
   var socrata = koop.BaseModel(koop)
   socrata.pageLimit = 1000
+  socrata.resourcePath = '/resource/'
+  socrata.viewPath = '/views/'
   if (koop.config && koop.config.socrata && koop.config.socrata.reqLimit) {
     socrata.pageLimit = koop.config.socrata.reqLimit
   }
@@ -40,7 +42,6 @@ var Socrata = function (koop) {
     })
   }
 
-  socrata.socrata_path = '/resource/'
   // got the service and get the item
   socrata.getResource = function (host, hostId, id, options, callback) {
     var type = 'Socrata',
@@ -60,6 +61,7 @@ var Socrata = function (koop) {
     // request queue for paging data in a controlled way
     var pageQueue = async.queue(function (url, cb) {
       var geojson = { type: 'FeatureCollection', features: [] }
+      koop.log.info('Processing: ' + url)
       socrata.getPage(url)
       .pipe(JSONStream.parse('*'))
       .pipe(es.map(function (data, callback) {
@@ -75,10 +77,10 @@ var Socrata = function (koop) {
       .on('end', function () {
         koop.Cache.insertPartial(type, key, geojson, 0, function (err, success) {
           if (err) {
-            console.error('Failed while inserting a page')
+            koop.log.error('Failed while inserting a page of Socrata:' + key + ':0')
             cb(err)
           } else if (success) {
-            console.log('Successfully inserted a page')
+            koop.log.info('Successfully inserted a page of Socrata:' + key + ':0')
             cb(null)
           }
         })
@@ -88,12 +90,12 @@ var Socrata = function (koop) {
     pageQueue.drain = function () {
       koop.Cache.getInfo(table, function (err, info) {
         if (err) {
-          console.log('Could not get info', err)
+          koop.log.error('Could not get info of ' + table, err)
           info = {}
         }
         delete info.status
         koop.Cache.updateInfo(table, info, function () {
-          koop.log.debug('Finished paging ' + table)
+          koop.log.info('Finished paging ' + table)
         })
       })
     }
@@ -127,11 +129,11 @@ var Socrata = function (koop) {
             koop.Cache.updateInfo(table, info, function () {
               // now that we have the table structure and the status is set as processing we can go get the rest of the data
               var pages = socrata.buildPages(host, id, meta.rowCount)
+              koop.log.info('Beginning to page through ' + host + '/resource' + id + ' ' + pages.length + ' Pages.')
               pages.forEach(function (page) {
-                koop.log.debug(page + '\n')
                 pageQueue.push(page, function (err) {
                   if (err) {
-                    console.error(err)
+                    koop.log.error(page, err)
                   }
                 })
               })
@@ -153,12 +155,10 @@ var Socrata = function (koop) {
             urlId: urlId
         }, function (err, rowCount) {
               if (err) {
-                koop.log.error('Failed to get count at: ' + host + '/resource/' + urlId + '.json')
                 // set status to failed
                 return
               }
               meta.rowCount = rowCount
-              koop.log.debug(rowCount)
             })
         infoQueue.push({
             task: socrata.getMeta,
@@ -166,7 +166,6 @@ var Socrata = function (koop) {
             urlId: urlId
         }, function (err, info) {
               if (err) {
-                koop.log.error('Failed to get metadata at: ' + host + '/views/' + urlId + '.json')
                 // set status to failed
                 return
               }
@@ -174,7 +173,6 @@ var Socrata = function (koop) {
               meta.location_field = info.location_field
               meta.updated_at = info.updated_at
               meta.fields = info.fields
-              koop.log.debug(meta)
             })
         infoQueue.push({
             task: socrata.getFirst,
@@ -182,10 +180,10 @@ var Socrata = function (koop) {
             urlId: urlId
         }, function (err, data) {
               if (err) {
-                koop.log.error('Failed to get first row at: ' + host + '/resource/' + urlId + '.json')
+                // set status to failed
+                return
               }
               firstRow = data
-              koop.log.debug(firstRow)
             })
       } else {
         callback(null, entry)
@@ -194,14 +192,14 @@ var Socrata = function (koop) {
   }
 
   socrata.getRowCount = function (host, id, callback) {
-    var countUrl = host + socrata.socrata_path + id + '.json?$select=count(*)'
+    var countUrl = host + socrata.resourcePath + id + '.json?$select=count(*)'
     var options = {url: countUrl, gzip: true}
     if (koop.config.socrata && koop.config.socrata.token) {
       options.headers = {'X-App-Token': koop.config.socrata.token}
     }
     request(options, function (err, res, body) {
       if (err) {
-        console.log('Could not get count', err)
+        koop.log.error('Could not get count at: ' + options.url, err)
       }
       var rowCount = JSON.parse(body)[0].count
       callback(err, rowCount)
@@ -210,13 +208,12 @@ var Socrata = function (koop) {
 
   socrata.getMeta = function (host, id, callback) {
     var meta = {}
-    var metaUrl = host + '/views/' + id + '.json'
+    var metaUrl = host + socrata.viewPath + id + '.json'
     var options = {url: metaUrl, gzip: true}
     request(options, function (err, res, body) {
       if (err) {
-        console.log('Could not get metadata', err)
+        koop.log.error('Could not get metadata at: ' + options.url, err)
       }
-      console.log()
       var response = JSON.parse(body)
       meta.updated_at = new Date(res.headers['last-modified']).getTime()
       meta.name = response.name
@@ -235,21 +232,21 @@ var Socrata = function (koop) {
     var urls = []
     var pageCount = Math.ceil((rowCount - 1) / socrata.pageLimit)
     for (var p = 0; p < pageCount; p++) {
-      var page = host + socrata.socrata_path + id + '.json?$order=:id&$limit=' + socrata.pageLimit + '&$offset=' + ((p * socrata.pageLimit) + 1)
+      var page = host + socrata.resourcePath + id + '.json?$order=:id&$limit=' + socrata.pageLimit + '&$offset=' + ((p * socrata.pageLimit) + 1)
       urls[p] = page
     }
     return urls
   }
 
   socrata.getFirst = function (host, id, callback) {
-    var firstUrl = host + socrata.socrata_path + id + '.json?$order=:id&$limit=1'
+    var firstUrl = host + socrata.resourcePath + id + '.json?$order=:id&$limit=1'
     var options = {url: firstUrl, gzip: true}
     if (koop.config.socrata && koop.config.socrata.token) {
       options.headers = {'X-App-Token': koop.config.socrata.token}
     }
     request(options, function (err, res, body) {
       if (err) {
-        console.log('failed to get first pages at: ' + host + socrata.socrata_path + id + '.json?$order=:id&$limit=1')
+        koop.log.error('failed to get first row at: ' + host + socrata.resourcePath + id + '.json?$order=:id&$limit=1')
       }
       callback(err, JSON.parse(body))
     })
@@ -265,81 +262,81 @@ var Socrata = function (koop) {
   }
 
   socrata.toGeojson = function (json, locationField, fields, callback) {
-      if (!json || !json.length) {
-        callback('Error converting data to GeoJSON: JSON not returned from Socrata or blank JSON returned', null)
-      } else {
-        var geojson = { type: 'FeatureCollection', features: [] }
-        var geojsonFeature,
-          newFields = []
-        json.forEach(function (feature, i) {
-          var lat, lon
-          geojsonFeature = { type: 'Feature', geometry: {}, id: i + 1 }
+    if (!json || !json.length) {
+      callback('Error converting data to GeoJSON: JSON not returned from Socrata or blank JSON returned', null)
+    } else {
+      var geojson = { type: 'FeatureCollection', features: [] }
+      var geojsonFeature,
+        newFields = []
+      json.forEach(function (feature, i) {
+        var lat, lon
+        geojsonFeature = { type: 'Feature', geometry: {}, id: i + 1 }
 
-          if (feature && locationField && feature[locationField]) {
-            lon = parseFloat(feature[locationField].longitude)
-            lat = parseFloat(feature[locationField].latitude)
-            if ((lon < -180 || lon > 180) || (lat < -90 || lat > 90)) {
-              geojsonFeature.geometry = null
-              geojsonFeature.properties = feature
-              geojson.features.push(geojsonFeature)
-            } else {
-              geojsonFeature.geometry.coordinates = [lon, lat]
-              geojsonFeature.geometry.type = 'Point'
-              delete feature.location
-              geojsonFeature.properties = feature
-              geojson.features.push(geojsonFeature)
-            }
-          } else if (feature && feature.latitude && feature.longitude) {
-            lon = parseFloat(feature.longitude)
-            lat = parseFloat(feature.latitude)
-            if ((lon < -180 || lon > 180) || (lat < -90 || lat > 90)) {
-              geojsonFeature.geometry = null
-              geojsonFeature.properties = feature
-              geojson.features.push(geojsonFeature)
-            } else {
-              geojsonFeature.geometry.coordinates = [lon, lat]
-              geojsonFeature.geometry.type = 'Point'
-              geojsonFeature.properties = feature
-              geojson.features.push(geojsonFeature)
-            }
-          } else {
+        if (feature && locationField && feature[locationField]) {
+          lon = parseFloat(feature[locationField].longitude)
+          lat = parseFloat(feature[locationField].latitude)
+          if ((lon < -180 || lon > 180) || (lat < -90 || lat > 90)) {
             geojsonFeature.geometry = null
             geojsonFeature.properties = feature
             geojson.features.push(geojsonFeature)
+          } else {
+            geojsonFeature.geometry.coordinates = [lon, lat]
+            geojsonFeature.geometry.type = 'Point'
+            delete feature.location
+            geojsonFeature.properties = feature
+            geojson.features.push(geojsonFeature)
           }
+        } else if (feature && feature.latitude && feature.longitude) {
+          lon = parseFloat(feature.longitude)
+          lat = parseFloat(feature.latitude)
+          if ((lon < -180 || lon > 180) || (lat < -90 || lat > 90)) {
+            geojsonFeature.geometry = null
+            geojsonFeature.properties = feature
+            geojson.features.push(geojsonFeature)
+          } else {
+            geojsonFeature.geometry.coordinates = [lon, lat]
+            geojsonFeature.geometry.type = 'Point'
+            geojsonFeature.properties = feature
+            geojson.features.push(geojsonFeature)
+          }
+        } else {
+          geojsonFeature.geometry = null
+          geojsonFeature.properties = feature
+          geojson.features.push(geojsonFeature)
+        }
 
-          // make sure each feature has flattened object props
-          fields.forEach(function (f) {
-            if (f.substring(0, 1) !== ':') {
-              if (typeof geojson.features[i].properties[f] === 'object') {
-                for (var v in geojson.features[i].properties[f]) {
-                  var newAttr = f + '_' + v
-                  geojson.features[i].properties[newAttr] = geojson.features[i].properties[f][v]
-                  newFields.push(newAttr)
-                }
-                delete geojson.features[i].properties[f]
+        // make sure each feature has flattened object props
+        fields.forEach(function (f) {
+          if (f.substring(0, 1) !== ':') {
+            if (typeof geojson.features[i].properties[f] === 'object') {
+              for (var v in geojson.features[i].properties[f]) {
+                var newAttr = f + '_' + v
+                geojson.features[i].properties[newAttr] = geojson.features[i].properties[f][v]
+                newFields.push(newAttr)
               }
+              delete geojson.features[i].properties[f]
+            }
+          }
+        })
+      })
+      // 2nd loop over the data to ensure all new fields are present in each feature
+      if (newFields && newFields.length) {
+        geojson.features.forEach(function (feature) {
+          newFields.forEach(function (field) {
+            if (!feature.properties[field]) {
+              feature.properties[field] = null
             }
           })
         })
-        // 2nd loop over the data to ensure all new fields are present in each feature
-        if (newFields && newFields.length) {
-          geojson.features.forEach(function (feature) {
-            newFields.forEach(function (field) {
-              if (!feature.properties[field]) {
-                feature.properties[field] = null
-              }
-            })
-          })
-        }
-        callback(null, geojson)
       }
+      callback(null, geojson)
     }
+  }
 
   // compares the sha on the cached data and the hosted data
   // this method name is special reserved name that will get called by the cache model
   socrata.checkCache = function (key, data, options, callback) {
-    var url = data.host + this.socrata_path + key + '.json'
+    var url = data.host + socrata.resourcePath + key + '.json'
     var lapsed = (new Date().getTime() - data.updated_at)
     if (typeof (data.updated_at) === 'undefined' || (lapsed > (1000 * 60 * 60))) {
       callback(null, false)
