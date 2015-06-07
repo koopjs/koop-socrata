@@ -68,7 +68,7 @@ var Controller = function (Socrata, BaseController) {
         // Get the item
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, itemJson) {
           // return 502 when there are errors
-          if (itemJson && itemJson.errors) {
+          if (itemJson && itemJson.length && itemJson[0].errors) {
             res.status(502).send(itemJson)
           }
           // return 202 when processing
@@ -77,7 +77,9 @@ var Controller = function (Socrata, BaseController) {
               if (err) {
                 // console.log('Could not socrata feature count', req.params.item)
               }
-              return res.status(202).json({status: 'processing', count: count})
+              var info = itemJson[0].info
+              info.count = count
+              return res.status(202).json(info)
             })
           } else if (error) {
             res.status(500).send(error)
@@ -146,8 +148,6 @@ var Controller = function (Socrata, BaseController) {
     for (var k in req.body) {
       req.query[k] = req.body[k]
     }
-    console.log(req.query)
-
     Socrata.find(req.params.id, function (err, data) {
       if (err) {
         res.status(500).send(err)

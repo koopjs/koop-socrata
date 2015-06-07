@@ -5,9 +5,12 @@ var request = require('request'),
 
 var Socrata = function (koop) {
   var socrata = koop.BaseModel(koop)
-  socrata.pageLimit = 1000
+  // set up this object to hold info on what is currently processing
+  var processing = {}
+  socrata.pageLimit = 10000
   socrata.resourcePath = '/resource/'
   socrata.viewPath = '/views/'
+  socrata.expirationPeriod = (1000 * 60 * 60 * 24)
   if (koop.config && koop.config.socrata) {
     if (koop.config.socrata.reqLimit) {
       socrata.pageLimit = koop.config.socrata.reqLimit
@@ -54,7 +57,7 @@ var Socrata = function (koop) {
       table = [type, id, (options.layer || 0)].join(':'),
       urlId,
       meta = {},
-      firstRow,
+      firstRow = [],
       errors = []
 
     // test id for '!' character indicating presence of a column name and handle
@@ -65,31 +68,20 @@ var Socrata = function (koop) {
     }
 
     // request queue for paging data in a controlled way
-    var pageQueue = async.queue(function (url, cb) {
-      var geojson = { type: 'FeatureCollection', features: [] }
+    var pageQueue = async.queue(function (url, callback) {
       koop.log.info('Processing: ' + url)
-      socrata.getPage(url)
-      .pipe(JSONStream.parse('*'))
-      .pipe(es.map(function (data, callback) {
-        socrata.toGeojson([data], meta.location_field, meta.fields, function (err, converted) {
-          if (err) {
-            callback(err)
-          }
-          geojson.features.push(converted.features[0])
-          callback()
-        })
-      }))
-      .on('error', function (err) {cb(err)})
-      .on('end', function () {
-        koop.Cache.insertPartial(type, key, geojson, 0, function (err, success) {
-          if (err) {
-            koop.log.error('Failed while inserting a page of Socrata:' + key + ':0')
-            cb(err)
-          } else if (success) {
-            koop.log.info('Successfully inserted a page of Socrata:' + key + ':0')
-            cb(null)
-          }
-        })
+      socrata.processStream(socrata.getPage(url), meta, function (err, geojson) {
+        if (err) {
+          callback('Failed while processing a page of ' + table + '. ' + err)
+        } else {
+          koop.Cache.insertPartial(type, key, geojson, 0, function (err, success) {
+            if (err) {
+              callback('Failed while inserting a page of ' + table + '. ' + err)
+            } else if (success) {
+              callback(null)
+            }
+          })
+        }
       })
     }, 4)
 
@@ -102,6 +94,8 @@ var Socrata = function (koop) {
         delete info.status
         koop.Cache.updateInfo(table, info, function () {
           koop.log.info('Finished paging ' + table)
+          // remove this dataset from the global processing object
+          delete processing[hostId + id]
         })
       })
     }
@@ -112,104 +106,125 @@ var Socrata = function (koop) {
     }, 3)
 
     infoQueue.drain = function () {
-      if (errors.length) {
-        socrata.setFail(table, errors, function () {
-          koop.log.info('Processing failed on' + 'Socrata:' + key + ':0', errors)
-          return
-        })
-      }
-      // insert the first row to create the table and set things off
-      socrata.toGeojson(firstRow, meta.location_field, meta.fields, function (err, geojson) {
-        if (err) {
-          // update status as failed
-          return
-        }
-        geojson.name = meta.name
-        geojson.location_field = meta.location_field
-        geojson.updated_at = meta.updated_at
-        koop.Cache.insert(type, key, geojson, 0, function (err, success) {
+      // if the dataset is only one page long and getting the first row fails
+      // we can still grab it by requesting the whole dataset in one go
+      if (errors.length === 1 && errors[0].split('::')[0] === 'first') {
+        var url = host + socrata.resourcePath + urlId + '.json'
+        socrata.processStream(socrata.getPage(url), meta, function (err, geojson) {
           if (err) {
-            // todo update status as failed
-            return
+            koop.log.error(err)
+          } else {
+            meta.status = 'complete'
+            socrata.insert(key, meta, geojson, function (err, success) {
+              if (err) {
+                koop.log.error('Fallback method failed for: ' + url + '. ' + err)
+              } else {
+                koop.log.info('Fallback method succeeded for: ' + url)
+                // remove this dataset from the processing object
+                delete processing[hostId + id]
+              }
+            })
           }
-          koop.Cache.getInfo(table, function (err, info) {
-            if (err) {
-              koop.log.error('Could not get info for ' + 'Socrata:' + key + ':0', err)
-              info = {}
-            }
-            info.status = 'processing'
-            koop.Cache.updateInfo(table, info, function () {
-              // now that we have the table structure and the status is set as processing we can go get the rest of the data
-              var pages = socrata.buildPages(host, id, meta.rowCount)
-              koop.log.info('Beginning to page through ' + host + '/resource' + id + ' ' + pages.length + ' Pages.')
-              pages.forEach(function (page) {
-                pageQueue.push(page, function (err) {
+        })
+      } else if (errors.length) {
+        socrata.setFail(table, errors, function () {
+          koop.log.info('Processing failed on ' + 'Socrata:' + key + ':0', errors.join(', '))
+          delete processing[hostId + id]
+        })
+      } else {
+        // insert the first row to create the table and set things off
+        socrata.toGeojson(firstRow, meta.location_field, meta.fields, function (err, geojson) {
+          if (err) {
+            koop.log.error('Failed to parse the first row at: ' + host + urlId + '. ' + err)
+            // update status as failed
+          } else {
+            meta.status = 'processing'
+            socrata.insert(key, meta, geojson, function (err, success) {
+              if (err) {
+                koop.log.error('First row insert failed for: ' + host + urlId + '. ' + err)
+              } else {
+                var pages = socrata.buildPages(host, urlId, meta.rowCount)
+                koop.log.info('Beginning to page through ' + host + '/resource' + id + ' ' + pages.length + ' Pages.')
+                pageQueue.push(pages, function (err) {
                   if (err) {
-                    koop.log.error(page, err)
+                    koop.log.error(err)
                   }
                 })
-              })
+              }
             })
-          })
-        })
-      })
-    }
-
-    // attempt to load from cache, if error perform new request
-    koop.Cache.get(type, key, options, function (err, entry) {
-      if (err || entry[0].status === 'processing') {
-        // check for information about this dataset
-        koop.Cache.getInfo(table, function (err, info) {
-          if (err) {
-            // Return processing immediately before doing other work
-            callback(null, [{status: 'processing'}])
-          } else if (!err && info.status) {
-            callback(null, info)
-            return
           }
         })
-        // Simultaneously gather count and metadata by adding them to the queue with their variables
-        infoQueue.push({
-            task: socrata.getRowCount,
-            host: host,
-            urlId: urlId
-        }, function (err, rowCount) {
-              if (err) {
-                // set status to failed
-                errors.push(err)
-                return
-              }
-              meta.rowCount = rowCount
-            })
-        infoQueue.push({
-            task: socrata.getMeta,
-            host: host,
-            urlId: urlId
-        }, function (err, info) {
-              if (err) {
-                // set status to failed
-                errors.push(err)
-                return
-              }
-              meta.name = info.name
-              meta.location_field = info.location_field
-              meta.updated_at = info.updated_at
-              meta.fields = info.fields
-            })
-        infoQueue.push({
-            task: socrata.getFirst,
-            host: host,
-            urlId: urlId
-        }, function (err, data) {
-              if (err) {
-                // set status to failed
-                errors.push(err)
-                return
-              }
-              firstRow = data
-            })
+      }
+    }
+
+    koop.Cache.get(type, key, options, function (err, entry) {
+      if (err || (entry.length && entry[0].status === 'processing')) {
+        koop.Cache.getInfo(table, function (error, info) {
+          if (error && !processing[hostId + key]) {
+            // we don't have the data and it's not processing return processing and make a new request
+            processing[hostId + id] = true
+            callback(null, [{status: 'processing'}])
+            infoQueue.push({
+                task: socrata.getRowCount,
+                host: host,
+                urlId: urlId
+            }, function (err, rowCount) {
+                  if (err) {
+                    koop.log.error('Could not get rowCount. ' + err)
+                    errors.push(err)
+                  } else {
+                    meta.rowCount = rowCount
+                  }
+                }
+            )
+            infoQueue.push({
+                task: socrata.getMeta,
+                host: host,
+                urlId: urlId
+            }, function (err, info) {
+                  if (err) {
+                    koop.log.error('Could not get metadata. ' + err)
+                    errors.push(err)
+                  } else {
+                    meta.name = info.name
+                    meta.location_field = info.location_field
+                    meta.updated_at = info.updated_at
+                    meta.fields = info.fields
+                  }
+                }
+            )
+            infoQueue.push({
+                task: socrata.getFirst,
+                host: host,
+                urlId: urlId
+            }, function (err, data) {
+                  if (err) {
+                    koop.log.error('Could not get first row. ' + err)
+                    errors.push(err)
+                  } else {
+                    firstRow = data
+                  }
+                }
+            )
+          } else if (error & processing[hostId + key]) {
+            // we don't have any info yet, but it is processing just callback
+            callback(null, [{status: 'processing'}])
+          } else {
+            // we have info either an error or some progress
+            callback(null, [info])
+          }
+        })
       } else {
+        // we have the data or info so send it back
         callback(null, entry)
+        // after data has been sent, check for expiration
+        socrata.checkExpiration(host, urlId, function (err, expired) {
+          if (err) {
+            koop.log.error('Unable to check updated date for: ' + host + urlId)
+          } else if (expired) {
+            koop.log.info('Cache expired, regenerating. ' + host + urlId)
+          }
+        })
       }
     })
   }
@@ -221,15 +236,14 @@ var Socrata = function (koop) {
       options.headers = {'X-App-Token': socrata.token}
     }
     request(options, function (err, res, body) {
-      koop.log.debug('status of count:' + res.statusCode)
       if (err) {
-        koop.log.error('Could not get count at: ' + options.url, err)
+        callback(err)
       } else if (res.statusCode !== 200) {
-        callback('GetRowCount::' + options.url + '::' + res.statusCode, null)
-        return
+        callback('count::' + options.url + '::' + res.statusCode, null)
+      } else {
+        var rowCount = JSON.parse(body)[0].count
+        callback(err, rowCount)
       }
-      var rowCount = JSON.parse(body)[0].count
-      callback(err, rowCount)
     })
   }
 
@@ -238,24 +252,23 @@ var Socrata = function (koop) {
     var metaUrl = host + socrata.viewPath + id + '.json'
     var options = {url: metaUrl, gzip: true}
     request(options, function (err, res, body) {
-      koop.log.debug('status of meta:' + res.statusCode)
       if (err) {
-        koop.log.error('Could not get metadata at: ' + options.url, err)
+        callback(err)
       } else if (res.statusCode !== 200) {
-        callback('GetMeta::' + options.url + '::' + res.statusCode)
-        return
+        callback('meta::' + options.url + '::' + res.statusCode)
+      } else {
+        var response = JSON.parse(body)
+        meta.updated_at = new Date(res.headers['last-modified']).getTime()
+        meta.name = response.name
+        meta.fields = []
+        response.columns.forEach(function (col) {
+          meta.fields.push(col.fieldName)
+          if (col.dataTypeName === 'location') {
+            meta.location_field = col.fieldName
+          }
+        })
+        callback(err, meta)
       }
-      var response = JSON.parse(body)
-      meta.updated_at = new Date(res.headers['last-modified']).getTime()
-      meta.name = response.name
-      meta.fields = []
-      response.columns.forEach(function (col) {
-        meta.fields.push(col.fieldName)
-        if (col.dataTypeName === 'location') {
-          meta.location_field = col.fieldName
-        }
-      })
-      callback(err, meta)
     })
   }
 
@@ -267,12 +280,12 @@ var Socrata = function (koop) {
     }
     request(options, function (err, res, body) {
       if (err) {
-        koop.log.error('failed to get first row at: ' + host + socrata.resourcePath + id + '.json?$order=:id&$limit=1')
+        callback(err)
       } else if (res.statusCode !== 200) {
-        callback('GetFirst::' + options.url + '::' + res.statusCode)
-        return
+        callback('first::' + options.url + '::' + res.statusCode)
+      } else {
+        callback(err, JSON.parse(body))
       }
-      callback(err, JSON.parse(body))
     })
   }
 
@@ -293,6 +306,27 @@ var Socrata = function (koop) {
     }
     // Return the stream so it can be piped to a parser
     return request(options)
+  }
+
+  socrata.processStream = function (dataStream, meta, callback) {
+    var geojson = { type: 'FeatureCollection', features: [] }
+    dataStream
+    .pipe(JSONStream.parse('*'))
+    .pipe(es.map(function (data, cb) {
+      socrata.toGeojson([data], meta.location_field, meta.fields, function (err, converted) {
+        if (err) {
+          cb(err)
+        }
+        geojson.features.push(converted.features[0])
+        cb()
+      })
+    }))
+    .on('error', function (err) {
+      callback(err)
+    })
+    .on('end', function () {
+      callback(null, geojson)
+    })
   }
 
   socrata.toGeojson = function (json, locationField, fields, callback) {
@@ -369,40 +403,49 @@ var Socrata = function (koop) {
 
   // compares the sha on the cached data and the hosted data
   // this method name is special reserved name that will get called by the cache model
-  socrata.checkCache = function (key, data, options, callback) {
-    var url = data.host + socrata.resourcePath + key + '.json'
-    var lapsed = (new Date().getTime() - data.updated_at)
-    if (typeof (data.updated_at) === 'undefined' || (lapsed > (1000 * 60 * 60))) {
-      callback(null, false)
-    } else {
-      socrata.request(url, function (err, data, response) {
-        if (err) {
-          callback(err, null)
-        } else {
-          var types = JSON.parse(data.headers['x-soda2-types'])
-          var fields = JSON.parse(data.headers['x-soda2-fields'])
-          var locationField
-          types.forEach(function (t, i) {
-            if (t === 'location') {
-              locationField = fields[i]
+  socrata.checkExpiration = function (host, id, callback) {
+    var table = ['Socrata', id, 0].join(':')
+    koop.Cache.getInfo(table, function (err, info) {
+      if (err) {
+        callback(err)
+      }
+      // no info means it's the first request for this resource, no need to check cache
+      if (info) {
+        // check if enough time has passed to call to Socrata
+        if (new Date() - info.checked_at > socrata.expirationPeriod) {
+          socrata.getMeta(host, id, function (err, meta) {
+            if (err) {
+              callback(err)
+            }
+            // now check if the resource expired
+            if (meta.updated_at > info.updated_at) {
+              // it's expired so remove the item and go fetch it again
+              socrata.dropItem(host, id, 0, function (err, success) {
+                if (err) {
+                  callback(err)
+                }
+                socrata.getResource(host, id, 0, {}, function (err, res) {
+                  if (err) {
+                    callback(err)
+                  }
+                  callback(null, true)
+                })
+              })
+            } else {
+              callback(null, false)
             }
           })
-          socrata.toGeojson(JSON.parse(data.body), locationField, fields, function (error, geojson) {
-            geojson.updated_at = new Date(data.headers['last-modified']).getTime()
-            geojson.name = data.name || key
-            geojson.host = data.host
-            callback(error, [geojson])
-          })
+        } else {
+          callback(null, false)
         }
-      })
-    }
+      }
+    })
   }
 
   // drops the item from the cache
   socrata.dropItem = function (host, itemId, options, callback) {
     var dir = [ 'socrata', host, itemId].join(':'),
     errors = []
-
     koop.Cache.remove('Socrata', itemId, options, function (err, res) {
       if (err) errors.push(err)
       koop.files.removeDir('files/' + dir, function (err, res) {
@@ -421,20 +464,43 @@ var Socrata = function (koop) {
   socrata.updateInfo = function (table, newInfo, callback) {
     koop.Cache.getInfo(table, function (err, info) {
       if (err) {
-        koop.log.debug('No info found for: ' + table)
         info = {}
       }
-      info.status = newInfo.status
+      info.checked_at = new Date()
+      // we don't want to save any status on completed datasets
+      if (newInfo.status !== 'complete') {
+        info.status = newInfo.status
+      }
       if (newInfo.errors) {
         info.errors = newInfo.errors
       }
       koop.Cache.updateInfo(table, info, function (err, success) {
         if (err) {
-          console.error('failed to update info')
+          callback(err)
         }
-        koop.log.debug('Updated: ' + table + 'with: ' + info)
-        callback()
+        callback(null, true)
       })
+    })
+  }
+
+  socrata.insert = function (key, meta, geojson, callback) {
+    var table = ['Socrata', key, 0].join(':')
+    geojson.name = meta.name
+    geojson.location_field = meta.location_field
+    geojson.updated_at = meta.updated_at
+    koop.Cache.insert('Socrata', key, geojson, 0, function (err, success) {
+      if (err) {
+        callback(err, false)
+      } else {
+        meta.checked_at = new Date()
+        socrata.updateInfo(table, meta, function (err, success) {
+          if (err) {
+            callback(err, false)
+          } else {
+            callback(null, true)
+          }
+        })
+      }
     })
   }
 
@@ -445,7 +511,7 @@ var Socrata = function (koop) {
     // create a table with blank features so we can attach a failed status
     koop.Cache.insert('Socrata', key, geojson, 0, function (err, success) {
       if (err) {
-        console.error('insert empty table error', err)
+        callback(err)
       }
       var info = {}
       info.status = 'processing'

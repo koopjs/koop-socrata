@@ -16,15 +16,16 @@
     "event-stream": "~3.3.1"
   },
   "author": "Chris Helm",
+  "contributors": ["Daniel Fenton", "Phil Holleran"]
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "koop": "*",
+    "koop": "^2.1.11",
     "sinon": "^1.14.1",
     "standard": "^3.3.0",
     "supertest": "~0.11.0",
     "tap-spec": "^2.2.2",
     "tape": "^3.5.0",
-    "nock": "~0.14.3"
+    "nock": "~2.4.0"
 
   },
   "repository": {
