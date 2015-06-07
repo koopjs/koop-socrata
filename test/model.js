@@ -238,7 +238,7 @@ test('fill the cache with an errored dataset', function (t) {
     setTimeout(function () {
       t.deepEqual((typeof koop.Cache.db.store['Socrata:missing:0']).toString(), 'object')
       t.end()
-    }, 10)
+    }, 500)
   })
 })
 
