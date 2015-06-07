@@ -16,7 +16,7 @@
     "event-stream": "~3.3.1"
   },
   "author": "Chris Helm",
-  "contributors": ["Daniel Fenton", "Phil Holleran"]
+  "contributors": ["Daniel Fenton", "Phil Holleran"],
   "license": "BSD-2-Clause",
   "devDependencies": {
     "koop": "^2.1.11",
