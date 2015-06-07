@@ -258,7 +258,7 @@ test('fill the cache with a dataset that fails on the first row count', function
     if (err) throw err
     setTimeout(function () {
       t.end()
-    }, 100)
+    }, 500)
   })
 })
 

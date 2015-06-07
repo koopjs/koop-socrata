@@ -12,8 +12,8 @@ var Socrata = function (koop) {
   socrata.viewPath = '/views/'
   socrata.expirationPeriod = (1000 * 60 * 60 * 24)
   if (koop.config && koop.config.socrata) {
-    if (koop.config.socrata.reqLimit) {
-      socrata.pageLimit = koop.config.socrata.reqLimit
+    if (koop.config.socrata.pageLimit) {
+      socrata.pageLimit = koop.config.socrata.pageLimit
     }
     if (koop.config.socrata.token) {
       socrata.token = koop.config.socrata.token
@@ -412,7 +412,7 @@ var Socrata = function (koop) {
       // no info means it's the first request for this resource, no need to check cache
       if (info) {
         // check if enough time has passed to call to Socrata
-        if (new Date() - info.checked_at > socrata.expirationPeriod) {
+        if ((new Date() - info.checked_at) > socrata.expirationPeriod) {
           socrata.getMeta(host, id, function (err, meta) {
             if (err) {
               callback(err)
