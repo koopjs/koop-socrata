@@ -63,17 +63,23 @@ var Controller = function (Socrata, BaseController) {
   controller.findResource = function (req, res) {
     Socrata.find(req.params.id, function (err, data) {
       if (err) {
-        res.send(err, 500)
+        res.status(500).send(err)
       } else {
         // Get the item
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, itemJson) {
+          // return 502 when there are errors
+          if (itemJson && itemJson.length && itemJson[0].errors) {
+            res.status(502).send(itemJson)
+          }
           // return 202 when processing
-          if (itemJson && itemJson.length && itemJson[0].status === 'processing') {
+          if (itemJson && itemJson.length && itemJson[0].status === 'processing' && !itemJson[0].errors) {
             Socrata.getCount(['Socrata', req.params.item, (req.query.layer || 0)].join(':'), req.query, function (err, count) {
               if (err) {
-                console.log('Could not socrata feature count', req.params.item)
+                // console.log('Could not socrata feature count', req.params.item)
               }
-              return res.status(202).json({status: 'processing', count: count})
+              var info = itemJson[0].info
+              info.count = count
+              return res.status(202).json(info)
             })
           } else if (error) {
             res.status(500).send(error)
@@ -142,17 +148,18 @@ var Controller = function (Socrata, BaseController) {
     for (var k in req.body) {
       req.query[k] = req.body[k]
     }
-
     Socrata.find(req.params.id, function (err, data) {
       if (err) {
-        res.send(err, 500)
+        res.status(500).send(err)
       } else {
         // Get the item
         req.query.limit = req.query.limit || req.query.resultRecordCount || 1000000000
         req.query.offset = req.query.resultOffset || null
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, geojson) {
           if (error) {
-            res.send(error, 500)
+            res.status(500).send(error)
+          } else if (geojson[0] && geojson[0].status === 'processing') {
+            res.status(202).send(geojson)
           } else {
             // pass to the shared logic for FeatureService routing
             delete req.query.geometry

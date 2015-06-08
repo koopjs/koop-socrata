@@ -1,0 +1,22 @@
+[ {
+  "event_clearance_code" : "242",
+  "cad_event_number" : "10000246357",
+  "event_clearance_subgroup" : "DISTURBANCES",
+  "event_clearance_group" : "DISTURBANCES",
+  "cad_cdw_id" : "﻿15736",
+  "event_clearance_date" : "2010-07-17T20:49:00",
+  "zone_beat" : "M2",
+  "district_sector" : "M",
+  "incident_location" : {
+    "needs_recoding" : false,
+    "longitude" : "-122.338146748",
+    "latitude" : "47.610975163"
+  },
+  "hundred_block_location" : "3XX BLOCK OF PINE ST",
+  "general_offense_number" : "2010246357",
+  "event_clearance_description" : "FIGHT DISTURBANCE",
+  "longitude" : "-122.338146748",
+  "latitude" : "47.610975163",
+  "census_tract" : "8100.2001"
+}
+ ]
