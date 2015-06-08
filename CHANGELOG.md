@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.1] - 2015-06-08
+### Changed
+* Feature service counts occur without fetching features from the cache
+
 ## [0.3.0] - 2015-06-07
 ### Added
 * 502 response contains error messages

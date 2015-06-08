@@ -140,11 +140,10 @@ var Controller = function (Socrata, BaseController) {
       })
     }
   }
-
+  // shared dispath for feature service responses
   controller.featureserver = function (req, res) {
     var callback = req.query.callback
     delete req.query.callback
-
     for (var k in req.body) {
       req.query[k] = req.body[k]
     }
@@ -152,21 +151,57 @@ var Controller = function (Socrata, BaseController) {
       if (err) {
         res.status(500).send(err)
       } else {
-        // Get the item
-        req.query.limit = req.query.limit || req.query.resultRecordCount || 1000000000
-        req.query.offset = req.query.resultOffset || null
-        Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, geojson) {
-          if (error) {
-            res.status(500).send(error)
-          } else if (geojson[0] && geojson[0].status === 'processing') {
-            res.status(202).send(geojson)
+        var host = data.host
+        // if this is a count request then go straight to the db
+        if (req.query.returnCountOnly) {
+          controller.featureserviceCount(req, res, host)
+        } else {
+          // else send this down for further processing
+          controller.featureservice(req, res, host, callback)
+        }
+      }
+    })
+  }
+
+  controller.featureserviceCount = function (req, res, host) {
+    // first check if the dataset is new, in the cache, or processing
+    // ask for a single feature becasue we just want to know if the data is there
+    req.query.limit = 1
+    Socrata.getResource(host, req.params.id, req.params.item, req.query, function (err, geojson) {
+      if (err) {
+        res.status(500).send(err)
+      } else if (geojson[0] && geojson[0].status === 'processing') {
+        res.status(202).json(geojson)
+      } else {
+        // it's not processing so send for the count
+        Socrata.getCount(['Socrata', req.params.item, (req.query.layer || 0)].join(':'), req.query, function (err, count) {
+          if (err) {
+            console.log('Could not get feature count', req.params.item)
+            res.status(500).send(err)
           } else {
-            // pass to the shared logic for FeatureService routing
-            delete req.query.geometry
-            delete req.query.where
-            controller.processFeatureServer(req, res, err, geojson, callback)
+            var response = {count: count}
+            res.status(200).json(response)
           }
         })
+      }
+    })
+  }
+
+  controller.featureservice = function (req, res, host, callback) {
+    var err
+    req.query.limit = req.query.limit || req.query.resultRecordCount || 1000000000
+    req.query.offset = req.query.resultOffset || null
+    // Get the item
+    Socrata.getResource(host, req.params.id, req.params.item, req.query, function (error, geojson) {
+      if (error) {
+        res.status(500).send(error)
+      } else if (geojson[0] && geojson[0].status === 'processing') {
+        res.status(202).json(geojson)
+      } else {
+        // pass to the shared logic for FeatureService routing
+        delete req.query.geometry
+        delete req.query.where
+        controller.processFeatureServer(req, res, err, geojson, callback)
       }
     })
   }
