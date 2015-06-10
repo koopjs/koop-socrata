@@ -1,0 +1,840 @@
+{
+  "id" : "gza6-uqxz",
+  "name" : "Private Schools",
+  "averageRating" : 0,
+  "category" : "Education",
+  "createdAt" : 1405459647,
+  "description" : "Private schools in Seattle",
+  "displayType" : "map",
+  "downloadCount" : 106,
+  "indexUpdatedAt" : 1414470655,
+  "licenseId" : "PUBLIC_DOMAIN",
+  "newBackend" : false,
+  "numberOfComments" : 0,
+  "oid" : 8435376,
+  "publicationAppendEnabled" : false,
+  "publicationDate" : 1405460627,
+  "publicationGroup" : 1650396,
+  "publicationStage" : "published",
+  "rowClass" : "",
+  "tableId" : 1650396,
+  "totalTimesRated" : 0,
+  "viewCount" : 285,
+  "viewLastModified" : 1405460676,
+  "viewType" : "tabular",
+  "columns" : [ {
+    "id" : 157448268,
+    "name" : "OBJECTID",
+    "dataTypeName" : "number",
+    "description" : "OBJECTID",
+    "fieldName" : "objectid",
+    "position" : 1,
+    "renderTypeName" : "number",
+    "tableColumnId" : 20832850,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "1",
+      "sum" : "3240",
+      "null" : 0,
+      "average" : "40.5",
+      "largest" : "80",
+      "top" : [ {
+        "count" : 20,
+        "item" : "42"
+      }, {
+        "count" : 19,
+        "item" : "43"
+      }, {
+        "count" : 18,
+        "item" : "44"
+      }, {
+        "count" : 17,
+        "item" : "45"
+      }, {
+        "count" : 16,
+        "item" : "46"
+      }, {
+        "count" : 15,
+        "item" : "47"
+      }, {
+        "count" : 14,
+        "item" : "48"
+      }, {
+        "count" : 13,
+        "item" : "49"
+      }, {
+        "count" : 12,
+        "item" : "50"
+      }, {
+        "count" : 11,
+        "item" : "51"
+      }, {
+        "count" : 10,
+        "item" : "52"
+      }, {
+        "count" : 9,
+        "item" : "53"
+      }, {
+        "count" : 8,
+        "item" : "54"
+      }, {
+        "count" : 7,
+        "item" : "55"
+      }, {
+        "count" : 6,
+        "item" : "56"
+      }, {
+        "count" : 5,
+        "item" : "57"
+      }, {
+        "count" : 4,
+        "item" : "58"
+      }, {
+        "count" : 3,
+        "item" : "59"
+      }, {
+        "count" : 2,
+        "item" : "60"
+      }, {
+        "count" : 1,
+        "item" : "61"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 157448269,
+    "name" : "Shape",
+    "dataTypeName" : "location",
+    "description" : "Shape",
+    "fieldName" : "shape",
+    "position" : 2,
+    "renderTypeName" : "location",
+    "tableColumnId" : 20832851,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : {
+        "longitude" : "-122.36049003",
+        "latitude" : "47.638569070000074"
+      },
+      "null" : 0,
+      "largest" : {
+        "longitude" : "-122.31217720599994",
+        "latitude" : "47.56224453500005"
+      },
+      "top" : [ {
+        "count" : 20,
+        "item" : {
+          "longitude" : "-122.32231534799996",
+          "latitude" : "47.677248150000025"
+        }
+      }, {
+        "count" : 19,
+        "item" : {
+          "longitude" : "-122.35089961399996",
+          "latitude" : "47.643440690000034"
+        }
+      }, {
+        "count" : 18,
+        "item" : {
+          "longitude" : "-122.29691214499996",
+          "latitude" : "47.59949202100006"
+        }
+      }, {
+        "count" : 17,
+        "item" : {
+          "longitude" : "-122.30792638599996",
+          "latitude" : "47.63442242900004"
+        }
+      }, {
+        "count" : 16,
+        "item" : {
+          "longitude" : "-122.32171104999998",
+          "latitude" : "47.719225624000046"
+        }
+      }, {
+        "count" : 15,
+        "item" : {
+          "longitude" : "-122.38454732599996",
+          "latitude" : "47.56503750600007"
+        }
+      }, {
+        "count" : 14,
+        "item" : {
+          "longitude" : "-122.29647558499994",
+          "latitude" : "47.58880002400008"
+        }
+      }, {
+        "count" : 13,
+        "item" : {
+          "longitude" : "-122.31643691399995",
+          "latitude" : "47.64132161800006"
+        }
+      }, {
+        "count" : 12,
+        "item" : {
+          "longitude" : "-122.28405606099994",
+          "latitude" : "47.53826769700004"
+        }
+      }, {
+        "count" : 11,
+        "item" : {
+          "longitude" : "-122.29732953699994",
+          "latitude" : "47.701580756000055"
+        }
+      }, {
+        "count" : 10,
+        "item" : {
+          "longitude" : "-122.339114113",
+          "latitude" : "47.52065571900005"
+        }
+      }, {
+        "count" : 9,
+        "item" : {
+          "longitude" : "-122.33533240599996",
+          "latitude" : "47.616873190000035"
+        }
+      }, {
+        "count" : 8,
+        "item" : {
+          "longitude" : "-122.37568393199996",
+          "latitude" : "47.671198606000075"
+        }
+      }, {
+        "count" : 7,
+        "item" : {
+          "longitude" : "-122.35813769699996",
+          "latitude" : "47.63110511300005"
+        }
+      }, {
+        "count" : 6,
+        "item" : {
+          "longitude" : "-122.33676626399995",
+          "latitude" : "47.663800941000034"
+        }
+      }, {
+        "count" : 5,
+        "item" : {
+          "longitude" : "-122.32011434399999",
+          "latitude" : "47.69112059200006"
+        }
+      }, {
+        "count" : 4,
+        "item" : {
+          "longitude" : "-122.38454732599996",
+          "latitude" : "47.56503750600007"
+        }
+      }, {
+        "count" : 3,
+        "item" : {
+          "longitude" : "-122.27991364999997",
+          "latitude" : "47.55063310300005"
+        }
+      }, {
+        "count" : 2,
+        "item" : {
+          "longitude" : "-122.31641140799996",
+          "latitude" : "47.55586612600007"
+        }
+      }, {
+        "count" : 1,
+        "item" : {
+          "longitude" : "-122.357634556",
+          "latitude" : "47.68639414100005"
+        }
+      } ]
+    },
+    "format" : {
+    },
+    "subColumnTypes" : [ "human_address", "latitude", "longitude", "machine_address", "needs_recoding" ]
+  }, {
+    "id" : 157448270,
+    "name" : "NAME",
+    "dataTypeName" : "text",
+    "description" : "NAME",
+    "fieldName" : "name",
+    "position" : 3,
+    "renderTypeName" : "text",
+    "tableColumnId" : 20832852,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "Academy for Precision Learning ",
+      "null" : 0,
+      "largest" : "Zion Preparatory Academy",
+      "top" : [ {
+        "count" : 20,
+        "item" : "Seattle Area German American School"
+      }, {
+        "count" : 19,
+        "item" : "Seattle Country Day School"
+      }, {
+        "count" : 18,
+        "item" : "Seattle Girls School"
+      }, {
+        "count" : 17,
+        "item" : "Seattle Hebrew Academy"
+      }, {
+        "count" : 16,
+        "item" : "Seattle Jewish Community School"
+      }, {
+        "count" : 15,
+        "item" : "Seattle Lutheran High School"
+      }, {
+        "count" : 14,
+        "item" : "Seattle Nativity School"
+      }, {
+        "count" : 13,
+        "item" : "Seattle Prep/Matteo Ricci College"
+      }, {
+        "count" : 12,
+        "item" : "Seattle Urban Academy"
+      }, {
+        "count" : 11,
+        "item" : "Seattle Waldorf School"
+      }, {
+        "count" : 10,
+        "item" : "Sound View Education "
+      }, {
+        "count" : 9,
+        "item" : "Spruce Street School"
+      }, {
+        "count" : 8,
+        "item" : "St. Alphonsus School"
+      }, {
+        "count" : 7,
+        "item" : "St. Anne School"
+      }, {
+        "count" : 6,
+        "item" : "St. Benedict School"
+      }, {
+        "count" : 5,
+        "item" : "St. Catherine School"
+      }, {
+        "count" : 4,
+        "item" : "St. Christopher Academy"
+      }, {
+        "count" : 3,
+        "item" : "St. Edwards School"
+      }, {
+        "count" : 2,
+        "item" : "St. George School"
+      }, {
+        "count" : 1,
+        "item" : "St. John School"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 157448271,
+    "name" : "ADDRESS",
+    "dataTypeName" : "text",
+    "description" : "ADDRESS",
+    "fieldName" : "address",
+    "position" : 4,
+    "renderTypeName" : "text",
+    "tableColumnId" : 20832853,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "10001 57th Ave S",
+      "null" : 0,
+      "largest" : "9750 Third Ave NE  Ste 102   ",
+      "top" : [ {
+        "count" : 20,
+        "item" : "520 NE Ravenna Blvd"
+      }, {
+        "count" : 19,
+        "item" : "2619 4th Ave N"
+      }, {
+        "count" : 18,
+        "item" : "2706 S Jackson St "
+      }, {
+        "count" : 17,
+        "item" : "1617 Interlaken Dr E"
+      }, {
+        "count" : 16,
+        "item" : "12351 8th Ave NE"
+      }, {
+        "count" : 15,
+        "item" : "4100 SW Genesee St"
+      }, {
+        "count" : 14,
+        "item" : "2800 S Massachusetts St"
+      }, {
+        "count" : 13,
+        "item" : "2400 11th Ave E"
+      }, {
+        "count" : 12,
+        "item" : "3800 S Othello St"
+      }, {
+        "count" : 11,
+        "item" : "2728 NE 100th St"
+      }, {
+        "count" : 10,
+        "item" : "9205 3rd Ave Sw"
+      }, {
+        "count" : 9,
+        "item" : "914 Virginia St"
+      }, {
+        "count" : 8,
+        "item" : "5816 15th Ave NW"
+      }, {
+        "count" : 7,
+        "item" : "101 W Lee St"
+      }, {
+        "count" : 6,
+        "item" : "4811 Wallingford Ave N"
+      }, {
+        "count" : 5,
+        "item" : "8524 8th Ave NE"
+      }, {
+        "count" : 4,
+        "item" : "4200 S Mead St"
+      }, {
+        "count" : 3,
+        "item" : "5117 13th Ave S"
+      }, {
+        "count" : 2,
+        "item" : "120 N 79th St"
+      }, {
+        "count" : 1,
+        "item" : "700 18th Ave E"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 157448272,
+    "name" : "PHONE",
+    "dataTypeName" : "text",
+    "description" : "PHONE",
+    "fieldName" : "phone",
+    "position" : 5,
+    "renderTypeName" : "text",
+    "tableColumnId" : 20832854,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "206.214.1011",
+      "null" : 0,
+      "largest" : "425.885.1123",
+      "top" : [ {
+        "count" : 20,
+        "item" : "206.235.5969"
+      }, {
+        "count" : 19,
+        "item" : "206.284.6220"
+      }, {
+        "count" : 18,
+        "item" : "206.709.2228"
+      }, {
+        "count" : 17,
+        "item" : "206.323.5750"
+      }, {
+        "count" : 16,
+        "item" : "206.522.5212"
+      }, {
+        "count" : 15,
+        "item" : "206.937.7722"
+      }, {
+        "count" : 14,
+        "item" : "206.384.2126"
+      }, {
+        "count" : 13,
+        "item" : "206.577.2102"
+      }, {
+        "count" : 12,
+        "item" : "206.723.0333"
+      }, {
+        "count" : 11,
+        "item" : "206.524.5320"
+      }, {
+        "count" : 10,
+        "item" : "206.214.1011"
+      }, {
+        "count" : 9,
+        "item" : "206.621.9211"
+      }, {
+        "count" : 8,
+        "item" : "206.782.4363"
+      }, {
+        "count" : 7,
+        "item" : "206.282.3538"
+      }, {
+        "count" : 6,
+        "item" : "206.633.3375"
+      }, {
+        "count" : 5,
+        "item" : "206.525.0582"
+      }, {
+        "count" : 4,
+        "item" : "206.246.9751"
+      }, {
+        "count" : 3,
+        "item" : "206.725.1774"
+      }, {
+        "count" : 2,
+        "item" : "206.762.0656"
+      }, {
+        "count" : 1,
+        "item" : "206.783.0337"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 157448273,
+    "name" : "WEBSITE",
+    "dataTypeName" : "text",
+    "description" : "WEBSITE",
+    "fieldName" : "website",
+    "position" : 6,
+    "renderTypeName" : "text",
+    "tableColumnId" : 20832855,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "guadalupe_school.org",
+      "null" : 0,
+      "largest" : "www.zionprep.org",
+      "top" : [ {
+        "count" : 20,
+        "item" : "www.sagaschool.org"
+      }, {
+        "count" : 19,
+        "item" : "www.seattlecountryday.org"
+      }, {
+        "count" : 18,
+        "item" : "www.seattlegirlsschool.org"
+      }, {
+        "count" : 17,
+        "item" : "www.seattlehebrewacademy.org"
+      }, {
+        "count" : 16,
+        "item" : "www.sjcs.net"
+      }, {
+        "count" : 15,
+        "item" : "www.seattlelutheran.org"
+      }, {
+        "count" : 14,
+        "item" : "www.seattlenativity.org"
+      }, {
+        "count" : 13,
+        "item" : "www.seaprep.org"
+      }, {
+        "count" : 12,
+        "item" : "www.seattleurbanacademy.org"
+      }, {
+        "count" : 11,
+        "item" : "www.seattlewaldorf.org"
+      }, {
+        "count" : 10,
+        "item" : "sterlinged.org"
+      }, {
+        "count" : 9,
+        "item" : "www.sprucestreetschool.org"
+      }, {
+        "count" : 8,
+        "item" : "http://www.stalseattle.org/"
+      }, {
+        "count" : 7,
+        "item" : "www.stannesea.org"
+      }, {
+        "count" : 6,
+        "item" : "www.stbens.net"
+      }, {
+        "count" : 5,
+        "item" : "www.stcatherineschool.net"
+      }, {
+        "count" : 4,
+        "item" : "www.stchristopheracademy.com"
+      }, {
+        "count" : 3,
+        "item" : "www.saintedwardseattle.org"
+      }, {
+        "count" : 2,
+        "item" : "www.saintgeorgeseattle.org"
+      }, {
+        "count" : 1,
+        "item" : "www.stjohnsea.org"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 157448274,
+    "name" : "GRADE",
+    "dataTypeName" : "text",
+    "description" : "GRADE",
+    "fieldName" : "grade",
+    "position" : 7,
+    "renderTypeName" : "text",
+    "tableColumnId" : 20832856,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "1-10",
+      "null" : 0,
+      "largest" : "P-8",
+      "top" : [ {
+        "count" : 20,
+        "item" : "P-1"
+      }, {
+        "count" : 19,
+        "item" : "K-10"
+      }, {
+        "count" : 18,
+        "item" : "K-9"
+      }, {
+        "count" : 17,
+        "item" : "P-6"
+      }, {
+        "count" : 16,
+        "item" : "K-8"
+      }, {
+        "count" : 15,
+        "item" : "P-5"
+      }, {
+        "count" : 14,
+        "item" : "6-8"
+      }, {
+        "count" : 13,
+        "item" : "9-12"
+      }, {
+        "count" : 12,
+        "item" : "P-8"
+      }, {
+        "count" : 11,
+        "item" : "6-12"
+      }, {
+        "count" : 10,
+        "item" : "1-12"
+      }, {
+        "count" : 9,
+        "item" : "K-6"
+      }, {
+        "count" : 8,
+        "item" : "1-8"
+      }, {
+        "count" : 7,
+        "item" : "K-3"
+      }, {
+        "count" : 6,
+        "item" : "P-12"
+      }, {
+        "count" : 5,
+        "item" : "5-12"
+      }, {
+        "count" : 4,
+        "item" : "K-5"
+      }, {
+        "count" : 3,
+        "item" : "1-10"
+      }, {
+        "count" : 2,
+        "item" : "K-1"
+      }, {
+        "count" : 1,
+        "item" : "P-3"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 157448275,
+    "name" : "CITY",
+    "dataTypeName" : "text",
+    "description" : "CITY",
+    "fieldName" : "city",
+    "position" : 8,
+    "renderTypeName" : "text",
+    "tableColumnId" : 20832857,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "Seattle",
+      "null" : 0,
+      "largest" : "Seattle",
+      "top" : [ {
+        "count" : 20,
+        "item" : "Seattle"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 157448276,
+    "name" : "ZIP",
+    "dataTypeName" : "text",
+    "description" : "ZIP",
+    "fieldName" : "zip",
+    "position" : 9,
+    "renderTypeName" : "text",
+    "tableColumnId" : 20832858,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 80,
+      "smallest" : "98101_1426",
+      "null" : 0,
+      "largest" : "98199_2624",
+      "top" : [ {
+        "count" : 20,
+        "item" : "98115_6460"
+      }, {
+        "count" : 19,
+        "item" : "98109_1903"
+      }, {
+        "count" : 18,
+        "item" : "98144_2442"
+      }, {
+        "count" : 17,
+        "item" : "98112_3499"
+      }, {
+        "count" : 16,
+        "item" : "98125_4805"
+      }, {
+        "count" : 15,
+        "item" : "98116_4216"
+      }, {
+        "count" : 14,
+        "item" : "98144_3870"
+      }, {
+        "count" : 13,
+        "item" : "98102_4016"
+      }, {
+        "count" : 12,
+        "item" : "98118_3562"
+      }, {
+        "count" : 11,
+        "item" : "98125_7712"
+      }, {
+        "count" : 10,
+        "item" : "98106_3106"
+      }, {
+        "count" : 9,
+        "item" : "98101_1426"
+      }, {
+        "count" : 8,
+        "item" : "98107_3096"
+      }, {
+        "count" : 7,
+        "item" : "98119_3321"
+      }, {
+        "count" : 6,
+        "item" : "98103_6899"
+      }, {
+        "count" : 5,
+        "item" : "98115_3099"
+      }, {
+        "count" : 4,
+        "item" : "98116_4282"
+      }, {
+        "count" : 3,
+        "item" : "98118_2795"
+      }, {
+        "count" : 2,
+        "item" : "98108_2309"
+      }, {
+        "count" : 1,
+        "item" : "98103_4688"
+      } ]
+    },
+    "format" : {
+    }
+  } ],
+  "displayFormat" : {
+    "plotStyle" : "point"
+  },
+  "grants" : [ {
+    "inherited" : false,
+    "type" : "viewer",
+    "flags" : [ "public" ]
+  } ],
+  "license" : {
+    "name" : "Public Domain"
+  },
+  "metadata" : {
+    "custom_fields" : {
+      "drawingInfo.renderer" : {
+        "symbol.url" : "B6C876EB",
+        "symbol.height" : "18",
+        "symbol.type" : "esriPMS",
+        "symbol.contentType" : "image/png",
+        "symbol.yoffset" : "0",
+        "symbol.xoffset" : "0",
+        "symbol.angle" : "0",
+        "symbol.width" : "11",
+        "symbol.imageData" : "iVBORw0KGgoAAAANSUhEUgAAAA8AAAAYCAYAAAAlBadpAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAASlJREFUOI3l0LtKA0EUxvF/spFDsEyaNIpgLdaCSoqFxGijIFjkIggigX0Au7yIRDDEwsIqbqW1RcSoXR5gqxR2Hkl2rZJ4yY7rBSw81TB8v/lmJsEPJjFx12UOCw+bpy9jeZSquurQ5Jg0VWyeozcDbDMF7NGiSJM6aZz3h4TjaWAZWEW4Yp8WFU45IoWDTd+Mh5ME1oAVhBoHDCjjskiO7uc4AO6BBr7My43OaJkcXXPzEJ3gy6x0NKslzevD60g4roFsSkezWtG83k6KhOMiLd3VguFBBhzDN0EzjjD/E1+wwDltUuPf1Wu16AOH6CjZI57ZyOx4697ZGPsISyQoTTzcGq0aoL4mf/Haf4l9LgnoERiTd8RkSwZvcYE2EI/S5NW9D83fnhfZi1VmPD2zgwAAAABJRU5ErkJggg=="
+      },
+      "Basic" : {
+        "id" : "73",
+        "Source" : "https://gisrevprxy.seattle.gov/ArcGIS/rest/services/ext/WM_CityGISLayers/MapServer/73",
+        "minScale" : "0",
+        "displayField" : "NAME",
+        "htmlPopupType" : "esriServerHTMLPopupTypeAsHTMLText",
+        "name" : "Schools Private",
+        "currentVersion" : "10.03",
+        "hasAttachments" : "false",
+        "capabilities" : "Map,Query,Data",
+        "maxScale" : "0",
+        "Spatial Reference wkid" : "102113",
+        "type" : "Feature Layer",
+        "defaultVisibility" : "false",
+        "geometryType" : "esriGeometryPoint"
+      },
+      "Data Owner" : {
+        "Owner" : "Seattle City GIS Program"
+      },
+      "drawingInfo" : {
+        "transparency" : "0",
+        "renderer.type" : "simple"
+      }
+    },
+    "renderTypeConfig" : {
+      "visible" : {
+        "map" : true
+      }
+    },
+    "availableDisplayTypes" : [ "map", "table", "fatrow", "page" ],
+    "rdfSubject" : "0",
+    "rowIdentifier" : "0",
+    "rdfClass" : ""
+  },
+  "northWest" : {
+    "long" : -122.39976574276,
+    "lat" : 47.7314306297115
+  },
+  "owner" : {
+    "id" : "pfbu-yuv5",
+    "displayName" : "Department of Information Technology",
+    "profileImageUrlLarge" : "/images/profile/3184/7575/Logo_thumb_large.gif",
+    "profileImageUrlMedium" : "/images/profile/3184/7575/Logo_thumb_thumb.gif",
+    "profileImageUrlSmall" : "/images/profile/3184/7575/Logo_thumb_tiny.gif",
+    "roleName" : "administrator",
+    "screenName" : "Department of Information Technology",
+    "rights" : [ "create_datasets", "edit_others_datasets", "edit_sdp", "edit_site_theme", "moderate_comments", "manage_users", "chown_datasets", "edit_nominations", "approve_nominations", "feature_items", "federations", "manage_stories", "manage_approval", "change_configurations", "view_domain", "view_others_datasets", "edit_pages", "create_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "create_dashboards" ]
+  },
+  "query" : {
+  },
+  "rights" : [ "read" ],
+  "southEast" : {
+    "long" : -122.259756561179,
+    "lat" : 47.5104202546896
+  },
+  "tableAuthor" : {
+    "id" : "pfbu-yuv5",
+    "displayName" : "Department of Information Technology",
+    "profileImageUrlLarge" : "/images/profile/3184/7575/Logo_thumb_large.gif",
+    "profileImageUrlMedium" : "/images/profile/3184/7575/Logo_thumb_thumb.gif",
+    "profileImageUrlSmall" : "/images/profile/3184/7575/Logo_thumb_tiny.gif",
+    "roleName" : "administrator",
+    "screenName" : "Department of Information Technology",
+    "rights" : [ "create_datasets", "edit_others_datasets", "edit_sdp", "edit_site_theme", "moderate_comments", "manage_users", "chown_datasets", "edit_nominations", "approve_nominations", "feature_items", "federations", "manage_stories", "manage_approval", "change_configurations", "view_domain", "view_others_datasets", "edit_pages", "create_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "create_dashboards" ]
+  },
+  "tags" : [ "schools", "private" ],
+  "flags" : [ "default" ]
+}

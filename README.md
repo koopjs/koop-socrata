@@ -1,5 +1,8 @@
 ## Socrata Provider for [Koop](https://github.com/Esri/koop)
 
+[![npm version](https://img.shields.io/npm/v/koop-socrata.svg?style=flat-square)](https://www.npmjs.com/package/koop-socrata)
+[![build status](https://img.shields.io/travis/koopjs/koop-socrata.svg?style=flat-square)](https://travis-ci.org/koopjs/koop-socrata)
+
 This provider makes it possible to access [Socrata's JSON API](http://dev.socrata.com/docs/formats/json.html) as either GeoJSON or an Esri FeatureService. This is particular useful for making maps and doing analysis on the web.
 
 ## Install
@@ -10,6 +13,19 @@ To install/use this provider you first need a working installation of [Koop](htt
 npm install https://github.com/koopjs/koop-socrata/tarball/master
 ```
 
+## Add your app key
+Socrata allows 1,000 requests per rolling hour period if you have an app key. If not, there is no guarantee of the number of queries you can make. It is strongly recommended to include an app token if you plan to run Koop-Socrata in production. See:
+http://dev.socrata.com/docs/app-tokens.html
+
+1. Go to dev.socrata.com/register to create an app key
+2. Edit the default.json in your koop-app config to add
+```json
+{
+	"socrata": {
+		"token": "your-app-token"
+	}
+}
+```
 ## Register Socrata Hosts
 
 Once this provider's been installed you need to "register" a particular instance of Socrata with your Koop instance. To do this you make `POST` request to the `/socrata` endpoint like so: 
@@ -39,7 +55,15 @@ https://path_to_koop/socrata/socrataProvider/dataSetID!spatialColumn
 
 ## Handle Large Datasets
 
-The Socrata API defaults to 1000 results per request, but can be set to return up to 50,000. Koop will page through large datasets to capture all the points. To change the number of results per request, modify the 'limit' variable in the socrata.getResoruce function in models/Socrata.js.
+Koop-Socrata will page through large datasets to gather all the rows. The default is set to 10,000 rows per request, but the Socrata API handles up to 50,000 requests very well. For production deployments it is recommended to set the Koop Configuration for the Socrata page limit to 50,000.
+
+```json
+{
+	"socrata": {
+		"pageLimit": 50000
+	}
+}
+```
 
 ## Examples 
 

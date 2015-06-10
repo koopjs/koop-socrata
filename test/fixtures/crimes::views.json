@@ -1,0 +1,1612 @@
+{
+  "id" : "3k2p-39jp",
+  "name" : "Seattle Police Department 911 Incident Response",
+  "attribution" : "City of Seattle, Department of Information Technology, Seattle Police Department",
+  "averageRating" : 0,
+  "category" : "Public Safety",
+  "createdAt" : 1286556817,
+  "description" : "This dataset is all the Police responses to 9-1-1 calls within the city. Police response data shows all officers dispatched. To protect the security of a scene, the safety of officers and the public, and sensitive ongoing investigation, these events are added to the data.seattle.gov only after the incident is considered safe to close out. Data is refreshed on a 4 hour interval.",
+  "displayType" : "table",
+  "downloadCount" : 134193,
+  "indexUpdatedAt" : 1433349489,
+  "licenseId" : "CC0_10",
+  "newBackend" : false,
+  "numberOfComments" : 5,
+  "oid" : 7199647,
+  "publicationAppendEnabled" : true,
+  "publicationDate" : 1390334039,
+  "publicationGroup" : 219540,
+  "publicationStage" : "published",
+  "rowIdentifierColumnId" : 129997913,
+  "rowsUpdatedAt" : 1433350568,
+  "rowsUpdatedBy" : "pfbu-yuv5",
+  "state" : "normal",
+  "tableId" : 1448736,
+  "totalTimesRated" : 0,
+  "viewCount" : 54207,
+  "viewLastModified" : 1390334301,
+  "viewType" : "tabular",
+  "columns" : [ {
+    "id" : 129997913,
+    "name" : "CAD CDW ID",
+    "dataTypeName" : "text",
+    "description" : "CAD CDW ID",
+    "fieldName" : "cad_cdw_id",
+    "position" : 1,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407247,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257418,
+      "smallest" : "100000",
+      "null" : 0,
+      "largest" : "ï»¿880295",
+      "top" : [ {
+        "count" : 20,
+        "item" : "1107818"
+      }, {
+        "count" : 19,
+        "item" : "1107819"
+      }, {
+        "count" : 18,
+        "item" : "1107820"
+      }, {
+        "count" : 17,
+        "item" : "1107821"
+      }, {
+        "count" : 16,
+        "item" : "1107822"
+      }, {
+        "count" : 15,
+        "item" : "1107823"
+      }, {
+        "count" : 14,
+        "item" : "1107824"
+      }, {
+        "count" : 13,
+        "item" : "1107825"
+      }, {
+        "count" : 12,
+        "item" : "1107826"
+      }, {
+        "count" : 11,
+        "item" : "1107827"
+      }, {
+        "count" : 10,
+        "item" : "1107828"
+      }, {
+        "count" : 9,
+        "item" : "1107829"
+      }, {
+        "count" : 8,
+        "item" : "1107830"
+      }, {
+        "count" : 7,
+        "item" : "1107832"
+      }, {
+        "count" : 6,
+        "item" : "1107833"
+      }, {
+        "count" : 5,
+        "item" : "1107834"
+      }, {
+        "count" : 4,
+        "item" : "1107835"
+      }, {
+        "count" : 3,
+        "item" : "1107836"
+      }, {
+        "count" : 2,
+        "item" : "1107837"
+      }, {
+        "count" : 1,
+        "item" : "1107838"
+      } ]
+    },
+    "format" : {
+      "aggregate" : "count",
+      "align" : "left"
+    }
+  }, {
+    "id" : 129997914,
+    "name" : "CAD Event Number",
+    "dataTypeName" : "text",
+    "description" : "CAD Event Number",
+    "fieldName" : "cad_event_number",
+    "position" : 2,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407223,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257418,
+      "smallest" : "10000000327",
+      "null" : 0,
+      "largest" : "9000447564",
+      "top" : [ {
+        "count" : 20,
+        "item" : "15000181222"
+      }, {
+        "count" : 19,
+        "item" : "15000181220"
+      }, {
+        "count" : 18,
+        "item" : "15000181317"
+      }, {
+        "count" : 17,
+        "item" : "15000181291"
+      }, {
+        "count" : 16,
+        "item" : "15000181290"
+      }, {
+        "count" : 15,
+        "item" : "15000181268"
+      }, {
+        "count" : 14,
+        "item" : "15000181274"
+      }, {
+        "count" : 13,
+        "item" : "15000181236"
+      }, {
+        "count" : 12,
+        "item" : "15000181330"
+      }, {
+        "count" : 11,
+        "item" : "15000181323"
+      }, {
+        "count" : 10,
+        "item" : "15000181271"
+      }, {
+        "count" : 9,
+        "item" : "15000181249"
+      }, {
+        "count" : 8,
+        "item" : "15000181166"
+      }, {
+        "count" : 7,
+        "item" : "15000181321"
+      }, {
+        "count" : 6,
+        "item" : "15000181304"
+      }, {
+        "count" : 5,
+        "item" : "15000181300"
+      }, {
+        "count" : 4,
+        "item" : "15000181287"
+      }, {
+        "count" : 3,
+        "item" : "15000181286"
+      }, {
+        "count" : 2,
+        "item" : "15000181285"
+      }, {
+        "count" : 1,
+        "item" : "15000181282"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997915,
+    "name" : "General Offense Number",
+    "dataTypeName" : "text",
+    "description" : "General Offense Number",
+    "fieldName" : "general_offense_number",
+    "position" : 3,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407224,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257418,
+      "smallest" : "2009209585",
+      "null" : 0,
+      "largest" : "201599999",
+      "top" : [ {
+        "count" : 20,
+        "item" : "2015181222"
+      }, {
+        "count" : 19,
+        "item" : "2015181220"
+      }, {
+        "count" : 18,
+        "item" : "2015181317"
+      }, {
+        "count" : 17,
+        "item" : "2015181291"
+      }, {
+        "count" : 16,
+        "item" : "2015181290"
+      }, {
+        "count" : 15,
+        "item" : "2015181268"
+      }, {
+        "count" : 14,
+        "item" : "2015181274"
+      }, {
+        "count" : 13,
+        "item" : "2015181236"
+      }, {
+        "count" : 12,
+        "item" : "2015181330"
+      }, {
+        "count" : 11,
+        "item" : "2015181323"
+      }, {
+        "count" : 10,
+        "item" : "2015181271"
+      }, {
+        "count" : 9,
+        "item" : "2015181249"
+      }, {
+        "count" : 8,
+        "item" : "2015181166"
+      }, {
+        "count" : 7,
+        "item" : "2015181321"
+      }, {
+        "count" : 6,
+        "item" : "2015181304"
+      }, {
+        "count" : 5,
+        "item" : "2015181300"
+      }, {
+        "count" : 4,
+        "item" : "2015181287"
+      }, {
+        "count" : 3,
+        "item" : "2015181286"
+      }, {
+        "count" : 2,
+        "item" : "2015181285"
+      }, {
+        "count" : 1,
+        "item" : "2015181282"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997916,
+    "name" : "Event Clearance Code",
+    "dataTypeName" : "text",
+    "description" : "Event Clearance Code",
+    "fieldName" : "event_clearance_code",
+    "position" : 4,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407225,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1246162,
+      "smallest" : "010",
+      "null" : 11256,
+      "largest" : "NULL",
+      "top" : [ {
+        "count" : 20,
+        "item" : "065"
+      }, {
+        "count" : 19,
+        "item" : "250"
+      }, {
+        "count" : 18,
+        "item" : "460"
+      }, {
+        "count" : 17,
+        "item" : "281"
+      }, {
+        "count" : 16,
+        "item" : "220"
+      }, {
+        "count" : 15,
+        "item" : "177"
+      }, {
+        "count" : 14,
+        "item" : "245"
+      }, {
+        "count" : 13,
+        "item" : "161"
+      }, {
+        "count" : 12,
+        "item" : "040"
+      }, {
+        "count" : 11,
+        "item" : "280"
+      }, {
+        "count" : 10,
+        "item" : "184"
+      }, {
+        "count" : 9,
+        "item" : "430"
+      }, {
+        "count" : 8,
+        "item" : "244"
+      }, {
+        "count" : 7,
+        "item" : "470"
+      }, {
+        "count" : 6,
+        "item" : "064"
+      }, {
+        "count" : 5,
+        "item" : "130"
+      }, {
+        "count" : 4,
+        "item" : "063"
+      }, {
+        "count" : 3,
+        "item" : "176"
+      }, {
+        "count" : 2,
+        "item" : "200"
+      }, {
+        "count" : 1,
+        "item" : "201"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997917,
+    "name" : "Event Clearance Description",
+    "dataTypeName" : "text",
+    "description" : "Event Clearance Description",
+    "fieldName" : "event_clearance_description",
+    "position" : 5,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407226,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1246160,
+      "smallest" : "ABANDONED VEHICLE",
+      "null" : 11258,
+      "largest" : "VICE, OTHER",
+      "top" : [ {
+        "count" : 20,
+        "item" : "THEFT - MISCELLANEOUS"
+      }, {
+        "count" : 19,
+        "item" : "MISCHIEF, NUISANCE COMPLAINTS"
+      }, {
+        "count" : 18,
+        "item" : "TRAFFIC (MOVING) VIOLATION"
+      }, {
+        "count" : 17,
+        "item" : "SUSPICIOUS VEHICLE"
+      }, {
+        "count" : 16,
+        "item" : "MENTAL COMPLAINT"
+      }, {
+        "count" : 15,
+        "item" : "LIQUOR VIOLATION - INTOXICATED PERSON"
+      }, {
+        "count" : 14,
+        "item" : "DISTURBANCE, OTHER"
+      }, {
+        "count" : 13,
+        "item" : "ASSAULTS, OTHER"
+      }, {
+        "count" : 12,
+        "item" : "SUSPICIOUS PERSON"
+      }, {
+        "count" : 11,
+        "item" : "NARCOTICS, OTHER"
+      }, {
+        "count" : 10,
+        "item" : "ACCIDENT INVESTIGATION"
+      }, {
+        "count" : 9,
+        "item" : "NOISE DISTURBANCE"
+      }, {
+        "count" : 8,
+        "item" : "PARKING VIOLATION (EXCEPT ABANDONED VEHICLES)"
+      }, {
+        "count" : 7,
+        "item" : "SHOPLIFT"
+      }, {
+        "count" : 6,
+        "item" : "PROPERTY DESTRUCTION"
+      }, {
+        "count" : 5,
+        "item" : "THEFT - CAR PROWL"
+      }, {
+        "count" : 4,
+        "item" : "LIQUOR VIOLATION - ADULT"
+      }, {
+        "count" : 3,
+        "item" : "ALARMS - COMMERCIAL BURGLARY (FALSE)"
+      }, {
+        "count" : 2,
+        "item" : "ALARMS - RESIDENTIAL BURGLARY (FALSE)"
+      }, {
+        "count" : 1,
+        "item" : "AUTO THEFT"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997918,
+    "name" : "Event Clearance SubGroup",
+    "dataTypeName" : "text",
+    "description" : "Event Clearance SubGroup",
+    "fieldName" : "event_clearance_subgroup",
+    "position" : 6,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407227,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1246160,
+      "smallest" : "ANIMAL COMPLAINTS",
+      "null" : 11258,
+      "largest" : "WEAPONS CALLS",
+      "top" : [ {
+        "count" : 20,
+        "item" : "DISTURBANCES"
+      }, {
+        "count" : 19,
+        "item" : "THEFT"
+      }, {
+        "count" : 18,
+        "item" : "NUISANCE, MISCHIEF COMPLAINTS"
+      }, {
+        "count" : 17,
+        "item" : "TRAFFIC RELATED CALLS"
+      }, {
+        "count" : 16,
+        "item" : "SUSPICIOUS CIRCUMSTANCES"
+      }, {
+        "count" : 15,
+        "item" : "MENTAL CALL"
+      }, {
+        "count" : 14,
+        "item" : "LIQUOR VIOLATIONS"
+      }, {
+        "count" : 13,
+        "item" : "TRESPASS"
+      }, {
+        "count" : 12,
+        "item" : "ASSAULTS"
+      }, {
+        "count" : 11,
+        "item" : "NARCOTICS COMPLAINTS"
+      }, {
+        "count" : 10,
+        "item" : "PARKING VIOLATIONS"
+      }, {
+        "count" : 9,
+        "item" : "PROWLER"
+      }, {
+        "count" : 8,
+        "item" : "RESIDENTIAL BURGLARIES"
+      }, {
+        "count" : 7,
+        "item" : "HAZARDS"
+      }, {
+        "count" : 6,
+        "item" : "PROPERTY DAMAGE"
+      }, {
+        "count" : 5,
+        "item" : "CAR PROWL"
+      }, {
+        "count" : 4,
+        "item" : "VICE CALLS"
+      }, {
+        "count" : 3,
+        "item" : "MISCELLANEOUS MISDEMEANORS"
+      }, {
+        "count" : 2,
+        "item" : "NOISE DISTURBANCE"
+      }, {
+        "count" : 1,
+        "item" : "ANIMAL COMPLAINTS"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997919,
+    "name" : "Event Clearance Group",
+    "dataTypeName" : "text",
+    "description" : "Event Clearance Group",
+    "fieldName" : "event_clearance_group",
+    "position" : 7,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407228,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1246160,
+      "smallest" : "ACCIDENT INVESTIGATION",
+      "null" : 11258,
+      "largest" : "WEAPONS CALLS",
+      "top" : [ {
+        "count" : 20,
+        "item" : "DISTURBANCES"
+      }, {
+        "count" : 19,
+        "item" : "OTHER PROPERTY"
+      }, {
+        "count" : 18,
+        "item" : "NUISANCE, MISCHIEF "
+      }, {
+        "count" : 17,
+        "item" : "TRAFFIC RELATED CALLS"
+      }, {
+        "count" : 16,
+        "item" : "SUSPICIOUS CIRCUMSTANCES"
+      }, {
+        "count" : 15,
+        "item" : "MENTAL HEALTH"
+      }, {
+        "count" : 14,
+        "item" : "LIQUOR VIOLATIONS"
+      }, {
+        "count" : 13,
+        "item" : "TRESPASS"
+      }, {
+        "count" : 12,
+        "item" : "ASSAULTS"
+      }, {
+        "count" : 11,
+        "item" : "NARCOTICS COMPLAINTS"
+      }, {
+        "count" : 10,
+        "item" : "ACCIDENT INVESTIGATION"
+      }, {
+        "count" : 9,
+        "item" : "SHOPLIFTING"
+      }, {
+        "count" : 8,
+        "item" : "PROWLER"
+      }, {
+        "count" : 7,
+        "item" : "BURGLARY"
+      }, {
+        "count" : 6,
+        "item" : "HAZARDS"
+      }, {
+        "count" : 5,
+        "item" : "PROPERTY DAMAGE"
+      }, {
+        "count" : 4,
+        "item" : "CAR PROWL"
+      }, {
+        "count" : 3,
+        "item" : "BIKE"
+      }, {
+        "count" : 2,
+        "item" : "PROSTITUTION"
+      }, {
+        "count" : 1,
+        "item" : "MISCELLANEOUS MISDEMEANORS"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997920,
+    "name" : "Event Clearance Date",
+    "dataTypeName" : "calendar_date",
+    "description" : "Event Clearance Date",
+    "fieldName" : "event_clearance_date",
+    "position" : 8,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 1407229,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1237923,
+      "smallest" : "2009-06-17T16:14:00",
+      "null" : 19495,
+      "largest" : "2015-06-01T09:04:00",
+      "top" : [ {
+        "count" : 20,
+        "item" : "2015-06-01T07:37:00"
+      }, {
+        "count" : 19,
+        "item" : "2015-06-01T07:40:00"
+      }, {
+        "count" : 18,
+        "item" : "2015-06-01T07:43:00"
+      }, {
+        "count" : 17,
+        "item" : "2015-06-01T07:47:00"
+      }, {
+        "count" : 16,
+        "item" : "2015-06-01T08:38:00"
+      }, {
+        "count" : 15,
+        "item" : "2015-06-01T08:39:00"
+      }, {
+        "count" : 14,
+        "item" : "2015-06-01T08:32:00"
+      }, {
+        "count" : 13,
+        "item" : "2015-06-01T09:04:00"
+      }, {
+        "count" : 12,
+        "item" : "2015-06-01T08:54:00"
+      }, {
+        "count" : 11,
+        "item" : "2015-06-01T08:56:00"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997921,
+    "name" : "Hundred Block Location",
+    "dataTypeName" : "text",
+    "description" : "Hundred Block Location",
+    "fieldName" : "hundred_block_location",
+    "position" : 9,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407230,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257416,
+      "smallest" : "1 / BLANCHARD",
+      "null" : 2,
+      "largest" : "YUKON AV S / VALDEZ AV S",
+      "top" : [ {
+        "count" : 20,
+        "item" : "14XX BLOCK OF 3 AV"
+      }, {
+        "count" : 19,
+        "item" : "86XX BLOCK OF 20 AV SW"
+      }, {
+        "count" : 18,
+        "item" : "3XX BLOCK OF S JACKSON ST"
+      }, {
+        "count" : 17,
+        "item" : "3 AV / PIKE ST"
+      }, {
+        "count" : 16,
+        "item" : "2XX BLOCK OF PIKE ST"
+      }, {
+        "count" : 15,
+        "item" : "39XX BLOCK OF S BRANDON ST"
+      }, {
+        "count" : 14,
+        "item" : "6XX BLOCK OF 20 AV"
+      }, {
+        "count" : 13,
+        "item" : "15XX BLOCK OF 7 AV"
+      }, {
+        "count" : 12,
+        "item" : "46XX BLOCK OF SW LANDER ST"
+      }, {
+        "count" : 11,
+        "item" : "92XX BLOCK OF RENTON AV S"
+      }, {
+        "count" : 10,
+        "item" : "14XX BLOCK OF 11 AV"
+      }, {
+        "count" : 9,
+        "item" : "NE 75 ST / 28 AV NE"
+      }, {
+        "count" : 8,
+        "item" : "5XX BLOCK OF BROADWAY E"
+      }, {
+        "count" : 7,
+        "item" : "42XX BLOCK OF 23 AV W"
+      }, {
+        "count" : 6,
+        "item" : "46XX BLOCK OF S HOLLY ST"
+      }, {
+        "count" : 5,
+        "item" : "34XX BLOCK OF 45 AV SW"
+      }, {
+        "count" : 4,
+        "item" : "107XX BLOCK OF 53 AV S"
+      }, {
+        "count" : 3,
+        "item" : "127XX BLOCK OF 3 AV NW"
+      }, {
+        "count" : 2,
+        "item" : "21XX BLOCK OF QUEEN ANNE AV N"
+      }, {
+        "count" : 1,
+        "item" : "15XX BLOCK OF 12 AV"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997922,
+    "name" : "District/Sector",
+    "dataTypeName" : "text",
+    "description" : "Sector",
+    "fieldName" : "district_sector",
+    "position" : 10,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407231,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1256345,
+      "smallest" : "99",
+      "null" : 1073,
+      "largest" : "W",
+      "top" : [ {
+        "count" : 20,
+        "item" : "M"
+      }, {
+        "count" : 19,
+        "item" : "Q"
+      }, {
+        "count" : 18,
+        "item" : "D"
+      }, {
+        "count" : 17,
+        "item" : "R"
+      }, {
+        "count" : 16,
+        "item" : "U"
+      }, {
+        "count" : 15,
+        "item" : "K"
+      }, {
+        "count" : 14,
+        "item" : "N"
+      }, {
+        "count" : 13,
+        "item" : "S"
+      }, {
+        "count" : 12,
+        "item" : "F"
+      }, {
+        "count" : 11,
+        "item" : "J"
+      }, {
+        "count" : 10,
+        "item" : "L"
+      }, {
+        "count" : 9,
+        "item" : "W"
+      }, {
+        "count" : 8,
+        "item" : "E"
+      }, {
+        "count" : 7,
+        "item" : "C"
+      }, {
+        "count" : 6,
+        "item" : "G"
+      }, {
+        "count" : 5,
+        "item" : "B"
+      }, {
+        "count" : 4,
+        "item" : "O"
+      }, {
+        "count" : 3,
+        "item" : "99"
+      }, {
+        "count" : 2,
+        "item" : "NULL"
+      }, {
+        "count" : 1,
+        "item" : "H"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997923,
+    "name" : "Zone/Beat",
+    "dataTypeName" : "text",
+    "description" : "Beat",
+    "fieldName" : "zone_beat",
+    "position" : 11,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407232,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257416,
+      "smallest" : "99",
+      "null" : 2,
+      "largest" : "WS",
+      "top" : [ {
+        "count" : 20,
+        "item" : "M2"
+      }, {
+        "count" : 19,
+        "item" : "K1"
+      }, {
+        "count" : 18,
+        "item" : "J2"
+      }, {
+        "count" : 17,
+        "item" : "E2"
+      }, {
+        "count" : 16,
+        "item" : "K3"
+      }, {
+        "count" : 15,
+        "item" : "M3"
+      }, {
+        "count" : 14,
+        "item" : "K2"
+      }, {
+        "count" : 13,
+        "item" : "O2"
+      }, {
+        "count" : 12,
+        "item" : "D2"
+      }, {
+        "count" : 11,
+        "item" : "C2"
+      }, {
+        "count" : 10,
+        "item" : "E1"
+      }, {
+        "count" : 9,
+        "item" : "U2"
+      }, {
+        "count" : 8,
+        "item" : "M1"
+      }, {
+        "count" : 7,
+        "item" : "N3"
+      }, {
+        "count" : 6,
+        "item" : "U1"
+      }, {
+        "count" : 5,
+        "item" : "Q3"
+      }, {
+        "count" : 4,
+        "item" : "W1"
+      }, {
+        "count" : 3,
+        "item" : "D1"
+      }, {
+        "count" : 2,
+        "item" : "R3"
+      }, {
+        "count" : 1,
+        "item" : "Q2"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997924,
+    "name" : "Census Tract",
+    "dataTypeName" : "text",
+    "description" : "Census_Tract",
+    "fieldName" : "census_tract",
+    "position" : 12,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1407233,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1255863,
+      "smallest" : "100.1000",
+      "null" : 1555,
+      "largest" : "NULL",
+      "top" : [ {
+        "count" : 20,
+        "item" : "8100.2015"
+      }, {
+        "count" : 19,
+        "item" : "11101.4000"
+      }, {
+        "count" : 18,
+        "item" : "100.4002"
+      }, {
+        "count" : 17,
+        "item" : "9200.2014"
+      }, {
+        "count" : 16,
+        "item" : "4700.4007"
+      }, {
+        "count" : 15,
+        "item" : "9300.3162"
+      }, {
+        "count" : 14,
+        "item" : "11401.3018"
+      }, {
+        "count" : 13,
+        "item" : "9300.2004"
+      }, {
+        "count" : 12,
+        "item" : "8100.2013"
+      }, {
+        "count" : 11,
+        "item" : "8100.2010"
+      }, {
+        "count" : 10,
+        "item" : "10300.5016"
+      }, {
+        "count" : 9,
+        "item" : "8700.1018"
+      }, {
+        "count" : 8,
+        "item" : "8200.1006"
+      }, {
+        "count" : 7,
+        "item" : "9702.1001"
+      }, {
+        "count" : 6,
+        "item" : "11700.1019"
+      }, {
+        "count" : 5,
+        "item" : "7500.4017"
+      }, {
+        "count" : 4,
+        "item" : "3800.2001"
+      }, {
+        "count" : 3,
+        "item" : "7500.3004"
+      }, {
+        "count" : 2,
+        "item" : "5801.4022"
+      }, {
+        "count" : 1,
+        "item" : "11101.1001"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997925,
+    "name" : "Longitude",
+    "dataTypeName" : "number",
+    "description" : "Longitude",
+    "fieldName" : "longitude",
+    "position" : 13,
+    "renderTypeName" : "number",
+    "tableColumnId" : 1407234,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257416,
+      "smallest" : "-122.432252473",
+      "sum" : "-153820344.581944249",
+      "null" : 2,
+      "average" : "-122.3305131968611",
+      "largest" : "-122.217417743",
+      "top" : [ {
+        "count" : 20,
+        "item" : "-122.337338747"
+      }, {
+        "count" : 19,
+        "item" : "-122.359118094"
+      }, {
+        "count" : 18,
+        "item" : "-122.329977172"
+      }, {
+        "count" : 17,
+        "item" : "-122.337793004"
+      }, {
+        "count" : 16,
+        "item" : "-122.338348302"
+      }, {
+        "count" : 15,
+        "item" : "-122.281877849"
+      }, {
+        "count" : 14,
+        "item" : "-122.306321888"
+      }, {
+        "count" : 13,
+        "item" : "-122.333808101"
+      }, {
+        "count" : 12,
+        "item" : "-122.391321451"
+      }, {
+        "count" : 11,
+        "item" : "-122.272545937"
+      }, {
+        "count" : 10,
+        "item" : "-122.318131666"
+      }, {
+        "count" : 9,
+        "item" : "-122.297203053"
+      }, {
+        "count" : 8,
+        "item" : "-122.320933331"
+      }, {
+        "count" : 7,
+        "item" : "-122.385943019"
+      }, {
+        "count" : 6,
+        "item" : "-122.274090991"
+      }, {
+        "count" : 5,
+        "item" : "-122.389428380"
+      }, {
+        "count" : 4,
+        "item" : "-122.267506173"
+      }, {
+        "count" : 3,
+        "item" : "-122.360951919"
+      }, {
+        "count" : 2,
+        "item" : "-122.356933962"
+      }, {
+        "count" : 1,
+        "item" : "-122.316845009"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997926,
+    "name" : "Latitude",
+    "dataTypeName" : "number",
+    "description" : "Latitude",
+    "fieldName" : "latitude",
+    "position" : 14,
+    "renderTypeName" : "number",
+    "tableColumnId" : 1407235,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257416,
+      "smallest" : "47.443889094",
+      "sum" : "59877259.361733331",
+      "null" : 2,
+      "average" : "47.61929175526105",
+      "largest" : "47.777976327",
+      "top" : [ {
+        "count" : 20,
+        "item" : "47.609252981"
+      }, {
+        "count" : 19,
+        "item" : "47.525593525"
+      }, {
+        "count" : 18,
+        "item" : "47.599198317"
+      }, {
+        "count" : 17,
+        "item" : "47.609748463"
+      }, {
+        "count" : 16,
+        "item" : "47.609517442"
+      }, {
+        "count" : 15,
+        "item" : "47.553428267"
+      }, {
+        "count" : 14,
+        "item" : "47.607594247"
+      }, {
+        "count" : 13,
+        "item" : "47.612103391"
+      }, {
+        "count" : 12,
+        "item" : "47.579348845"
+      }, {
+        "count" : 11,
+        "item" : "47.520143171"
+      }, {
+        "count" : 10,
+        "item" : "47.613512841"
+      }, {
+        "count" : 9,
+        "item" : "47.683047374"
+      }, {
+        "count" : 8,
+        "item" : "47.623698976"
+      }, {
+        "count" : 7,
+        "item" : "47.658540412"
+      }, {
+        "count" : 6,
+        "item" : "47.542470253"
+      }, {
+        "count" : 5,
+        "item" : "47.572944561"
+      }, {
+        "count" : 4,
+        "item" : "47.504279359"
+      }, {
+        "count" : 3,
+        "item" : "47.722356332"
+      }, {
+        "count" : 2,
+        "item" : "47.637776090"
+      }, {
+        "count" : 1,
+        "item" : "47.614683849"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129997927,
+    "name" : "Incident Location",
+    "dataTypeName" : "location",
+    "fieldName" : "incident_location",
+    "position" : 15,
+    "renderTypeName" : "location",
+    "tableColumnId" : 1443673,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 1257416,
+      "smallest" : {
+        "longitude" : "-122.338146748",
+        "latitude" : "47.610975163"
+      },
+      "null" : 2,
+      "largest" : {
+        "longitude" : "-122.304126371",
+        "latitude" : "47.66253339"
+      },
+      "top" : [ {
+        "count" : 20,
+        "item" : {
+          "longitude" : "-122.337338747",
+          "latitude" : "47.609252981"
+        }
+      }, {
+        "count" : 19,
+        "item" : {
+          "longitude" : "-122.359118094",
+          "latitude" : "47.525593525"
+        }
+      }, {
+        "count" : 18,
+        "item" : {
+          "longitude" : "-122.329977172",
+          "latitude" : "47.599198317"
+        }
+      }, {
+        "count" : 17,
+        "item" : {
+          "longitude" : "-122.337793004",
+          "latitude" : "47.609748463"
+        }
+      }, {
+        "count" : 16,
+        "item" : {
+          "longitude" : "-122.338348302",
+          "latitude" : "47.609517442"
+        }
+      }, {
+        "count" : 15,
+        "item" : {
+          "longitude" : "-122.281877849",
+          "latitude" : "47.553428267"
+        }
+      }, {
+        "count" : 14,
+        "item" : {
+          "longitude" : "-122.306321888",
+          "latitude" : "47.607594247"
+        }
+      }, {
+        "count" : 13,
+        "item" : {
+          "longitude" : "-122.333808101",
+          "latitude" : "47.612103391"
+        }
+      }, {
+        "count" : 12,
+        "item" : {
+          "longitude" : "-122.391321451",
+          "latitude" : "47.579348845"
+        }
+      }, {
+        "count" : 11,
+        "item" : {
+          "longitude" : "-122.272545937",
+          "latitude" : "47.520143171"
+        }
+      }, {
+        "count" : 10,
+        "item" : {
+          "longitude" : "-122.318131666",
+          "latitude" : "47.613512841"
+        }
+      }, {
+        "count" : 9,
+        "item" : {
+          "longitude" : "-122.297203053",
+          "latitude" : "47.683047374"
+        }
+      }, {
+        "count" : 8,
+        "item" : {
+          "longitude" : "-122.320933331",
+          "latitude" : "47.623698976"
+        }
+      }, {
+        "count" : 7,
+        "item" : {
+          "longitude" : "-122.385943019",
+          "latitude" : "47.658540412"
+        }
+      }, {
+        "count" : 6,
+        "item" : {
+          "longitude" : "-122.274090991",
+          "latitude" : "47.542470253"
+        }
+      }, {
+        "count" : 5,
+        "item" : {
+          "longitude" : "-122.38942838",
+          "latitude" : "47.572944561"
+        }
+      }, {
+        "count" : 4,
+        "item" : {
+          "longitude" : "-122.267506173",
+          "latitude" : "47.504279359"
+        }
+      }, {
+        "count" : 3,
+        "item" : {
+          "longitude" : "-122.360951919",
+          "latitude" : "47.722356332"
+        }
+      }, {
+        "count" : 2,
+        "item" : {
+          "longitude" : "-122.356933962",
+          "latitude" : "47.63777609"
+        }
+      }, {
+        "count" : 1,
+        "item" : {
+          "longitude" : "-122.316845009",
+          "latitude" : "47.614683849"
+        }
+      } ]
+    },
+    "format" : {
+    },
+    "subColumnTypes" : [ "human_address", "latitude", "longitude", "machine_address", "needs_recoding" ]
+  }, {
+    "id" : 129998440,
+    "name" : "Initial Type Description",
+    "dataTypeName" : "text",
+    "fieldName" : "initial_type_description",
+    "position" : 16,
+    "renderTypeName" : "text",
+    "tableColumnId" : 17706840,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 397706,
+      "smallest" : "ABANDONED VEHICLE",
+      "null" : 859712,
+      "largest" : "WIRES DOWN (PHONE, ELECTRICAL,ETC.)",
+      "top" : [ {
+        "count" : 20,
+        "item" : "PROPERTY - DAMAGE"
+      }, {
+        "count" : 19,
+        "item" : "SUSPICIOUS PERSON, VEHICLE OR INCIDENT"
+      }, {
+        "count" : 18,
+        "item" : "PARKING VIOLATION (EXCEPT ABANDONED CAR)"
+      }, {
+        "count" : 17,
+        "item" : "THEFT (DOES NOT INCLUDE SHOPLIFT OR SVCS)"
+      }, {
+        "count" : 16,
+        "item" : "TRAFFIC STOP - OFFICER INITIATED ONVIEW"
+      }, {
+        "count" : 15,
+        "item" : "DISTURBANCE, MISCELLANEOUS/OTHER"
+      }, {
+        "count" : 14,
+        "item" : "SUSPICIOUS STOP - OFFICER INITIATED ONVIEW"
+      }, {
+        "count" : 13,
+        "item" : "NARCOTICS - VIOLATIONS (LOITER, USE, SELL, NARS)"
+      }, {
+        "count" : 12,
+        "item" : "SHOPLIFT - THEFT"
+      }, {
+        "count" : 11,
+        "item" : "BURG - RES (INCL UNOCC STRUCTURES ON PROP)"
+      }, {
+        "count" : 10,
+        "item" : "AUTO THEFT - VEH THEFT OR THEFT AND RECOVERY"
+      }, {
+        "count" : 9,
+        "item" : "ALARM - COMM, SILENT/AUD BURG (INCL BANKS)"
+      }, {
+        "count" : 8,
+        "item" : "ALARM - RESIDENTIAL - BURGLARY, SILENT/AUDIBLE"
+      }, {
+        "count" : 7,
+        "item" : "NUISANCE - MISCHIEF"
+      }, {
+        "count" : 6,
+        "item" : "TRU - THEFT"
+      }, {
+        "count" : 5,
+        "item" : "DETOX - REQUEST FOR"
+      }, {
+        "count" : 4,
+        "item" : "ASLT - IP/JO - WITH OR W/O WPNS (NO SHOOTINGS)"
+      }, {
+        "count" : 3,
+        "item" : "HAZ - POTENTIAL THRT TO PHYS SAFETY (NO HAZMAT)"
+      }, {
+        "count" : 2,
+        "item" : "TRESPASS"
+      }, {
+        "count" : 1,
+        "item" : "TRAFFIC - MOVING VIOLATION"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129998457,
+    "name" : "Initial Type Subgroup",
+    "dataTypeName" : "text",
+    "fieldName" : "initial_type_subgroup",
+    "position" : 17,
+    "renderTypeName" : "text",
+    "tableColumnId" : 17706841,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 397706,
+      "smallest" : "ACCIDENT INVESTIGATION",
+      "null" : 859712,
+      "largest" : "WEAPONS CALLS",
+      "top" : [ {
+        "count" : 20,
+        "item" : "ASSAULTS"
+      }, {
+        "count" : 19,
+        "item" : "WEAPONS CALLS"
+      }, {
+        "count" : 18,
+        "item" : "PROPERTY DAMAGE"
+      }, {
+        "count" : 17,
+        "item" : "BURGLARY"
+      }, {
+        "count" : 16,
+        "item" : "DISTURBANCES"
+      }, {
+        "count" : 15,
+        "item" : "SUSPICIOUS CIRCUMSTANCES"
+      }, {
+        "count" : 14,
+        "item" : "TRAFFIC RELATED CALLS"
+      }, {
+        "count" : 13,
+        "item" : "HAZARDS"
+      }, {
+        "count" : 12,
+        "item" : "OTHER PROPERTY"
+      }, {
+        "count" : 11,
+        "item" : "TRESPASS"
+      }, {
+        "count" : 10,
+        "item" : "ALARMS"
+      }, {
+        "count" : 9,
+        "item" : "LIQUOR VIOLATIONS"
+      }, {
+        "count" : 8,
+        "item" : "AUTO THEFTS"
+      }, {
+        "count" : 7,
+        "item" : "ROBBERY"
+      }, {
+        "count" : 6,
+        "item" : "THREATS, HARASSMENT"
+      }, {
+        "count" : 5,
+        "item" : "LEWD CONDUCT"
+      }, {
+        "count" : 4,
+        "item" : "MISCELLANEOUS MISDEMEANORS"
+      }, {
+        "count" : 3,
+        "item" : "PROPERTY - MISSING, FOUND"
+      }, {
+        "count" : 2,
+        "item" : "NARCOTICS COMPLAINTS"
+      }, {
+        "count" : 1,
+        "item" : "ANIMAL COMPLAINTS"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129998460,
+    "name" : "Initial Type Group",
+    "dataTypeName" : "text",
+    "fieldName" : "initial_type_group",
+    "position" : 18,
+    "renderTypeName" : "text",
+    "tableColumnId" : 17706844,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 397706,
+      "smallest" : "ANIMAL COMPLAINTS",
+      "null" : 859712,
+      "largest" : "WEAPONS CALLS",
+      "top" : [ {
+        "count" : 20,
+        "item" : "ASSAULTS"
+      }, {
+        "count" : 19,
+        "item" : "GUN CALLS"
+      }, {
+        "count" : 18,
+        "item" : "PROPERTY DAMAGE"
+      }, {
+        "count" : 17,
+        "item" : "COMMERCIAL BURGLARIES"
+      }, {
+        "count" : 16,
+        "item" : "DISTURBANCES"
+      }, {
+        "count" : 15,
+        "item" : "NOISE DISTURBANCE"
+      }, {
+        "count" : 14,
+        "item" : "SUSPICIOUS CIRCUMSTANCES"
+      }, {
+        "count" : 13,
+        "item" : "PARKING VIOLATIONS"
+      }, {
+        "count" : 12,
+        "item" : "HAZARDS"
+      }, {
+        "count" : 11,
+        "item" : "THEFT"
+      }, {
+        "count" : 10,
+        "item" : "TRESPASS"
+      }, {
+        "count" : 9,
+        "item" : "TRAFFIC RELATED CALLS"
+      }, {
+        "count" : 8,
+        "item" : "RESIDENTIAL BURGLARIES"
+      }, {
+        "count" : 7,
+        "item" : "LIQUOR VIOLATIONS"
+      }, {
+        "count" : 6,
+        "item" : "AUTO RECOVERIES"
+      }, {
+        "count" : 5,
+        "item" : "ROBBERY"
+      }, {
+        "count" : 4,
+        "item" : "THREATS, HARASSMENT"
+      }, {
+        "count" : 3,
+        "item" : "ROAD RAGE"
+      }, {
+        "count" : 2,
+        "item" : "MISCELLANEOUS MISDEMEANORS"
+      }, {
+        "count" : 1,
+        "item" : "WEAPONS CALLS"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 129998461,
+    "name" : "At Scene Time",
+    "dataTypeName" : "calendar_date",
+    "fieldName" : "at_scene_time",
+    "position" : 19,
+    "renderTypeName" : "calendar_date",
+    "tableColumnId" : 17706845,
+    "width" : 100,
+    "cachedContents" : {
+      "non_null" : 221493,
+      "smallest" : "2009-06-19T20:51:00",
+      "null" : 1035925,
+      "largest" : "2015-06-01T08:05:00",
+      "top" : [ {
+        "count" : 20,
+        "item" : "2015-05-31T20:36:00"
+      }, {
+        "count" : 19,
+        "item" : "2015-06-01T07:55:00"
+      }, {
+        "count" : 18,
+        "item" : "2015-06-01T07:43:00"
+      }, {
+        "count" : 17,
+        "item" : "2015-06-01T07:50:00"
+      }, {
+        "count" : 16,
+        "item" : "2015-06-01T07:46:00"
+      }, {
+        "count" : 15,
+        "item" : "2015-06-01T07:49:00"
+      }, {
+        "count" : 14,
+        "item" : "2015-06-01T07:08:00"
+      }, {
+        "count" : 13,
+        "item" : "2015-06-01T05:56:00"
+      }, {
+        "count" : 12,
+        "item" : "2015-05-31T20:12:00"
+      }, {
+        "count" : 11,
+        "item" : "2015-06-01T08:05:00"
+      }, {
+        "count" : 10,
+        "item" : "2015-06-01T07:44:00"
+      } ]
+    },
+    "format" : {
+    }
+  } ],
+  "grants" : [ {
+    "inherited" : false,
+    "type" : "viewer",
+    "flags" : [ "public" ]
+  } ],
+  "license" : {
+    "name" : "Creative Commons 1.0 Universal",
+    "logoUrl" : "images/licenses/ccZero.png",
+    "termsLink" : "http://creativecommons.org/publicdomain/zero/1.0/legalcode"
+  },
+  "metadata" : {
+    "custom_fields" : {
+      "Refresh Frequency" : {
+        "Frequency" : "hourly"
+      },
+      "Data Owner" : {
+        "Owner" : "Department of Information Technology"
+      }
+    },
+    "renderTypeConfig" : {
+      "visible" : {
+        "table" : true
+      }
+    },
+    "availableDisplayTypes" : [ "table", "fatrow", "page" ],
+    "rdfSubject" : "0",
+    "attachments" : [ {
+      "assetId" : "",
+      "blobId" : "98E5052D-5E37-4BB4-B903-50BD73C97CCC",
+      "name" : "CadDataReleaserules.docx",
+      "filename" : "CadDataReleaserules.docx"
+    } ],
+    "rowIdentifier" : 129997913
+  },
+  "owner" : {
+    "id" : "pfbu-yuv5",
+    "displayName" : "Department of Information Technology",
+    "profileImageUrlLarge" : "/images/profile/3184/7575/Logo_thumb_large.gif",
+    "profileImageUrlMedium" : "/images/profile/3184/7575/Logo_thumb_thumb.gif",
+    "profileImageUrlSmall" : "/images/profile/3184/7575/Logo_thumb_tiny.gif",
+    "roleName" : "administrator",
+    "screenName" : "Department of Information Technology",
+    "rights" : [ "create_datasets", "edit_others_datasets", "edit_sdp", "edit_site_theme", "moderate_comments", "manage_users", "chown_datasets", "edit_nominations", "approve_nominations", "feature_items", "federations", "manage_stories", "manage_approval", "change_configurations", "view_domain", "view_others_datasets", "edit_pages", "create_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "create_dashboards" ]
+  },
+  "query" : {
+    "orderBys" : [ {
+      "ascending" : false,
+      "expression" : {
+        "columnId" : 129997920,
+        "type" : "column"
+      }
+    } ]
+  },
+  "rights" : [ "read" ],
+  "sortBys" : [ {
+    "id" : 0,
+    "viewColumnId" : 129997920
+  } ],
+  "tableAuthor" : {
+    "id" : "pfbu-yuv5",
+    "displayName" : "Department of Information Technology",
+    "profileImageUrlLarge" : "/images/profile/3184/7575/Logo_thumb_large.gif",
+    "profileImageUrlMedium" : "/images/profile/3184/7575/Logo_thumb_thumb.gif",
+    "profileImageUrlSmall" : "/images/profile/3184/7575/Logo_thumb_tiny.gif",
+    "roleName" : "administrator",
+    "screenName" : "Department of Information Technology",
+    "rights" : [ "create_datasets", "edit_others_datasets", "edit_sdp", "edit_site_theme", "moderate_comments", "manage_users", "chown_datasets", "edit_nominations", "approve_nominations", "feature_items", "federations", "manage_stories", "manage_approval", "change_configurations", "view_domain", "view_others_datasets", "edit_pages", "create_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "create_dashboards" ]
+  },
+  "tags" : [ "911", "police", "crime", "incident response" ],
+  "flags" : [ "default" ]
+}

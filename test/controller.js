@@ -33,6 +33,9 @@ test('setup', function (t) {
   sinon.stub(model, 'getResource', function (host, id, item, options, callback) {
     callback(null, {})
   })
+  sinon.stub(model, 'getCount', function (key, options, callback) {
+    callback(null, 0)
+  })
   sinon.stub(controller, 'processFeatureServer', function (req, res, err, geojson, callback) {
     res.send({})
   })
@@ -93,11 +96,22 @@ test('getting a featureservice calls the model find, getResource methods and con
     })
 })
 
+test('getting a feature service count calls model get resource and get count', function (t) {
+  request(koop)
+  .get('/socrata/seattle/fake/FeatureServer/0/query?where=1=1&returnCountOnly=true')
+  .end(function () {
+    t.equals(model.getResource.called, true)
+    t.equals(model.getCount.called, true)
+    t.end()
+  })
+})
+
 test('teardown', function (t) {
   model.register.restore()
   model.find.restore()
   model.dropItem.restore()
   model.getResource.restore()
+  model.getCount.restore()
   controller.processFeatureServer.restore()
   t.end()
 })
