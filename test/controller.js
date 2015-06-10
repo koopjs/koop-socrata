@@ -106,6 +106,40 @@ test('getting a feature service count calls model get resource and get count', f
   })
 })
 
+test('stub getResource and getCount for the following tests', function (t) {
+  model.getResource.restore()
+  model.getCount.restore()
+  sinon.stub(model, 'getResource', function (host, id, item, options, callback) {
+    callback(null, [{status: 'processing'}])
+  })
+  sinon.stub(model, 'getCount', function (key, options, callback) {
+    callback('error', false)
+  })
+  t.end()
+})
+
+test('getting a resource that has never been requested before', function (t) {
+  request(koop)
+  .get('/socrata/seattle/fake')
+  .end(function (err, res) {
+    if (err) throw err
+    t.deepEqual(res.body.status, 'processing')
+    t.end()
+  })
+})
+
+test('getting a resource that is processing does not fail', function (t) {
+  request(koop)
+  .get('/socrata/seattle/fake')
+  .end(function (err, res) {
+    if (err) throw err
+    t.equals(model.getResource.called, true)
+    t.equals(model.getCount.called, true)
+    t.deepEqual(res.body.status, 'processing')
+    t.end()
+  })
+})
+
 test('teardown', function (t) {
   model.register.restore()
   model.find.restore()
