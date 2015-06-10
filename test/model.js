@@ -25,6 +25,12 @@ requests.get('/resource/countFail.json?$order=:id&$limit=1').reply(500, JSON.par
 requests.get('/views/countFail.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools::view.json')))
 requests.get('/resource/countFail.json').reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/schools::page.json')})
 
+// responses for a resource that has been filered
+requests.get('/resource/filtered.json?$select=count(*)').reply(500, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered::count.json')))
+requests.get('/resource/filtered.json?$order=:id&$limit=1').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered::first.json')))
+requests.get('/views/filtered.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered::view.json')))
+requests.get('/resource/filtered.json').reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/filtered::page.json')})
+
 // use Koop's local cache as a db for tests
 koop.Cache = new koop.DataCache(koop)
 koop.Cache.db = koop.LocalDB
@@ -253,6 +259,25 @@ test('requesting a socrata dataset that does not exist', function (t) {
   })
 })
 
+// Integration tests
+
+test('fill the cache with a resource that was filtered', function (t) {
+  socrata.getResource(host, id, 'filtered', {}, function (err, data) {
+    if (err) throw err
+    setTimeout(function () {
+      t.end()
+    }, 500)
+  })
+})
+
+test('requesting a resource that was filtered', function (t) {
+  t.plan(1)
+  socrata.getResource(host, id, 'filtered', {layer: 0}, function (err, data) {
+    if (err) throw err
+    t.deepEqual(data[0].features.length, 82)
+  })
+})
+
 test('fill the cache with a dataset that fails on the first row count', function (t) {
   socrata.getResource(host, id, 'countFail', {}, function (err, data) {
     if (err) throw err
@@ -262,7 +287,6 @@ test('fill the cache with a dataset that fails on the first row count', function
   })
 })
 
-// Integration tests
 test('requesting a resource where the first row request fails', function (t) {
   t.plan(1)
   var geojson = JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools::geojson.json'))

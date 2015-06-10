@@ -1,0 +1,818 @@
+[ {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/madrona/"
+  },
+  "address" : "1121 33rd Ave",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Madrona K-8",
+  "longitude" : "-122.290868",
+  "latitude" : "47.612237"
+}
+, {
+  "website" : {
+    "url" : "http://www.salmonbayschool.org/"
+  },
+  "address" : "1810 NW 65th St",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Salmon Bay",
+  "longitude" : "-122.38051",
+  "latitude" : "47.676298"
+}
+, {
+  "website" : {
+    "url" : "http://www.topsk8.org/"
+  },
+  "address" : "2500 Franklin Ave E",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Tops K-8",
+  "longitude" : "-122.324177",
+  "latitude" : "47.642286"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/southlake/"
+  },
+  "address" : "8601 Rainier Ave S",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "South Lake Hs",
+  "longitude" : "-122.27092",
+  "latitude" : "47.52526"
+}
+, {
+  "website" : {
+    "url" : "http://www.orcapta.org"
+  },
+  "address" : "5215 46th Ave S",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Orca K-8",
+  "longitude" : "-122.27596",
+  "latitude" : "47.55478"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/ae2/"
+  },
+  "address" : "7711 43rd Ave NE",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Thornton Creek K-8",
+  "longitude" : "-122.282669",
+  "latitude" : "47.685032"
+}
+, {
+  "website" : {
+    "url" : "http://www.centerschoolseattle.org"
+  },
+  "address" : "305 Harrison",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "The Center School",
+  "longitude" : "-122.353983",
+  "latitude" : "47.622078"
+}
+, {
+  "address" : "301 21st Ave E",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Nova",
+  "longitude" : "-122.30524",
+  "latitude" : "47.6216"
+}
+, {
+  "website" : {
+    "url" : "http://as1web.com/"
+  },
+  "address" : "11530 12th Ave NE",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "As #1 At Pinehurst",
+  "longitude" : "-122.31466",
+  "latitude" : "47.713431"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/blaine/"
+  },
+  "address" : "2550 34th Ave W",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Catharine Blaine K-8",
+  "longitude" : "-122.399261",
+  "latitude" : "47.642257"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/southshore/"
+  },
+  "address" : "4800 S Henderson St",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "The New School At Southshore",
+  "longitude" : "-122.27201",
+  "latitude" : "47.52374"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/pathfinder/welcome.html"
+  },
+  "address" : "1901 SW Genesee St",
+  "city_feature" : "Alternative Schools",
+  "common_name" : "Pathfinder",
+  "longitude" : "-122.358",
+  "latitude" : "47.5636"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/westseattle"
+  },
+  "address" : "6760 34th Ave SW",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "West Seattle",
+  "longitude" : "-122.373494",
+  "latitude" : "47.541762"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/laurelhurst/"
+  },
+  "address" : "4530 46th Ave NE",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Laurelhurst",
+  "longitude" : "-122.277962",
+  "latitude" : "47.662199"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/loyalheights"
+  },
+  "address" : "2511 NW 80th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Loyal Heights",
+  "longitude" : "-122.389052",
+  "latitude" : "47.686434"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/thmarshall/"
+  },
+  "address" : "2401 S Irving St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Thurgood Marshall",
+  "longitude" : "-122.299846",
+  "latitude" : "47.590959"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/muir/"
+  },
+  "address" : "3301 S Horton St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "John Muir",
+  "longitude" : "-122.290579",
+  "latitude" : "47.573242"
+}
+, {
+  "website" : {
+    "url" : "http://olympichills.seadesk.seattleschools.org/public.aspx"
+  },
+  "address" : "13018 20th Ave NE",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Olympic Hills",
+  "longitude" : "-122.306757",
+  "latitude" : "47.723687"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/roxhill/"
+  },
+  "address" : "9430 30th Ave SW",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Roxhill",
+  "longitude" : "-122.37056",
+  "latitude" : "47.518053"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/spark/"
+  },
+  "address" : "5000 SW Spokane St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Schmitz Park",
+  "longitude" : "-122.396731",
+  "latitude" : "47.57269"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/janeaddams/"
+  },
+  "address" : "11051 34th Ave NE",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Adams",
+  "longitude" : "-122.29301",
+  "latitude" : "47.70994"
+}
+, {
+  "website" : {
+    "url" : "http://www.danielbagley.com/"
+  },
+  "address" : "7821 Stone Ave N",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Daniel Bagley",
+  "longitude" : "-122.342306",
+  "latitude" : "47.686358"
+}
+, {
+  "website" : {
+    "url" : "http://www.bryantschool.org/"
+  },
+  "address" : "3311 NE 60th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Bryant",
+  "longitude" : "-122.292207",
+  "latitude" : "47.671842"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/concord/"
+  },
+  "address" : "723 S Concord",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Concord International School",
+  "longitude" : "-122.324689",
+  "latitude" : "47.523611"
+}
+, {
+  "website" : {
+    "url" : "http://www.emerson.seattleschools.org"
+  },
+  "address" : "9709 60th Ave S",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Emerson",
+  "longitude" : "-122.258635",
+  "latitude" : "47.514821"
+}
+, {
+  "website" : {
+    "url" : "http://www.gatewoodelementary.org/"
+  },
+  "address" : "4320 SW Myrtle St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Gatewood",
+  "longitude" : "-122.388497",
+  "latitude" : "47.540252"
+}
+, {
+  "website" : {
+    "url" : "http://www.greenlakedragons.org/"
+  },
+  "address" : "2400 N 65th",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Green Lake",
+  "longitude" : "-122.328498",
+  "latitude" : "47.676302"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/gatzert/index.html"
+  },
+  "address" : "1301 E Yesler Wy",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Bailey Gatzert",
+  "longitude" : "-122.315483",
+  "latitude" : "47.601201"
+}
+, {
+  "website" : {
+    "url" : "http://www.grahamhillelementary.org/"
+  },
+  "address" : "5149 S Graham St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Graham Hill",
+  "longitude" : "-122.268533",
+  "latitude" : "47.545757"
+}
+, {
+  "website" : {
+    "url" : "http://www.greenwoodpta.org"
+  },
+  "address" : "144 NW 80th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Greenwood",
+  "longitude" : "-122.35996",
+  "latitude" : "47.687253"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/hawthorne/"
+  },
+  "address" : "4100 39th Ave S",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Hawthorne",
+  "longitude" : "-122.283385",
+  "latitude" : "47.565906"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/hpel/"
+  },
+  "address" : "1012 SW Trenton St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Highland Park",
+  "longitude" : "-122.348278",
+  "latitude" : "47.525177"
+}
+, {
+  "website" : {
+    "url" : "http://www.mylafayette.org/"
+  },
+  "address" : "2645 California Ave SW",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Lafayette",
+  "longitude" : "-122.387234",
+  "latitude" : "47.579495"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/lawton/"
+  },
+  "address" : "4000 27th Ave W",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Lawton",
+  "longitude" : "-122.390476",
+  "latitude" : "47.656713"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/lowell/"
+  },
+  "address" : "1058 E Mercer St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Lowell",
+  "longitude" : "-122.31838",
+  "latitude" : "47.624424"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/wingluke/"
+  },
+  "address" : "3701 S Kenyon St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Wing Luke",
+  "longitude" : "-122.284905",
+  "latitude" : "47.53074"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/maple.html"
+  },
+  "address" : "4925 Corson Ave S",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Maple",
+  "longitude" : "-122.3189",
+  "latitude" : "47.558126"
+}
+, {
+  "website" : {
+    "url" : "http://www.mcgilvraschool.org"
+  },
+  "address" : "1617 38th Ave E",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Mcgilvra",
+  "longitude" : "-122.284831",
+  "latitude" : "47.634078"
+}
+, {
+  "website" : {
+    "url" : "http://www.montlakeschool.org"
+  },
+  "address" : "2409 22nd Ave E",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Montlake",
+  "longitude" : "-122.304286",
+  "latitude" : "47.640634"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/northbeach/"
+  },
+  "address" : "9018 24th Ave NW",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "North Beach",
+  "longitude" : "-122.387037",
+  "latitude" : "47.694976"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/northgate/"
+  },
+  "address" : "11725 1st Ave NE",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Northgate",
+  "longitude" : "-122.329584",
+  "latitude" : "47.714867"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/olyview/"
+  },
+  "address" : "504 NE 95th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Olympic View",
+  "longitude" : "-122.321258",
+  "latitude" : "47.698231"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/rogers/"
+  },
+  "address" : "4030 NE 109th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "John Rogers",
+  "longitude" : "-122.284635",
+  "latitude" : "47.707425"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/sacajawea/"
+  },
+  "address" : "9501 20th Ave NE",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Sacajawea",
+  "longitude" : "-122.307474",
+  "latitude" : "47.698448"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/sanislo/index.htm"
+  },
+  "address" : "1812 SW Myrtle St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Sanislo",
+  "longitude" : "-122.358659",
+  "latitude" : "47.539609"
+}
+, {
+  "website" : {
+    "url" : "http://www.jsisweb.com/index.asp"
+  },
+  "address" : "4057 5th Ave NE",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "John Stanford International",
+  "longitude" : "-122.324054",
+  "latitude" : "47.657528"
+}
+, {
+  "website" : {
+    "url" : "http://www.stevenselementary.net"
+  },
+  "address" : "1242 18th Ave E",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Stevens",
+  "longitude" : "-122.307864",
+  "latitude" : "47.631456"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/viewridge/"
+  },
+  "address" : "7047 50th Ave NE",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "View Ridge",
+  "longitude" : "-122.275333",
+  "latitude" : "47.680688"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/wedgwood/"
+  },
+  "address" : "2720 NE 85th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Wedgwood",
+  "longitude" : "-122.297053",
+  "latitude" : "47.690538"
+}
+, {
+  "website" : {
+    "url" : "http://www.westwoodland.org/"
+  },
+  "address" : "5601 4th Ave NW",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "West Woodland",
+  "longitude" : "-122.362247",
+  "latitude" : "47.6706"
+}
+, {
+  "website" : {
+    "url" : "http://www.whittierway.org/"
+  },
+  "address" : "1320 NW 75th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Whittier",
+  "longitude" : "-122.373077",
+  "latitude" : "47.683591"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/whitworth/"
+  },
+  "address" : "5215 46th Ave S",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Whitworth",
+  "longitude" : "-122.275955",
+  "latitude" : "47.554778"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/area/main/ShowSchool?HighSel=heading&MiddleSel=heading&ElementarySel=207&AlternativeSel=heading&ElementaryBtn.x=5&"
+  },
+  "address" : "6725 45th Ave S",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Brighton",
+  "longitude" : "-122.27691",
+  "latitude" : "47.541744"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/area/main/ShowSchool?HighSel=heading&MiddleSel=heading&ElementarySel=219&AlternativeSel=heading&ElementaryBtn.x=12"
+  },
+  "address" : "4525 S Cloverdale",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Dunlap",
+  "longitude" : "-122.274656",
+  "latitude" : "47.524989"
+}
+, {
+  "website" : {
+    "url" : "http://www.kimballcougars.org/Kimball/Welcome.html"
+  },
+  "address" : "3200 23rd Ave S",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Kimball",
+  "longitude" : "-122.303012",
+  "latitude" : "47.574044"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/alki/"
+  },
+  "address" : "3010 59th Ave SW",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Alki",
+  "longitude" : "-122.407827",
+  "latitude" : "47.577141"
+}
+, {
+  "website" : {
+    "url" : "http://arborheights.wikispaces.com/"
+  },
+  "address" : "3701 SW 104th St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Arbor Heights",
+  "longitude" : "-122.377586",
+  "latitude" : "47.509701"
+}
+, {
+  "website" : {
+    "url" : "http://beaconhillinternationalschool.org/"
+  },
+  "address" : "2025 - 14th Ave S",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Beacon Hill International",
+  "longitude" : "-122.315104",
+  "latitude" : "47.58547"
+}
+, {
+  "website" : {
+    "url" : "http://web.me.com/broadview_thomson/broadview_thomson/Home/Home.html"
+  },
+  "address" : "13052 Greenwood Ave N",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Broadview-Thomson K-8",
+  "longitude" : "-122.353151",
+  "latitude" : "47.724632"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/coe/"
+  },
+  "address" : "2424 7th Ave W",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Coe",
+  "longitude" : "-122.365599",
+  "latitude" : "47.640516"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/bfday/"
+  },
+  "address" : "3921 Linden Ave N",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "B.F. Day",
+  "longitude" : "-122.349124",
+  "latitude" : "47.654636"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/dearborn/"
+  },
+  "address" : "2820 S Orcas St",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Dearborn Park",
+  "longitude" : "-122.296286",
+  "latitude" : "47.552261"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/adams/index.shtml"
+  },
+  "address" : "6110 28th Ave NW",
+  "city_feature" : "Elementary Schools",
+  "common_name" : "Jane Adams",
+  "longitude" : "-122.29301",
+  "latitude" : "47.70994"
+}
+, {
+  "website" : {
+    "url" : "http://www.franklinquakers.org"
+  },
+  "address" : "3013 S Mt. Baker Blvd",
+  "city_feature" : "High Schools",
+  "common_name" : "Franklin",
+  "longitude" : "-122.293647",
+  "latitude" : "47.575887"
+}
+, {
+  "website" : {
+    "url" : "http://www.ingrahamhigh.org"
+  },
+  "address" : "1819 N 135TH St",
+  "city_feature" : "High Schools",
+  "common_name" : "Ingraham",
+  "longitude" : "-122.336837",
+  "latitude" : "47.725699"
+}
+, {
+  "website" : {
+    "url" : "http://www.rhsseattle.org/"
+  },
+  "address" : "1410 NE 66th St",
+  "city_feature" : "High Schools",
+  "common_name" : "Roosevelt",
+  "longitude" : "-122.312808",
+  "latitude" : "47.67723"
+}
+, {
+  "website" : {
+    "url" : "http://ballardbeavers.org/"
+  },
+  "address" : "1418 NW 65th St",
+  "city_feature" : "High Schools",
+  "common_name" : "Ballard",
+  "longitude" : "-122.374888",
+  "latitude" : "47.67661"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/cleveland/"
+  },
+  "address" : "5511 15th Ave S",
+  "city_feature" : "High Schools",
+  "common_name" : "Cleveland",
+  "longitude" : "-122.31391",
+  "latitude" : "47.55237"
+}
+, {
+  "website" : {
+    "url" : "http://ghs.seattleschools.org/"
+  },
+  "address" : "400 23rd Ave",
+  "city_feature" : "High Schools",
+  "common_name" : "Garfield",
+  "longitude" : "-122.301903",
+  "latitude" : "47.605421"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/hale/"
+  },
+  "address" : "10750 30th Ave NE",
+  "city_feature" : "High Schools",
+  "common_name" : "Nathan Hale",
+  "longitude" : "-122.294532",
+  "latitude" : "47.707628"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/rainierbeach/"
+  },
+  "address" : "8815 Seward Pk S",
+  "city_feature" : "High Schools",
+  "common_name" : "Rainier Beach",
+  "longitude" : "-122.265859",
+  "latitude" : "47.524072"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/chiefsealth/"
+  },
+  "address" : "5950 Delridge Wy SW",
+  "city_feature" : "High Schools",
+  "common_name" : "Chief Sealth",
+  "longitude" : "-122.366155",
+  "latitude" : "47.528631"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/wshs/"
+  },
+  "address" : "3000 California Ave SW",
+  "city_feature" : "High Schools",
+  "common_name" : "West Seattle",
+  "longitude" : "-122.384592",
+  "latitude" : "47.57678"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/denny/"
+  },
+  "address" : "8402 30th Ave SW",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Denny International",
+  "longitude" : "-122.370709",
+  "latitude" : "47.527917"
+}
+, {
+  "website" : {
+    "url" : "http://www.ecksteineagles.org"
+  },
+  "address" : "3003 NE 75th St",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Eckstein",
+  "longitude" : "-122.294983",
+  "latitude" : "47.682519"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/hamilton/"
+  },
+  "address" : "4400 Interlake Ave N",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Hamilton International",
+  "longitude" : "-122.338026",
+  "latitude" : "47.657081"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/madison/"
+  },
+  "address" : "3429 45th Ave SW",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Madison",
+  "longitude" : "-122.390281",
+  "latitude" : "47.572982"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/mcclure/"
+  },
+  "address" : "1915 1st Ave W",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Mcclure",
+  "longitude" : "-122.358954",
+  "latitude" : "47.636827"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/mercer/"
+  },
+  "address" : "1600 S Columbian Wy",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Mercer",
+  "longitude" : "-122.312083",
+  "latitude" : "47.564132"
+}
+, {
+  "website" : {
+    "url" : "http://65.110.89.109/index.asp"
+  },
+  "address" : "2101 S Jackson St",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Washington",
+  "longitude" : "-122.30415",
+  "latitude" : "47.597956"
+}
+, {
+  "website" : {
+    "url" : "http://www.seattleschools.org/schools/whitman/"
+  },
+  "address" : "9201 15th Ave NW",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Whitman",
+  "longitude" : "-122.377602",
+  "latitude" : "47.696752"
+}
+, {
+  "website" : {
+    "url" : "http://www.akikurose.org/"
+  },
+  "address" : "3928 S Graham St",
+  "city_feature" : "Middle Schools",
+  "common_name" : "Aki Kurose Academy",
+  "longitude" : "-122.281981",
+  "latitude" : "47.546321"
+}
+ ]

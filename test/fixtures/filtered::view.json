@@ -1,0 +1,338 @@
+{
+  "id" : "2tje-83f6",
+  "name" : "Schools Map",
+  "attribution" : "City of Seattle, My Neighborhood Map program",
+  "attributionLink" : "http://www.seattle.gov/mnm",
+  "averageRating" : 0,
+  "category" : "Community",
+  "createdAt" : 1273769765,
+  "displayType" : "map",
+  "downloadCount" : 244,
+  "indexUpdatedAt" : 1414470466,
+  "newBackend" : false,
+  "numberOfComments" : 0,
+  "oid" : 8408890,
+  "publicationAppendEnabled" : false,
+  "publicationDate" : 1405119574,
+  "publicationGroup" : 215057,
+  "publicationStage" : "published",
+  "rowsUpdatedAt" : 1370642145,
+  "rowsUpdatedBy" : "pfbu-yuv5",
+  "tableId" : 905463,
+  "totalTimesRated" : 0,
+  "viewCount" : 709,
+  "viewLastModified" : 1281650701,
+  "viewType" : "tabular",
+  "columns" : [ {
+    "id" : 156900107,
+    "name" : "City Feature",
+    "dataTypeName" : "text",
+    "description" : "Type of City of Seattle feature, such as traffic cameras, parks, playfields, Neighborhood Service Centers, etc. ",
+    "fieldName" : "city_feature",
+    "position" : 2,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1283205,
+    "width" : 118,
+    "cachedContents" : {
+      "non_null" : 82,
+      "smallest" : "Alternative Schools",
+      "null" : 0,
+      "largest" : "Middle Schools",
+      "top" : [ {
+        "count" : 20,
+        "item" : "Elementary Schools"
+      }, {
+        "count" : 19,
+        "item" : "Middle Schools"
+      }, {
+        "count" : 18,
+        "item" : "High Schools"
+      }, {
+        "count" : 17,
+        "item" : "Alternative Schools"
+      } ]
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 156900108,
+    "name" : "Common Name",
+    "dataTypeName" : "text",
+    "description" : "This is the commonly referred name of the feature. It may be a name of a building, a park, or a location",
+    "fieldName" : "common_name",
+    "position" : 3,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1283206,
+    "width" : 270,
+    "cachedContents" : {
+      "non_null" : 82,
+      "smallest" : "Adams",
+      "null" : 0,
+      "largest" : "Wing Luke"
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 156900109,
+    "name" : "Address",
+    "dataTypeName" : "text",
+    "description" : "Address is the most specific location information for a feature. It ranges from a building on a campus (like Cunningham Hall on the University of Washington campus, to an intersection, to a specific street address.",
+    "fieldName" : "address",
+    "position" : 4,
+    "renderTypeName" : "text",
+    "tableColumnId" : 1283207,
+    "width" : 300,
+    "cachedContents" : {
+      "non_null" : 82,
+      "smallest" : "1012 SW Trenton St",
+      "null" : 0,
+      "largest" : "9709 60th Ave S"
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 156900110,
+    "name" : "Website",
+    "dataTypeName" : "url",
+    "description" : "This is the most recent known correct website address for the given feature. ",
+    "fieldName" : "website",
+    "position" : 5,
+    "renderTypeName" : "url",
+    "tableColumnId" : 1283208,
+    "width" : 415,
+    "cachedContents" : {
+      "non_null" : 81,
+      "smallest" : {
+        "url" : "http://65.110.89.109/index.asp"
+      },
+      "null" : 1,
+      "largest" : {
+        "url" : "http://www.whittierway.org/"
+      },
+      "top" : [ {
+        "count" : 20,
+        "item" : {
+          "url" : "http://www.seattleschools.org/area/main/ShowSchool?HighSel=heading&MiddleSel=heading&ElementarySel=219&AlternativeSel=heading&ElementaryBtn.x=12"
+        }
+      }, {
+        "count" : 19,
+        "item" : {
+          "url" : "http://www.kimballcougars.org/Kimball/Welcome.html"
+        }
+      }, {
+        "count" : 18,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/alki/"
+        }
+      }, {
+        "count" : 17,
+        "item" : {
+          "url" : "http://arborheights.wikispaces.com/"
+        }
+      }, {
+        "count" : 16,
+        "item" : {
+          "url" : "http://beaconhillinternationalschool.org/"
+        }
+      }, {
+        "count" : 15,
+        "item" : {
+          "url" : "http://web.me.com/broadview_thomson/broadview_thomson/Home/Home.html"
+        }
+      }, {
+        "count" : 14,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/coe/"
+        }
+      }, {
+        "count" : 13,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/bfday/"
+        }
+      }, {
+        "count" : 12,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/dearborn/"
+        }
+      }, {
+        "count" : 11,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/adams/index.shtml"
+        }
+      }, {
+        "count" : 10,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/denny/"
+        }
+      }, {
+        "count" : 9,
+        "item" : {
+          "url" : "http://www.ecksteineagles.org"
+        }
+      }, {
+        "count" : 8,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/hamilton/"
+        }
+      }, {
+        "count" : 7,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/madison/"
+        }
+      }, {
+        "count" : 6,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/mcclure/"
+        }
+      }, {
+        "count" : 5,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/mercer/"
+        }
+      }, {
+        "count" : 4,
+        "item" : {
+          "url" : "http://65.110.89.109/index.asp"
+        }
+      }, {
+        "count" : 3,
+        "item" : {
+          "url" : "http://www.seattleschools.org/schools/whitman/"
+        }
+      }, {
+        "count" : 2,
+        "item" : {
+          "url" : "http://www.akikurose.org/"
+        }
+      }, {
+        "count" : 1,
+        "item" : {
+          "url" : "http://www.franklinquakers.org"
+        }
+      } ]
+    },
+    "format" : {
+    },
+    "subColumnTypes" : [ "url", "description" ]
+  }, {
+    "id" : 156900111,
+    "name" : "Longitude",
+    "dataTypeName" : "number",
+    "description" : "This is the longitude value. Lines of longitude run perpendicular to lines of latitude, and all pass through both poles.",
+    "fieldName" : "longitude",
+    "position" : 6,
+    "renderTypeName" : "number",
+    "tableColumnId" : 1283209,
+    "width" : 82,
+    "cachedContents" : {
+      "non_null" : 82,
+      "smallest" : "-122.407827",
+      "sum" : "-10030.716127",
+      "null" : 0,
+      "average" : "-122.3258064268293",
+      "largest" : "-122.258635"
+    },
+    "format" : {
+    }
+  }, {
+    "id" : 156900112,
+    "name" : "Latitude",
+    "dataTypeName" : "number",
+    "description" : "This is the latitude value. Lines of latitude are parallel to the equator.",
+    "fieldName" : "latitude",
+    "position" : 7,
+    "renderTypeName" : "number",
+    "tableColumnId" : 1283210,
+    "width" : 82,
+    "cachedContents" : {
+      "non_null" : 82,
+      "smallest" : "47.509701",
+      "sum" : "3904.574879",
+      "null" : 0,
+      "average" : "47.61676681707317",
+      "largest" : "47.725699"
+    },
+    "format" : {
+      "precisionStyle" : "standard"
+    }
+  } ],
+  "displayFormat" : {
+    "type" : "bing",
+    "plot" : {
+      "longitudeId" : "1283209",
+      "latitudeId" : "1283210",
+      "descriptionId" : "1283207",
+      "titleId" : "1283206"
+    }
+  },
+  "grants" : [ {
+    "inherited" : true,
+    "type" : "viewer",
+    "flags" : [ "public" ]
+  } ],
+  "owner" : {
+    "id" : "pfbu-yuv5",
+    "displayName" : "Department of Information Technology",
+    "profileImageUrlLarge" : "/images/profile/3184/7575/Logo_thumb_large.gif",
+    "profileImageUrlMedium" : "/images/profile/3184/7575/Logo_thumb_thumb.gif",
+    "profileImageUrlSmall" : "/images/profile/3184/7575/Logo_thumb_tiny.gif",
+    "roleName" : "administrator",
+    "screenName" : "Department of Information Technology",
+    "rights" : [ "create_datasets", "edit_others_datasets", "edit_sdp", "edit_site_theme", "moderate_comments", "manage_users", "chown_datasets", "edit_nominations", "approve_nominations", "feature_items", "federations", "manage_stories", "manage_approval", "change_configurations", "view_domain", "view_others_datasets", "edit_pages", "create_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "create_dashboards" ]
+  },
+  "query" : {
+    "filterCondition" : {
+      "type" : "operator",
+      "value" : "AND",
+      "children" : [ {
+        "type" : "operator",
+        "value" : "CONTAINS",
+        "children" : [ {
+          "columnId" : 156900107,
+          "type" : "column"
+        }, {
+          "type" : "literal",
+          "value" : "schools"
+        } ]
+      } ]
+    },
+    "orderBys" : [ {
+      "ascending" : true,
+      "expression" : {
+        "columnId" : 156900107,
+        "type" : "column"
+      }
+    } ]
+  },
+  "rights" : [ "read" ],
+  "sortBys" : [ {
+    "id" : 0,
+    "viewColumnId" : 156900107,
+    "flags" : [ "asc" ]
+  } ],
+  "tableAuthor" : {
+    "id" : "pfbu-yuv5",
+    "displayName" : "Department of Information Technology",
+    "profileImageUrlLarge" : "/images/profile/3184/7575/Logo_thumb_large.gif",
+    "profileImageUrlMedium" : "/images/profile/3184/7575/Logo_thumb_thumb.gif",
+    "profileImageUrlSmall" : "/images/profile/3184/7575/Logo_thumb_tiny.gif",
+    "roleName" : "administrator",
+    "screenName" : "Department of Information Technology",
+    "rights" : [ "create_datasets", "edit_others_datasets", "edit_sdp", "edit_site_theme", "moderate_comments", "manage_users", "chown_datasets", "edit_nominations", "approve_nominations", "feature_items", "federations", "manage_stories", "manage_approval", "change_configurations", "view_domain", "view_others_datasets", "edit_pages", "create_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "create_dashboards" ]
+  },
+  "viewFilters" : {
+    "type" : "operator",
+    "value" : "AND",
+    "children" : [ {
+      "type" : "operator",
+      "value" : "CONTAINS",
+      "children" : [ {
+        "columnId" : 156900107,
+        "type" : "column"
+      }, {
+        "type" : "literal",
+        "value" : "schools"
+      } ]
+    } ]
+  }
+}

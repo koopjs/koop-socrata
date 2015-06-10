@@ -108,8 +108,26 @@ var Socrata = function (koop) {
     infoQueue.drain = function () {
       // if the dataset is only one page long and getting the first row fails
       // we can still grab it by requesting the whole dataset in one go
+      var url = host + socrata.resourcePath + urlId + '.json'
       if (errors.length === 1 && errors[0].split('::')[0] === 'first') {
-        var url = host + socrata.resourcePath + urlId + '.json'
+        socrata.processStream(socrata.getPage(url), meta, function (err, geojson) {
+          if (err) {
+            koop.log.error(err)
+          } else {
+            meta.status = 'complete'
+            socrata.insert(key, meta, geojson, function (err, success) {
+              if (err) {
+                koop.log.error('Fallback method failed for: ' + url + '. ' + err)
+              } else {
+                koop.log.info('Fallback method succeeded for: ' + url)
+                // remove this dataset from the processing object
+                delete processing[hostId + id]
+              }
+            })
+          }
+        })
+        // if count is the only thing that failed we can still try to grab the dataset in one go
+      } else if (errors.length === 1 && errors[0].split('::')[0] === 'count') {
         socrata.processStream(socrata.getPage(url), meta, function (err, geojson) {
           if (err) {
             koop.log.error(err)

@@ -69,21 +69,21 @@ var Controller = function (Socrata, BaseController) {
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, itemJson) {
           // return 502 when there are errors
           if (itemJson && itemJson.length && itemJson[0].errors) {
-            res.status(502).send(itemJson)
+            return res.status(502).send(itemJson)
           }
           // return 202 when processing
           if (itemJson && itemJson.length && itemJson[0].status === 'processing' && !itemJson[0].errors) {
             Socrata.getCount(['Socrata', req.params.item, (req.query.layer || 0)].join(':'), req.query, function (err, count) {
               if (err) {
-                res.status(202).json([{status: 'processing'}])
+                return res.status(202).json({status: 'processing'})
               } else {
-                var info = itemJson[0].info
+                var info = itemJson[0] || {}
                 info.count = count
                 return res.status(202).json(info)
               }
             })
           } else if (error) {
-            res.status(500).send(error)
+            return res.status(500).send(error)
           } else if (req.params.format) {
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json')
