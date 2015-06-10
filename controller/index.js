@@ -75,11 +75,12 @@ var Controller = function (Socrata, BaseController) {
           if (itemJson && itemJson.length && itemJson[0].status === 'processing' && !itemJson[0].errors) {
             Socrata.getCount(['Socrata', req.params.item, (req.query.layer || 0)].join(':'), req.query, function (err, count) {
               if (err) {
-                // console.log('Could not socrata feature count', req.params.item)
+                res.status(202).json([{status: 'processing'}])
+              } else {
+                var info = itemJson[0].info
+                info.count = count
+                return res.status(202).json(info)
               }
-              var info = itemJson[0].info
-              info.count = count
-              return res.status(202).json(info)
             })
           } else if (error) {
             res.status(500).send(error)
