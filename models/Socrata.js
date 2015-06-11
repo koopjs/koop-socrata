@@ -324,10 +324,14 @@ var Socrata = function (koop) {
     if (socrata.token) {
       options.headers = {'X-App-Token': socrata.token}
     }
-    ogr2ogr(request(options), 'ESRI Shapefile').exec(function (err, data) {
+    socrata.ogrZip(request(options), callback)
+    // to do error handling
+  }
+
+  socrata.ogrZip = function (stream, callback) {
+    ogr2ogr(stream, 'ESRI Shapefile').exec(function (err, data) {
       callback(err, data)
     })
-    // to do error handling
   }
 
   socrata.processStream = function (dataStream, meta, callback) {

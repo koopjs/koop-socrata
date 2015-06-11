@@ -48,6 +48,11 @@ var id = 'seattle',
   host = 'https://data.seattle.gov',
   key = 'foobar'
 
+// stub out requests for a zip resource
+sinon.stub(socrata, 'ogrZip', function (stream, callback) {
+  callback(null, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::geojson.json')))
+})
+
 test('adding a socrata instance', function (t) {
   socrata.register(id, host, function (err, success) {
     if (err) throw err
@@ -280,7 +285,7 @@ test('fill the cache with a resource that is a zip', function (t) {
     if (err) throw err
     setTimeout(function () {
       t.end()
-    }, 1000)
+    }, 500)
   })
 })
 
@@ -351,6 +356,7 @@ test('requesting a resource with a fully working resource', function (t) {
 })
 
 test('teardown', function (t) {
+  socrata.ogrZip.restore()
   t.end()
   process.exit(0)
 })
