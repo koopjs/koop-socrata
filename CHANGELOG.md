@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unrelased] - [Unreleased]
+### Changed
+* Refactored processing logic
+
 ## [0.3.4] - 2015-06-09
 ### Fixed
 * Bug with failed stats requests to use a fallback request to the resource
