@@ -95,7 +95,7 @@ var Socrata = function (koop) {
         koop.Cache.updateInfo(table, info, function () {
           koop.log.info('Finished paging ' + table)
           // remove this dataset from the global processing object
-          delete processing[hostId + id]
+          delete processing[host + id]
         })
       })
     }
@@ -105,72 +105,40 @@ var Socrata = function (koop) {
       job.task(job.host, job.urlId, cb)
     }, 3)
 
+    // when the infoQueue drains we will use the feedback from the first three socrata API calls to decide how to proceed
     infoQueue.drain = function () {
       // if the dataset is only one page long and getting the first row fails
       // we can still grab it by requesting the whole dataset in one go
-      var url = host + socrata.resourcePath + urlId + '.json'
-      if (errors.length === 1 && errors[0].split('::')[0] === 'first') {
-        socrata.processStream(socrata.getPage(url), meta, function (err, geojson) {
+      if (!errors.length) {
+        // proceed along the happy path
+        socrata.ingestResource(host, urlId, meta, firstRow, pageQueue, function (err, info) {
           if (err) {
             koop.log.error(err)
           } else {
-            meta.status = 'complete'
-            socrata.insert(key, meta, geojson, function (err, success) {
-              if (err) {
-                koop.log.error('Fallback method failed for: ' + url + '. ' + err)
-              } else {
-                koop.log.info('Fallback method succeeded for: ' + url)
-                // remove this dataset from the processing object
-                delete processing[hostId + id]
-              }
-            })
+            koop.log.info(info)
+          }
+        })
+      } else if (errors.length === 1 && errors[0].split('::')[0] === 'first') {
+        socrata.ingestResourceFallback(host, urlId, meta, function (err, info) {
+          if (err) {
+            koop.log.error(err)
+          } else {
+            koop.log.info(info)
           }
         })
         // if count is the only thing that failed we can still try to grab the dataset in one go
       } else if (errors.length === 1 && errors[0].split('::')[0] === 'count') {
-        socrata.processStream(socrata.getPage(url), meta, function (err, geojson) {
+        socrata.ingestResourceFallback(host, urlId, meta, function (err, info) {
           if (err) {
             koop.log.error(err)
           } else {
-            meta.status = 'complete'
-            socrata.insert(key, meta, geojson, function (err, success) {
-              if (err) {
-                koop.log.error('Fallback method failed for: ' + url + '. ' + err)
-              } else {
-                koop.log.info('Fallback method succeeded for: ' + url)
-                // remove this dataset from the processing object
-                delete processing[hostId + id]
-              }
-            })
+            koop.log.info(info)
           }
-        })
-      } else if (errors.length) {
-        socrata.setFail(table, errors, function () {
-          koop.log.info('Processing failed on ' + 'Socrata:' + key + ':0', errors.join(', '))
-          delete processing[hostId + id]
         })
       } else {
-        // insert the first row to create the table and set things off
-        socrata.toGeojson(firstRow, meta.location_field, meta.fields, function (err, geojson) {
-          if (err) {
-            koop.log.error('Failed to parse the first row at: ' + host + urlId + '. ' + err)
-            // update status as failed
-          } else {
-            meta.status = 'processing'
-            socrata.insert(key, meta, geojson, function (err, success) {
-              if (err) {
-                koop.log.error('First row insert failed for: ' + host + urlId + '. ' + err)
-              } else {
-                var pages = socrata.buildPages(host, urlId, meta.rowCount)
-                koop.log.info('Beginning to page through ' + host + '/resource' + id + ' ' + pages.length + ' Pages.')
-                pageQueue.push(pages, function (err) {
-                  if (err) {
-                    koop.log.error(err)
-                  }
-                })
-              }
-            })
-          }
+        socrata.setFail(table, errors, function () {
+          koop.log.info('Processing failed on ' + 'Socrata:' + key + ':0', errors.join(', '))
+          delete processing[host + id]
         })
       }
     }
@@ -178,9 +146,9 @@ var Socrata = function (koop) {
     koop.Cache.get(type, key, options, function (err, entry) {
       if (err || (entry.length && entry[0].status === 'processing')) {
         koop.Cache.getInfo(table, function (error, info) {
-          if (error && !processing[hostId + key]) {
+          if (error && !processing[host + key]) {
             // we don't have the data and it's not processing return processing and make a new request
-            processing[hostId + id] = true
+            processing[host + id] = true
             callback(null, [{status: 'processing'}])
             infoQueue.push({
                 task: socrata.getRowCount,
@@ -224,7 +192,7 @@ var Socrata = function (koop) {
                   }
                 }
             )
-          } else if (error & processing[hostId + key]) {
+          } else if (error & processing[host + key]) {
             // we don't have any info yet, but it is processing just callback
             callback(null, [{status: 'processing'}])
           } else {
@@ -344,6 +312,51 @@ var Socrata = function (koop) {
     })
     .on('end', function () {
       callback(null, geojson)
+    })
+  }
+
+  socrata.ingestResource = function (host, id, meta, firstRow, pageQueue, callback) {
+    socrata.toGeojson(firstRow, meta.location_field, meta.fields, function (err, geojson) {
+      if (err) {
+        callback('Failed to parse the first row at: ' + host + id + '. ' + err)
+        // update status as failed
+      } else {
+        meta.status = 'processing'
+        socrata.insert(id, meta, geojson, function (err, success) {
+          if (err) {
+            callback('First row insert failed for: ' + host + id + '. ' + err)
+          } else {
+            var pages = socrata.buildPages(host, id, meta.rowCount)
+            pageQueue.push(pages, function (err) {
+              if (err) {
+                callback(err)
+              } else {
+                callback(null, 'Beginning to page through ' + host + '/resource' + id + ' ' + pages.length + ' Pages.')
+              }
+            })
+          }
+        })
+      }
+    })
+  }
+
+  socrata.ingestResourceFallback = function (host, id, meta, callback) {
+    var url = host + socrata.resourcePath + id + '.json'
+    socrata.processStream(socrata.getPage(url), meta, function (err, geojson) {
+      if (err) {
+        callback(err)
+      } else {
+        meta.status = 'complete'
+        socrata.insert(id, meta, geojson, function (err, success) {
+          if (err) {
+            callback('Fallback method failed for: ' + url + '. ' + err)
+          } else {
+            callback(null, 'Fallback method succeeded for: ' + url)
+            // remove this dataset from the processing object
+            delete processing[host + id]
+          }
+        })
+      }
     })
   }
 
