@@ -2,7 +2,7 @@ var request = require('request'),
   async = require('async'),
   JSONStream = require('JSONStream'),
   es = require('event-stream'),
-  shapefile = require('shapefile-stream')
+  ogr2ogr = require('ogr2ogr')
 
 var Socrata = function (koop) {
   var socrata = koop.BaseModel(koop)
@@ -108,7 +108,6 @@ var Socrata = function (koop) {
 
     // when the infoQueue drains we will use the feedback from the first three socrata API calls to decide how to proceed
     infoQueue.drain = function () {
-      console.log(errors)
       // if the dataset is only one page long and getting the first row fails
       // we can still grab it by requesting the whole dataset in one go
       if (!errors.length) {
@@ -129,22 +128,17 @@ var Socrata = function (koop) {
           }
         })
         // maybe we have errors because this is a blob file, we can just request the whole thing if it's a zip
-      } else if (errors.length && meta.blobFileName && meta.blobFilename.split('.')[1] === 'zip') {
-        socrata.getZip(host, urlId, function (err, res, body) {
+      } else if (errors.length && meta.blobFilename && meta.blobFilename.split('.')[1] === 'zip') {
+        socrata.processZip(host, urlId, function (err, geojson) {
           if (err) {
-            // handle err
+            koop.log.error(err)
           } else {
-            socrata.processZip(body, function (err, geojson) {
+            socrata.insert(key, meta, geojson, function (err, success) {
               if (err) {
+                koop.log.error('Processing failed for zip resource: ' + 'Socrata:' + key + ':0', err)
                 // handle err
               } else {
-                socrata.insert(key, meta, geojson, function (err, success) {
-                  if (err) {
-                    // handle err
-                  } else {
-                    // d
-                  }
-                })
+                koop.log.info('Processing completed for zip resource: ' + 'Socrata:' + key + ':0')
               }
             })
           }
@@ -199,6 +193,7 @@ var Socrata = function (koop) {
                     meta.location_field = info.location_field
                     meta.updated_at = info.updated_at
                     meta.fields = info.fields
+                    meta.blobFilename = info.blobFilename
                   }
                 }
             )
@@ -250,7 +245,12 @@ var Socrata = function (koop) {
       } else if (res.statusCode !== 200) {
         callback('count::' + options.url + '::' + res.statusCode, null)
       } else {
-        var rowCount = JSON.parse(body)[0].count
+        var rowCount
+        try {
+          rowCount = JSON.parse(body)[0].count
+        } catch (e) {
+          err = 'Could not parse count JSON'
+        }
         callback(err, rowCount)
       }
     })
@@ -267,7 +267,7 @@ var Socrata = function (koop) {
         callback('meta::' + options.url + '::' + res.statusCode)
       } else {
         var response = JSON.parse(body)
-        meta.blobFilename = response.blobFileName
+        meta.blobFilename = response.blobFilename
         meta.updated_at = new Date(res.headers['last-modified']).getTime()
         meta.name = response.name
         meta.fields = []
@@ -318,32 +318,16 @@ var Socrata = function (koop) {
     return request(options)
   }
 
-  socrata.getZip = function (host, id, callback) {
-    var zipUrl = host + 'api/geospatial/' + id + '?method=export&format=Original'
+  socrata.processZip = function (host, id, callback) {
+    var zipUrl = host + '/api/geospatial/' + id + '?method=export&format=Original'
     var options = {url: zipUrl, gzip: true}
     if (socrata.token) {
       options.headers = {'X-App-Token': socrata.token}
     }
-    request(options, function (err, res, body) {
-      if (err) {
-        callback(err)
-      } else {
-        callback(null, body)
-      }
+    ogr2ogr(request(options), 'ESRI Shapefile').exec(function (err, data) {
+      callback(err, data)
     })
-  }
-
-  socrata.processZip = function (zip, callback) {
-    var geojson = { type: 'FeatureCollection', features: [] }
-    shapefile.createReadStream(zip)
-      .pipe(es.map(function (feature, cb) {
-        geojson.feature.push(feature)
-        cb()
-      }))
-      .on('done', function () {
-        callback(null, geojson)
-      })
-      // to do error handling
+    // to do error handling
   }
 
   socrata.processStream = function (dataStream, meta, callback) {

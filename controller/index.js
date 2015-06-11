@@ -68,11 +68,11 @@ var Controller = function (Socrata, BaseController) {
         // Get the item
         Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, itemJson) {
           // return 502 when there are errors
-          if (itemJson && itemJson.length && itemJson[0].errors) {
+          if (itemJson && itemJson[0] && itemJson[0].errors) {
             return res.status(502).send(itemJson)
           }
           // return 202 when processing
-          if (itemJson && itemJson.length && itemJson[0].status === 'processing' && !itemJson[0].errors) {
+          if (itemJson && itemJson[0] && itemJson[0].status === 'processing' && !itemJson[0].errors) {
             Socrata.getCount(['Socrata', req.params.item, (req.query.layer || 0)].join(':'), req.query, function (err, count) {
               if (err) {
                 return res.status(202).json({status: 'processing'})
