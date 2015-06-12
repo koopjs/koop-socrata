@@ -1,0 +1,98 @@
+{
+  "id" : "3rgj-95q8",
+  "name" : "TMDL Effectiveness Monitoring projects",
+  "attribution" : "Department of Ecology",
+  "attributionLink" : "http://www.ecy.wa.gov/",
+  "averageRating" : 0,
+  "blobFilename" : "EM_shapstate.zip",
+  "blobFileSize" : 1171335,
+  "blobId" : "bCcUN2kEX5mTN1tobXLjpH1_yt6GyN-7JsR3Ibxx0xA",
+  "blobMimeType" : "application/zip; charset=binary",
+  "category" : "Natural Resources & Environment",
+  "createdAt" : 1426468340,
+  "description" : "Map of Post-TMDL, or TMDL effectiveness monitoring studies and data.",
+  "displayType" : "map",
+  "downloadCount" : 6,
+  "indexUpdatedAt" : 1427685858,
+  "newBackend" : false,
+  "numberOfComments" : 0,
+  "oid" : 10612169,
+  "publicationAppendEnabled" : false,
+  "publicationDate" : 1427212102,
+  "publicationGroup" : 2489394,
+  "publicationStage" : "published",
+  "tableId" : 2489394,
+  "totalTimesRated" : 0,
+  "viewCount" : 63,
+  "viewLastModified" : 1427685702,
+  "viewType" : "geo",
+  "childViews" : [ "jc6v-v5jn" ],
+  "columns" : [ ],
+  "displayFormat" : {
+    "bkgdLayers" : [ {
+      "alias" : "Google",
+      "opacity" : 1,
+      "layerKey" : "Google Roadmap"
+    }, {
+      "alias" : "Bing",
+      "opacity" : 1,
+      "layerKey" : "Bing Road"
+    }, {
+      "alias" : "ESRI",
+      "opacity" : 1,
+      "layerKey" : "World Street Map (ESRI)"
+    } ],
+    "viewport" : {
+      "ymin" : 44.650181086072,
+      "ymax" : 49.486587996741,
+      "xmin" : -126.37856310264,
+      "xmax" : -113.72231310441
+    },
+    "plotStyle" : "point",
+    "distinctLegend" : true,
+    "exclusiveLayers" : true,
+    "viewDefinitions" : [ {
+      "uid" : "self"
+    } ]
+  },
+  "grants" : [ {
+    "inherited" : false,
+    "type" : "viewer",
+    "flags" : [ "public" ]
+  } ],
+  "metadata" : {
+    "renderTypeConfig" : {
+      "visible" : {
+        "map" : true
+      }
+    },
+    "availableDisplayTypes" : [ "map", "table", "fatrow", "page" ],
+    "geo" : {
+      "owsUrl" : "/api/geospatial/3rgj-95q8",
+      "bbox" : "-124.00511800000427,45.52546855905342,-117.53496719120704,49.006828340893726",
+      "layers" : "geo_3rgj-95q8-1",
+      "featureIdAttribute" : "_SocrataID",
+      "bboxCrs" : "EPSG:4326",
+      "namespace" : "geo_3rgj-95q8"
+    }
+  },
+  "owner" : {
+    "id" : "9t9n-gtbp",
+    "displayName" : "collyard",
+    "roleName" : "editor",
+    "screenName" : "collyard",
+    "rights" : [ "create_datasets", "view_domain", "create_pages", "view_goals", "view_dashboards" ]
+  },
+  "query" : {
+  },
+  "rights" : [ "read" ],
+  "tableAuthor" : {
+    "id" : "9t9n-gtbp",
+    "displayName" : "collyard",
+    "roleName" : "editor",
+    "screenName" : "collyard",
+    "rights" : [ "create_datasets", "view_domain", "create_pages", "view_goals", "view_dashboards" ]
+  },
+  "tags" : [ "effectiveness monitoring", "tmdls", "water quality", "ecology" ],
+  "flags" : [ "default" ]
+}

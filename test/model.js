@@ -31,6 +31,12 @@ requests.get('/resource/filtered.json?$order=:id&$limit=1').reply(200, JSON.pars
 requests.get('/views/filtered.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered::view.json')))
 requests.get('/resource/filtered.json').reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/filtered::page.json')})
 
+// responses for a zip file resource
+requests.get('/resource/zip.json?$select=count(*)').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::count.json')))
+requests.get('/resource/zip.json?$order=:id&$limit=1').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::first.json')))
+requests.get('/views/zip.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::view.json')))
+requests.get('/api/geospatial/zip?method=export&format=Original').times(2).reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/zip::data.zip')})
+
 // use Koop's local cache as a db for tests
 koop.Cache = new koop.DataCache(koop)
 koop.Cache.db = koop.LocalDB
@@ -41,6 +47,11 @@ var data = JSON.parse(fs.readFileSync(__dirname + '/fixtures/earthquakes.json'))
 var id = 'seattle',
   host = 'https://data.seattle.gov',
   key = 'foobar'
+
+// stub out requests for a zip resource
+sinon.stub(socrata, 'ogrZip', function (stream, callback) {
+  callback(null, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::geojson.json')))
+})
 
 test('adding a socrata instance', function (t) {
   socrata.register(id, host, function (err, success) {
@@ -259,7 +270,32 @@ test('requesting a socrata dataset that does not exist', function (t) {
   })
 })
 
+test('processing a zip file', function (t) {
+  t.plan(1)
+  socrata.processZip(host, 'zip', function (err, geojson) {
+    if (err) throw err
+    t.deepEqual(geojson.features.length, 19)
+  })
+})
+
 // Integration tests
+
+test('fill the cache with a resource that is a zip', function (t) {
+  socrata.getResource(host, id, 'zip', {}, function (err, data) {
+    if (err) throw err
+    setTimeout(function () {
+      t.end()
+    }, 500)
+  })
+})
+
+test('requesting a resource that was a zip', function (t) {
+  t.plan(1)
+  socrata.getResource(host, id, 'zip', {layer: 0}, function (err, data) {
+    if (err) throw err
+    t.deepEqual(data[0].features.length, 19)
+  })
+})
 
 test('fill the cache with a resource that was filtered', function (t) {
   socrata.getResource(host, id, 'filtered', {}, function (err, data) {
@@ -320,6 +356,7 @@ test('requesting a resource with a fully working resource', function (t) {
 })
 
 test('teardown', function (t) {
+  socrata.ogrZip.restore()
   t.end()
   process.exit(0)
 })

@@ -1,7 +1,8 @@
 var request = require('request'),
   async = require('async'),
   JSONStream = require('JSONStream'),
-  es = require('event-stream')
+  es = require('event-stream'),
+  ogr2ogr = require('ogr2ogr')
 
 var Socrata = function (koop) {
   var socrata = koop.BaseModel(koop)
@@ -126,7 +127,23 @@ var Socrata = function (koop) {
             koop.log.info(info)
           }
         })
-        // if count is the only thing that failed we can still try to grab the dataset in one go
+        // maybe we have errors because this is a blob file, we can just request the whole thing if it's a zip
+      } else if (errors.length && meta.blobFilename && meta.blobFilename.split('.')[1] === 'zip') {
+        socrata.processZip(host, urlId, function (err, geojson) {
+          if (err) {
+            koop.log.error(err)
+          } else {
+            socrata.insert(key, meta, geojson, function (err, success) {
+              if (err) {
+                koop.log.error('Processing failed for zip resource: ' + 'Socrata:' + key + ':0', err)
+                // handle err
+              } else {
+                koop.log.info('Processing completed for zip resource: ' + 'Socrata:' + key + ':0')
+              }
+            })
+          }
+        })
+      // if count is the only thing that failed we can still try to grab the dataset in one go
       } else if (errors.length === 1 && errors[0].split('::')[0] === 'count') {
         socrata.ingestResourceFallback(host, urlId, meta, function (err, info) {
           if (err) {
@@ -176,6 +193,7 @@ var Socrata = function (koop) {
                     meta.location_field = info.location_field
                     meta.updated_at = info.updated_at
                     meta.fields = info.fields
+                    meta.blobFilename = info.blobFilename
                   }
                 }
             )
@@ -227,7 +245,12 @@ var Socrata = function (koop) {
       } else if (res.statusCode !== 200) {
         callback('count::' + options.url + '::' + res.statusCode, null)
       } else {
-        var rowCount = JSON.parse(body)[0].count
+        var rowCount
+        try {
+          rowCount = JSON.parse(body)[0].count
+        } catch (e) {
+          err = 'Could not parse count JSON'
+        }
         callback(err, rowCount)
       }
     })
@@ -244,6 +267,7 @@ var Socrata = function (koop) {
         callback('meta::' + options.url + '::' + res.statusCode)
       } else {
         var response = JSON.parse(body)
+        meta.blobFilename = response.blobFilename
         meta.updated_at = new Date(res.headers['last-modified']).getTime()
         meta.name = response.name
         meta.fields = []
@@ -292,6 +316,22 @@ var Socrata = function (koop) {
     }
     // Return the stream so it can be piped to a parser
     return request(options)
+  }
+
+  socrata.processZip = function (host, id, callback) {
+    var zipUrl = host + '/api/geospatial/' + id + '?method=export&format=Original'
+    var options = {url: zipUrl, gzip: true}
+    if (socrata.token) {
+      options.headers = {'X-App-Token': socrata.token}
+    }
+    socrata.ogrZip(request(options), callback)
+    // to do error handling
+  }
+
+  socrata.ogrZip = function (stream, callback) {
+    ogr2ogr(stream, 'ESRI Shapefile').exec(function (err, data) {
+      callback(err, data)
+    })
   }
 
   socrata.processStream = function (dataStream, meta, callback) {
