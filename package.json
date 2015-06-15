@@ -29,9 +29,6 @@
     "tap-spec": "^2.2.2",
     "tape": "^3.5.0"
   },
-  "directories": {
-    "test": "test"
-  },
   "homepage": "https://github.com/koopjs/koop-socrata#readme",
   "keywords": [
     "csv",
