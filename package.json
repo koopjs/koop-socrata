@@ -1,36 +1,58 @@
 {
   "name": "koop-socrata",
-  "version": "0.4.0",
   "description": "A socrata wrapper for koop ",
-  "main": "index.js",
-  "scripts": {
-    "test": "standard && node test/model.js | tap-spec && node test/controller.js | tap-spec"
+  "version": "0.4.0",
+  "author": "Chris Helm",
+  "bugs": {
+    "url": "https://github.com/koopjs/koop-socrata/issues"
   },
+  "contributors": [
+    "Daniel Fenton",
+    "Phil Holleran"
+  ],
   "dependencies": {
+    "JSONStream": "~1.0.4",
     "async": "^0.9.2",
     "config": "~0.4.35",
     "ejs": "~1.0.0",
-    "request": "^2.51.0",
-    "sphericalmercator": "~1.0.2",
-    "JSONStream": "~1.0.4",
     "event-stream": "~3.3.1",
-    "ogr2ogr": "~0.5.1"
+    "ogr2ogr": "~0.5.1",
+    "request": "^2.51.0",
+    "sphericalmercator": "~1.0.2"
   },
-  "author": "Chris Helm",
-  "contributors": ["Daniel Fenton", "Phil Holleran"],
-  "license": "BSD-2-Clause",
   "devDependencies": {
     "koop": "^2.1.11",
+    "nock": "~2.4.0",
     "sinon": "^1.14.1",
-    "standard": "^3.3.0",
+    "standard": "^4.2.1",
     "supertest": "~0.11.0",
     "tap-spec": "^2.2.2",
-    "tape": "^3.5.0",
-    "nock": "~2.4.0"
-
+    "tape": "^3.5.0"
   },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/koopjs/koop-socrata#readme",
+  "keywords": [
+    "csv",
+    "data",
+    "etl",
+    "feature-service",
+    "geojson",
+    "koop",
+    "open",
+    "open-data",
+    "opendata",
+    "provider",
+    "socrata"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com:koopjs/koop-socrata.git"
+    "url": "git@github.com:koopjs/koop-socrata.git"
+  },
+  "scripts": {
+    "test": "standard && tape test/*.js | tap-spec"
   }
 }
