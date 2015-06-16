@@ -1,8 +1,8 @@
-var request = require('request'),
-  async = require('async'),
-  JSONStream = require('JSONStream'),
-  es = require('event-stream'),
-  ogr2ogr = require('ogr2ogr')
+var request = require('request')
+var async = require('async')
+var JSONStream = require('JSONStream')
+var es = require('event-stream')
+var ogr2ogr = require('ogr2ogr')
 
 var Socrata = function (koop) {
   var socrata = koop.BaseModel(koop)
@@ -53,13 +53,13 @@ var Socrata = function (koop) {
 
   // got the service and get the item
   socrata.getResource = function (host, hostId, id, options, callback) {
-    var type = 'Socrata',
-      key = id,
-      table = [type, id, (options.layer || 0)].join(':'),
-      urlId,
-      meta = {},
-      firstRow = [],
-      errors = []
+    var type = 'Socrata'
+    var key = id
+    var table = [type, id, (options.layer || 0)].join(':')
+    var urlId
+    var meta = {}
+    var firstRow = []
+    var errors = []
 
     // test id for '!' character indicating presence of a column name and handle
     if (id.indexOf('!') !== -1) {
@@ -127,7 +127,7 @@ var Socrata = function (koop) {
             koop.log.info(info)
           }
         })
-        // maybe we have errors because this is a blob file, we can just request the whole thing if it's a zip
+      // maybe we have errors because this is a blob file, we can just request the whole thing if it's a zip
       } else if (errors.length && meta.blobFilename && meta.blobFilename.split('.')[1] === 'zip') {
         socrata.processZip(host, urlId, function (err, geojson) {
           if (err) {
@@ -136,7 +136,7 @@ var Socrata = function (koop) {
             socrata.insert(key, meta, geojson, function (err, success) {
               if (err) {
                 koop.log.error('Processing failed for zip resource: ' + 'Socrata:' + key + ':0', err)
-                // handle err
+              // handle err
               } else {
                 koop.log.info('Processing completed for zip resource: ' + 'Socrata:' + key + ':0')
               }
@@ -168,47 +168,47 @@ var Socrata = function (koop) {
             processing[host + id] = true
             callback(null, [{status: 'processing'}])
             infoQueue.push({
-                task: socrata.getRowCount,
-                host: host,
-                urlId: urlId
+              task: socrata.getRowCount,
+              host: host,
+              urlId: urlId
             }, function (err, rowCount) {
-                  if (err) {
-                    koop.log.error('Could not get rowCount. ' + err)
-                    errors.push(err)
-                  } else {
-                    meta.rowCount = rowCount
-                  }
-                }
+              if (err) {
+                koop.log.error('Could not get rowCount. ' + err)
+                errors.push(err)
+              } else {
+                meta.rowCount = rowCount
+              }
+            }
             )
             infoQueue.push({
-                task: socrata.getMeta,
-                host: host,
-                urlId: urlId
+              task: socrata.getMeta,
+              host: host,
+              urlId: urlId
             }, function (err, info) {
-                  if (err) {
-                    koop.log.error('Could not get metadata. ' + err)
-                    errors.push(err)
-                  } else {
-                    meta.name = info.name
-                    meta.location_field = info.location_field
-                    meta.updated_at = info.updated_at
-                    meta.fields = info.fields
-                    meta.blobFilename = info.blobFilename
-                  }
-                }
+              if (err) {
+                koop.log.error('Could not get metadata. ' + err)
+                errors.push(err)
+              } else {
+                meta.name = info.name
+                meta.location_field = info.location_field
+                meta.updated_at = info.updated_at
+                meta.fields = info.fields
+                meta.blobFilename = info.blobFilename
+              }
+            }
             )
             infoQueue.push({
-                task: socrata.getFirst,
-                host: host,
-                urlId: urlId
+              task: socrata.getFirst,
+              host: host,
+              urlId: urlId
             }, function (err, data) {
-                  if (err) {
-                    koop.log.error('Could not get first row. ' + err)
-                    errors.push(err)
-                  } else {
-                    firstRow = data
-                  }
-                }
+              if (err) {
+                koop.log.error('Could not get first row. ' + err)
+                errors.push(err)
+              } else {
+                firstRow = data
+              }
+            }
             )
           } else if (error & processing[host + key]) {
             // we don't have any info yet, but it is processing just callback
@@ -325,7 +325,7 @@ var Socrata = function (koop) {
       options.headers = {'X-App-Token': socrata.token}
     }
     socrata.ogrZip(request(options), callback)
-    // to do error handling
+  // to do error handling
   }
 
   socrata.ogrZip = function (stream, callback) {
@@ -337,29 +337,29 @@ var Socrata = function (koop) {
   socrata.processStream = function (dataStream, meta, callback) {
     var geojson = { type: 'FeatureCollection', features: [] }
     dataStream
-    .pipe(JSONStream.parse('*'))
-    .pipe(es.map(function (data, cb) {
-      socrata.toGeojson([data], meta.location_field, meta.fields, function (err, converted) {
-        if (err) {
-          cb(err)
-        }
-        geojson.features.push(converted.features[0])
-        cb()
+      .pipe(JSONStream.parse('*'))
+      .pipe(es.map(function (data, cb) {
+        socrata.toGeojson([data], meta.location_field, meta.fields, function (err, converted) {
+          if (err) {
+            cb(err)
+          }
+          geojson.features.push(converted.features[0])
+          cb()
+        })
+      }))
+      .on('error', function (err) {
+        callback(err)
       })
-    }))
-    .on('error', function (err) {
-      callback(err)
-    })
-    .on('end', function () {
-      callback(null, geojson)
-    })
+      .on('end', function () {
+        callback(null, geojson)
+      })
   }
 
   socrata.ingestResource = function (host, id, meta, firstRow, pageQueue, callback) {
     socrata.toGeojson(firstRow, meta.location_field, meta.fields, function (err, geojson) {
       if (err) {
         callback('Failed to parse the first row at: ' + host + id + '. ' + err)
-        // update status as failed
+      // update status as failed
       } else {
         meta.status = 'processing'
         socrata.insert(id, meta, geojson, function (err, success) {
@@ -515,8 +515,9 @@ var Socrata = function (koop) {
 
   // drops the item from the cache
   socrata.dropItem = function (host, itemId, options, callback) {
-    var dir = [ 'socrata', host, itemId].join(':'),
-    errors = []
+    var dir = [ 'socrata', host, itemId].join(':')
+    var errors = []
+
     koop.Cache.remove('Socrata', itemId, options, function (err, res) {
       if (err) errors.push(err)
       koop.files.removeDir('files/' + dir, function (err, res) {

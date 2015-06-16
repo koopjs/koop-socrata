@@ -1,11 +1,10 @@
-var koop = require('koop/lib'),
-  test = require('tape'),
-  fs = require('fs'),
-  nock = require('nock'),
-  sinon = require('sinon'),
-  JSONStream = require('JSONStream'),
-  es = require('event-stream')
-
+var koop = require('koop/lib')
+var test = require('tape')
+var fs = require('fs')
+var nock = require('nock')
+var sinon = require('sinon')
+var JSONStream = require('JSONStream')
+var es = require('event-stream')
 var requests = nock('https://data.seattle.gov')
 
 // responses for working resource
@@ -41,12 +40,15 @@ requests.get('/api/geospatial/zip?method=export&format=Original').times(2).reply
 koop.Cache = new koop.DataCache(koop)
 koop.Cache.db = koop.LocalDB
 koop.log = new koop.Logger({logfile: '/log/test_log'})
+
 var socrata = require('../models/Socrata.js')(koop)
+
 socrata.pageLimit = 1000
+
 var data = JSON.parse(fs.readFileSync(__dirname + '/fixtures/earthquakes.json'))
-var id = 'seattle',
-  host = 'https://data.seattle.gov',
-  key = 'foobar'
+var id = 'seattle'
+var host = 'https://data.seattle.gov'
+var key = 'foobar'
 
 // stub out requests for a zip resource
 sinon.stub(socrata, 'ogrZip', function (stream, callback) {
@@ -119,14 +121,14 @@ test('getting a full page', function (t) {
   var url = 'https://data.seattle.gov/resource/foobar.json?$order=:id&$limit=1000&$offset=1'
   var json = []
   socrata.getPage(url)
-  .pipe(JSONStream.parse('*'))
-  .pipe(es.map(function (data, callback) {
-    json.push(data)
-    callback()
-  }))
-  .on('end', function () {
-    t.deepEqual(json, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::page.json')))
-  })
+    .pipe(JSONStream.parse('*'))
+    .pipe(es.map(function (data, callback) {
+      json.push(data)
+      callback()
+    }))
+    .on('end', function () {
+      t.deepEqual(json, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::page.json')))
+    })
 })
 
 test('parsing geojson', function (t) {

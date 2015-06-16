@@ -1,8 +1,14 @@
-var pjson = require('./package.json')
+var pkg = require('./package.json')
 
-exports.name = 'Socrata'
-exports.hosts = true
-exports.controller = require('./controller')
-exports.routes = require('./routes')
-exports.model = require('./models/Socrata.js')
-exports.status = { version: pjson.version}
+var provider = {
+  name: 'Socrata',
+  hosts: true,
+  controller: require('./controller'),
+  routes: require('./routes'),
+  model: require('./models/Socrata'),
+  status: {
+    version: pkg.version
+  }
+}
+
+module.exports = provider
