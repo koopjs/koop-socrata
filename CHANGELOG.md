@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.1] - 2015-07-02
+### Fixed
+* Feature service count respects JSONP
+
 ## [0.4.0] - 2015-06-10
 ### Added
 * Non-point spatial datasets are now supported
@@ -69,6 +73,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Keeping a legit changelog
 * Added tape testing with sinon stubs in the controller tests
 
+[0.4.1]: https://github.com/Esri/koop/releases/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/Esri/koop/releases/compare/v0.3.3...v0.4.0
 [0.3.4]: https://github.com/Esri/koop/releases/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/Esri/koop/releases/compare/v0.3.2...v0.3.3
