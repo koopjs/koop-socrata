@@ -155,7 +155,7 @@ var Controller = function (Socrata, BaseController) {
         var host = data.host
         // if this is a count request then go straight to the db
         if (req.query.returnCountOnly) {
-          controller.featureserviceCount(req, res, host)
+          controller.featureserviceCount(req, res, host, callback)
         } else {
           // else send this down for further processing
           controller.featureservice(req, res, host, callback)
@@ -164,7 +164,7 @@ var Controller = function (Socrata, BaseController) {
     })
   }
 
-  controller.featureserviceCount = function (req, res, host) {
+  controller.featureserviceCount = function (req, res, host, callback) {
     // first check if the dataset is new, in the cache, or processing
     // ask for a single feature becasue we just want to know if the data is there
     req.query.limit = 1
@@ -181,7 +181,11 @@ var Controller = function (Socrata, BaseController) {
             res.status(500).send(err)
           } else {
             var response = {count: count}
-            res.status(200).json(response)
+            if (callback) {
+              res.status(200).send(callback + '(' + JSON.stringify(response) + ')')
+            } else {
+              res.status(200).json(response)
+            }
           }
         })
       }
@@ -190,7 +194,7 @@ var Controller = function (Socrata, BaseController) {
 
   controller.featureservice = function (req, res, host, callback) {
     var err
-    req.query.limit = req.query.limit || req.query.resultRecordCount || 1000000000
+    req.query.limit = req.query.limit || req.query.resultRecordCount || 1000
     req.query.offset = req.query.resultOffset || null
     // Get the item
     Socrata.getResource(host, req.params.id, req.params.item, req.query, function (error, geojson) {
@@ -211,8 +215,8 @@ var Controller = function (Socrata, BaseController) {
     var callback = req.query.callback
     delete req.query.callback
 
-    var key,
-      layer = req.params.layer || 0
+    var key
+    var layer = req.params.layer || 0
 
     var _send = function (err, data) {
       if (err) {

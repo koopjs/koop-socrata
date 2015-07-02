@@ -405,8 +405,8 @@ var Socrata = function (koop) {
       callback('Error converting data to GeoJSON: JSON not returned from Socrata or blank JSON returned', null)
     } else {
       var geojson = { type: 'FeatureCollection', features: [] }
-      var geojsonFeature,
-        newFields = []
+      var geojsonFeature
+      var newFields = []
       json.forEach(function (feature, i) {
         var lat, lon
         geojsonFeature = { type: 'Feature', geometry: {}, id: i + 1 }
