@@ -215,8 +215,8 @@ var Controller = function (Socrata, BaseController) {
     var callback = req.query.callback
     delete req.query.callback
 
-    var key,
-      layer = req.params.layer || 0
+    var key
+    var layer = req.params.layer || 0
 
     var _send = function (err, data) {
       if (err) {
