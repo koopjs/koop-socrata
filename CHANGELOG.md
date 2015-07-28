@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-### Unreleased
+## [1.0.0] - 2015-07-28
 ### Fixed
 * Alternate location fields are respected
 * Cache now expires correctly
@@ -68,9 +68,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Changed the order in which object properties get flattened. Location objects were getting flattened too early in the process and cause location lookups to fail when building the geojson
 
 ## [0.1.1] - 2015-05-06
-### Added 
+### Added
 * Flattening all object based properties
-* ensuring that each feature contains each field  
+* ensuring that each feature contains each field
 
 ## 0.1.0 - 2015-04-21
 ### Changed
