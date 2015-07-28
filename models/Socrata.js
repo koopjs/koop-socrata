@@ -270,7 +270,7 @@ var Socrata = function (koop) {
       } else {
         var response = JSON.parse(body)
         meta.blobFilename = response.blobFilename
-        meta.updated_at = new Date(res.headers['last-modified'])
+        meta.updated_at = new Date(res.headers['last-modified']).getTime()
         meta.name = response.name
         meta.fields = []
         response.columns.forEach(function (col) {

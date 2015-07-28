@@ -90,7 +90,7 @@ test('getting the metadata', function (t) {
   t.plan(4)
   socrata.getMeta(host, key, function (err, meta) {
     if (err) throw err
-    t.deepEqual(meta.updated_at, new Date('Wed, 03 Jun 2015 10:05:45 PDT'))
+    t.deepEqual(meta.updated_at, new Date('Wed, 03 Jun 2015 10:05:45 PDT').getTime())
     t.deepEqual(meta.location_field, 'incident_location')
     t.deepEqual(meta.name, 'Seattle Police Department 911 Incident Response')
     t.deepEqual(meta.fields, [
