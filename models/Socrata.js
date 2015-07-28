@@ -60,10 +60,12 @@ var Socrata = function (koop) {
     var meta = {}
     var firstRow = []
     var errors = []
+    var location_field
 
     // test id for '!' character indicating presence of a column name and handle
     if (id.indexOf('!') !== -1) {
-      urlId = id.substring(0, id.indexOf('!'))
+      urlId = id.split('!')[0]
+      location_field = id.split('!')[1]
     } else {
       urlId = id
     }
@@ -190,7 +192,7 @@ var Socrata = function (koop) {
                 errors.push(err)
               } else {
                 meta.name = info.name
-                meta.location_field = info.location_field
+                meta.location_field = location_field || info.location_field
                 meta.updated_at = info.updated_at
                 meta.fields = info.fields
                 meta.blobFilename = info.blobFilename
