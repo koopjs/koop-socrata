@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Unreleased
 ### Fixed
 * Alternate location fields are respected
+* Cache now expires correctly
 
 ## [0.4.1] - 2015-07-02
 ### Fixed
