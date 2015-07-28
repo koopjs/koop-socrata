@@ -1,6 +1,6 @@
 # koop-socrata
 
-> Socrata Provider for [Koop](https://github.com/Esri/koop)
+> Socrata Provider for [Koop](https://github.com/koopjs/koop)
 
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
@@ -10,11 +10,11 @@
 [travis-img]: https://img.shields.io/travis/koopjs/koop-socrata.svg?style=flat-square
 [travis-url]: https://travis-ci.org/koopjs/koop-socrata
 
-This provider makes it possible to access [Socrata's JSON API](http://dev.socrata.com/docs/formats/json.html) as either GeoJSON or an Esri FeatureService. This is particular useful for making maps and doing analysis on the web.
+This provider makes it possible to access [Socrata's JSON API](http://dev.socrata.com/docs/formats/json.html) as either GeoJSON or an Esri FeatureService. This is particularly useful for making maps and doing analysis on the web.
 
 ## Install
 
-To use this provider you first need a working installation of [Koop](https://github.com/Esri/koop). Then from within the koop directory you'll need to run the following:
+To use this provider you first need a working installation of [Koop](https://github.com/koopjs/koop). Then from within the koop directory you'll need to run the following:
 
 ```
 npm install koop-socrata --save
