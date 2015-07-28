@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Unreleased
 ### Fixed
-* Alternate location field are respected
+* Alternate location fields are respected
 
 ## [0.4.1] - 2015-07-02
 ### Fixed
