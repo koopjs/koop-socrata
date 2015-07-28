@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Unreleased
+### Fixed
+* Alternate location field are respected
+
 ## [0.4.1] - 2015-07-02
 ### Fixed
 * Feature service count respects JSONP

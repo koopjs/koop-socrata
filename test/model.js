@@ -360,5 +360,4 @@ test('requesting a resource with a fully working resource', function (t) {
 test('teardown', function (t) {
   socrata.ogrZip.restore()
   t.end()
-  process.exit(0)
 })
