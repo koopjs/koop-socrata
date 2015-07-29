@@ -485,13 +485,14 @@ var Socrata = function (koop) {
       // no info means it's the first request for this resource, no need to check cache
       if (info) {
         // check if enough time has passed to call to Socrata
-        if ((new Date() - info.checked_at) > socrata.expirationPeriod) {
+        // convert info fields into date objects because they are stored as strings in the cache
+        if ((new Date() - new Date(info.checked_at)) > socrata.expirationPeriod) {
           socrata.getMeta(host, id, function (err, meta) {
             if (err) {
               callback(err)
             }
             // now check if the resource expired
-            if (meta.updated_at > info.updated_at) {
+            if (meta.updated_at > new Date(info.updated_at)) {
               // it's expired so remove the item and go fetch it again
               socrata.dropItem(host, id, 0, function (err, success) {
                 if (err) {
