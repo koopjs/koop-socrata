@@ -195,8 +195,8 @@ test('stubbing methods for cache check', function (t) {
   })
   sinon.stub(koop.Cache, 'getInfo', function (table, callback) {
     var info = {
-      updated_at: new Date('Thu Jun 03 2015'),
-      checked_at: new Date('Thu Jun 03 2015')
+      updated_at: new Date('Thu Jun 03 2015').toString(),
+      checked_at: new Date('Thu Jun 03 2015').toString()
     }
     callback(null, info)
   })
@@ -229,8 +229,8 @@ test('stubbing method for non expired cache check', function (t) {
   })
   sinon.stub(koop.Cache, 'getInfo', function (table, callback) {
     var info = {
-      updated_at: new Date(),
-      checked_at: new Date()
+      updated_at: new Date().toString(),
+      checked_at: new Date().toString()
     }
     callback(null, info)
   })
