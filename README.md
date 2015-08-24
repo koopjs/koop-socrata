@@ -50,7 +50,7 @@ curl --data "host=https://data.nola.gov&id=nola" localhost:1337/socrata
 
 What you'll need for that request to work is an ID and the URL of the Socrata instance. The ID is what you'll use to reference datasets that come from Socrata in Koop.
 
-To make sure this works you can visit: http://localhost:1337/socrata and you should see all of the register hosts.
+To make sure this works you can visit: http://localhost:1337/socrata and you should see all of the registered hosts.
 
 ### Accessing Socrata Data
 
@@ -76,6 +76,15 @@ Koop-Socrata will page through large datasets to gather all the rows. The defaul
 		"pageLimit": 50000
 	}
 }
+```
+
+### Clearing Koop's cache surgically
+
+If you find yourself in a situation where Koop isn't returning data for a particular resource and you'd like to make sure it makes a fresh request, you can blow out the cobwebs by making the following request in the browser.
+
+```json
+http://[koop]/socrata/[provider]/[resourceID]/drop
+>>> true
 ```
 
 ## Examples
