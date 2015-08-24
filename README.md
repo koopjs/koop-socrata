@@ -78,7 +78,7 @@ Koop-Socrata will page through large datasets to gather all the rows. The defaul
 }
 ```
 
-### Clearing Koop's cache surgically
+### Clearing Koop's cache for individual resources
 
 If you find yourself in a situation where Koop isn't returning data for a particular resource and you'd like to make sure it makes a fresh request, you can blow out the cobwebs by making the following request in the browser.
 
