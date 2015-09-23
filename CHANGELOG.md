@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * bumped version of leaflet/esri leaflet used by preview
 * cleaned up views/demo.ejs
 
+### Fixed
+* Dont call processFeatureServer unless there are features
+
 ## [1.0.1] - 2015-07-29
 ### Fixed
 * Cache expiration really works now

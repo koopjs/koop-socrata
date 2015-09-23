@@ -202,6 +202,8 @@ var Controller = function (Socrata, BaseController) {
         res.status(500).send(error)
       } else if (geojson[0] && geojson[0].status === 'processing') {
         res.status(202).json(geojson)
+      } else if (geojson && geojson[0] && geojson[0].features && !geojson[0].features.length) {
+        res.status(202).json({status: 'processing'})
       } else {
         // pass to the shared logic for FeatureService routing
         delete req.query.geometry
