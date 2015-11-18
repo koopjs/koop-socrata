@@ -134,11 +134,13 @@ test('getting a full page', function (t) {
 test('parsing geojson', function (t) {
   t.plan(5)
 
-  socrata.toGeojson([], 'location', [], function (err, geojson) {
+  var meta = {location_field: 'location', fields: [], field_types: []}
+
+  socrata.toGeojson([], meta, function (err, geojson) {
     t.deepEqual(err, 'Error converting data to GeoJSON: JSON not returned from Socrata or blank JSON returned')
   })
 
-  socrata.toGeojson(data, 'location', [], function (err, geojson) {
+  socrata.toGeojson(data, meta, function (err, geojson) {
     if (err) throw err
     t.deepEqual(geojson.features.length, 1000)
   })
@@ -157,10 +159,13 @@ test('parsing geojson', function (t) {
       longitude: 0
     }
   }]
-  socrata.toGeojson(features, 'location', ['obj'], function (err, geojson) {
+
+  meta.fields = ['obj']
+
+  socrata.toGeojson(features, meta, function (err, geojson) {
     if (err) throw err
-    t.deepEqual(geojson.features[0].properties, {obj_prop: true})
-    t.deepEqual(geojson.features[1].properties, {obj_prop: null})
+    t.deepEqual(geojson.features[0].properties, {obj: null, obj_prop: true})
+    t.deepEqual(geojson.features[1].properties, {obj: null, obj_prop: null})
     t.deepEqual(geojson.features.length, 2)
   })
 })
@@ -170,7 +175,8 @@ test('piping data through the process stream', function (t) {
   sinon.stub(socrata, 'getPage', function (url) {
     return fs.createReadStream(__dirname + '/fixtures/crimes::page.json')
   })
-  sinon.stub(socrata, 'toGeojson', function (json, locField, fields, callback) {
+
+  sinon.stub(socrata, 'toGeojson', function (json, meta, callback) {
     callback(null, { type: 'FeatureCollection', features: [{}] })
   })
   var meta = {}
