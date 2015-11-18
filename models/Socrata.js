@@ -453,7 +453,7 @@ var Socrata = function (koop) {
         }
 
         // make sure each feature has flattened object props
-        fields.forEach(function (f) {
+        fields.forEach(function (f, j) {
           if (f.substring(0, 1) !== ':') {
             if (typeof geojson.features[i].properties[f] === 'object') {
               for (var v in geojson.features[i].properties[f]) {
@@ -466,12 +466,12 @@ var Socrata = function (koop) {
           }
 
           // ensure all fields present, if undefined set to null
-          if(geojson.features[i].properties[f] === undefined) {
+          if (geojson.features[i].properties[f] === undefined) {
             geojson.features[i].properties[f] = null
           }
 
           // type casting for numbers
-          if(fieldTypes[j] === "number" && geojson.features[i].properties[f] !== null) {
+          if (fieldTypes[j] === 'number' && geojson.features[i].properties[f] !== null) {
             geojson.features[i].properties[f] = parseFloat(geojson.features[i].properties[f])
           }
         })
