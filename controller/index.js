@@ -10,11 +10,11 @@ var Controller = function (Socrata, BaseController) {
   // register a socrata instance
   controller.register = function (req, res) {
     if (!req.body.host) {
-      res.send('Must provide a host to register:', 500)
+      res.status(500).send('Must provide a host to register:')
     } else {
       Socrata.register(req.body.id, req.body.host, function (err, id) {
         if (err) {
-          res.send(err, 500)
+          res.status(500).send(err)
         } else {
           res.json({ 'serviceId': id })
         }
@@ -25,7 +25,7 @@ var Controller = function (Socrata, BaseController) {
   controller.list = function (req, res) {
     Socrata.find(null, function (err, data) {
       if (err) {
-        res.send(err, 500)
+        res.status(500).send(err)
       } else {
         res.json(data)
       }
@@ -35,7 +35,7 @@ var Controller = function (Socrata, BaseController) {
   controller.find = function (req, res) {
     Socrata.find(req.params.id, function (err, data) {
       if (err) {
-        res.send(err, 404)
+        res.status(404).send(err)
       } else {
         res.json(data)
       }
@@ -46,12 +46,12 @@ var Controller = function (Socrata, BaseController) {
   controller.drop = function (req, res) {
     Socrata.find(req.params.id, function (err, data) {
       if (err) {
-        res.send(err, 500)
+        res.status(500).send(err)
       } else {
         // Get the item
         Socrata.dropItem(data.host, req.params.item, req.query, function (error, itemJson) {
           if (error) {
-            res.send(error, 500)
+            res.status(500).send(error)
           } else {
             res.json(itemJson)
           }
@@ -105,7 +105,7 @@ var Controller = function (Socrata, BaseController) {
               } else {
                 Socrata.exportToFormat(req.params.format, dir, key, itemJson[0], {}, function (err, file) {
                   if (err) {
-                    res.send(err, 500)
+                    res.status(500).send(err)
                   } else {
                     if (file.substr(0, 4) === 'http') {
                       res.redirect(file)
@@ -130,11 +130,11 @@ var Controller = function (Socrata, BaseController) {
 
   controller.del = function (req, res) {
     if (!req.params.id) {
-      res.send('Must specify a service id', 500)
+      res.status(500).send('Must specify a service id')
     } else {
       Socrata.remove(req.params.id, function (err, data) {
         if (err) {
-          res.send(err, 500)
+          res.status(500).send(err)
         } else {
           res.json(data)
         }
@@ -286,7 +286,7 @@ var Controller = function (Socrata, BaseController) {
     } else if (!fs.existsSync(file)) {
       Socrata.find(req.params.id, function (err, data) {
         if (err) {
-          res.send(err, 500)
+          res.status(500).send(err)
         } else {
           // Get the item
           Socrata.getResource(data.host, req, req.params.id, req.params.item, req.query, _send)
@@ -311,18 +311,18 @@ var Controller = function (Socrata, BaseController) {
     } else {
       Socrata.find(req.params.id, function (err, data) {
         if (err) {
-          res.send(err, 500)
+          res.status(500).send(err)
         } else {
           // Get the item
           Socrata.getResource(data.host, req.params.id, req.params.item, req.query, function (error, itemJson) {
             if (error) {
-              res.send(error, 500)
+              res.status(500).send(error)
             } else {
               var key = ['socrata', req.params.id, req.params.item].join(':')
               // generate a thumbnail
               Socrata.thumbnailExists(itemJson[0], key, req.query, function (err, file) {
                 if (err) {
-                  res.send(err, 500)
+                  res.status(500).send(err)
                 } else {
                   // send back image
                   res.sendfile(file)
