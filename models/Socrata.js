@@ -198,6 +198,7 @@ var Socrata = function (koop) {
                 meta.location_field = location_field || info.location_field
                 meta.updated_at = info.updated_at
                 meta.fields = info.fields
+                meta.field_types = info.field_types || []
                 meta.blobFilename = info.blobFilename
               }
             }
@@ -276,8 +277,10 @@ var Socrata = function (koop) {
         meta.updated_at = new Date(res.headers['last-modified'])
         meta.name = response.name
         meta.fields = []
+        meta.field_types = []
         response.columns.forEach(function (col) {
           meta.fields.push(col.fieldName)
+          meta.field_types.push(col.dataTypeName)
           if (col.dataTypeName === 'location') {
             meta.location_field = col.fieldName
           }
@@ -344,7 +347,7 @@ var Socrata = function (koop) {
     dataStream
       .pipe(JSONStream.parse('*'))
       .pipe(es.map(function (data, cb) {
-        socrata.toGeojson([data], meta.location_field, meta.fields, function (err, converted) {
+        socrata.toGeojson([data], meta, function (err, converted) {
           if (err) {
             cb(err)
           }
@@ -361,7 +364,7 @@ var Socrata = function (koop) {
   }
 
   socrata.ingestResource = function (host, id, meta, firstRow, pageQueue, callback) {
-    socrata.toGeojson(firstRow, meta.location_field, meta.fields, function (err, geojson) {
+    socrata.toGeojson(firstRow, meta, function (err, geojson) {
       if (err) {
         callback('Failed to parse the first row at: ' + host + id + '. ' + err)
       // update status as failed
@@ -405,13 +408,16 @@ var Socrata = function (koop) {
     })
   }
 
-  socrata.toGeojson = function (json, locationField, fields, callback) {
+  socrata.toGeojson = function (json, meta, callback) {
     if (!json || !json.length) {
       callback('Error converting data to GeoJSON: JSON not returned from Socrata or blank JSON returned', null)
     } else {
       var geojson = { type: 'FeatureCollection', features: [] }
       var geojsonFeature
       var newFields = []
+      var locationField = meta.location_field
+      var fields = meta.fields
+      var fieldTypes = meta.field_types
       json.forEach(function (feature, i) {
         var lat, lon
         geojsonFeature = { type: 'Feature', geometry: {}, id: i + 1 }
@@ -450,7 +456,7 @@ var Socrata = function (koop) {
         }
 
         // make sure each feature has flattened object props
-        fields.forEach(function (f) {
+        fields.forEach(function (f, j) {
           if (f.substring(0, 1) !== ':') {
             if (typeof geojson.features[i].properties[f] === 'object') {
               for (var v in geojson.features[i].properties[f]) {
@@ -460,6 +466,16 @@ var Socrata = function (koop) {
               }
               delete geojson.features[i].properties[f]
             }
+          }
+
+          // ensure all fields present, if undefined set to null
+          if (geojson.features[i].properties[f] === undefined) {
+            geojson.features[i].properties[f] = null
+          }
+
+          // type casting for numbers
+          if (fieldTypes[j] === 'number' && geojson.features[i].properties[f] !== null) {
+            geojson.features[i].properties[f] = parseFloat(geojson.features[i].properties[f])
           }
         })
       })
@@ -551,6 +567,12 @@ var Socrata = function (koop) {
       }
       if (newInfo.errors) {
         info.errors = newInfo.errors
+      }
+      if (newInfo.field_types) {
+        info.field_types = newInfo.field_types
+      }
+      if (newInfo.field_types) {
+        info.fields = newInfo.fields
       }
       koop.Cache.updateInfo(table, info, function (err, success) {
         if (err) {
