@@ -163,7 +163,10 @@ var Socrata = function (koop) {
     }
 
     koop.Cache.get(type, key, options, function (err, entry) {
-      if (err || (entry.length && entry[0].status === 'processing')) {
+      var cacheMiss = err ||
+        (entry.length && entry[0].status === 'processing') ||
+        (entry.length && entry[0].info && entry[0].info.status === 'processing')
+      if (cacheMiss) {
         koop.Cache.getInfo(table, function (error, info) {
           if (error && !processing[host + key]) {
             // we don't have the data and it's not processing return processing and make a new request
