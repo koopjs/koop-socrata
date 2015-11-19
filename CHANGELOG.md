@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 * bumped version of leaflet/esri leaflet used by preview
 * cleaned up views/demo.ejs
+* ensured log files created by passing tests have valid filenames and are ignored by git
 
 ## [1.0.1] - 2015-07-29
 ### Fixed

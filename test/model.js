@@ -39,7 +39,8 @@ requests.get('/api/geospatial/zip?method=export&format=Original').times(2).reply
 // use Koop's local cache as a db for tests
 koop.Cache = new koop.DataCache(koop)
 koop.Cache.db = koop.LocalDB
-koop.log = new koop.Logger({logfile: './'})
+
+koop.log = new koop.Logger({logfile: 'test'})
 
 var socrata = require('../models/Socrata.js')(koop)
 
