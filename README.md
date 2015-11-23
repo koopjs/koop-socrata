@@ -19,24 +19,37 @@ To use this provider you first need a working installation of [Koop](https://git
 ```
 npm install koop-socrata --save
 ```
+## Usage
 
-### Add your app key
+`koop-socrata` needs to be registered as a provider in your Koop app in order to work.
 
-Socrata allows 1,000 requests per rolling hour period if you have an app key. If not, there is no guarantee of the number of queries you can make. It is strongly recommended to include an app token if you plan to run Koop-Socrata in production. See:
-
-http://dev.socrata.com/docs/app-tokens.html
-
-1. Go to dev.socrata.com/register to create an app key
-2. Edit the default.json in your koop-app config to add
-```json
-{
-	"socrata": {
-		"token": "your-app-token"
-	}
-}
+```js
+var socrata = require('koop-socrata')
+koop.register(socrata)
 ```
 
-## Usage
+After that you need to create an `socrata:services` table in your spatial database.
+
+```sql
+CREATE TABLE "socrata:services"
+(
+  id character varying(100),
+  host character varying(100)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "socrata:services"
+  OWNER TO username;
+```
+
+Once that's done you can restart your server and the Socrata routes will be available.
+
+If you're using the `koop-sample-app` template, you can start the server like this:
+
+```
+node server.js
+```
 
 ### Registering Socrata Hosts
 
@@ -51,6 +64,22 @@ curl --data "host=https://data.nola.gov&id=nola" localhost:1337/socrata
 What you'll need for that request to work is an ID and the URL of the Socrata instance. The ID is what you'll use to reference datasets that come from Socrata in Koop.
 
 To make sure this works you can visit: http://localhost:1337/socrata and you should see all of the registered hosts.
+
+### Add your app key
+
+Socrata allows 1,000 requests per rolling hour period if you have an app key. If not, there is no guarantee of the number of queries you can make. It is strongly recommended to include an app token if you plan to run Koop-Socrata in production. See:
+
+http://dev.socrata.com/docs/app-tokens.html
+
+1. Go to dev.socrata.com/register to create an app key
+2. Edit the default.json in your koop-app config to add
+```json
+{
+  "socrata": {
+    "token": "your-app-token"
+  }
+}
+```
 
 ### Accessing Socrata Data
 
