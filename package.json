@@ -1,7 +1,7 @@
 {
   "name": "koop-socrata",
   "description": "Socrata provider for Koop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Chris Helm",
   "bugs": {
     "url": "https://github.com/koopjs/koop-socrata/issues"
