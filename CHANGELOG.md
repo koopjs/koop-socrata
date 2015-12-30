@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Changed
+* Replace '::' in fixture filenames
+
 ## 1.0.2 - 2015-12-29
 ### Changed
 * bumped version of leaflet/esri leaflet used by preview

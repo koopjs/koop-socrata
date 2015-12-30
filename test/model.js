@@ -8,33 +8,33 @@ var es = require('event-stream')
 var requests = nock('https://data.seattle.gov')
 
 // responses for working resource
-requests.get('/resource/foobar.json?$select=count(*)').times(2).reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::count.json')))
-requests.get('/resource/foobar.json?$order=:id&$limit=1').times(2).reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::first.json')))
-requests.get('/resource/foobar.json?$order=:id&$limit=1000&$offset=1').times(2).reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/crimes::page.json')})
-requests.get('/views/foobar.json').times(2).reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::views.json')), {'Last-Modified': 'Wed, 03 Jun 2015 10:05:45 PDT'})
+requests.get('/resource/foobar.json?$select=count(*)').times(2).reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes-count.json')))
+requests.get('/resource/foobar.json?$order=:id&$limit=1').times(2).reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes-first.json')))
+requests.get('/resource/foobar.json?$order=:id&$limit=1000&$offset=1').times(2).reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/crimes-page.json')})
+requests.get('/views/foobar.json').times(2).reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes-views.json')), {'Last-Modified': 'Wed, 03 Jun 2015 10:05:45 PDT'})
 
 // responses for non-existant resource
-requests.get('/resource/missing.json?$select=count(*)').reply(404, JSON.parse(fs.readFileSync(__dirname + '/fixtures/missing::count.json')))
-requests.get('/resource/missing.json?$order=:id&$limit=1').reply(404, JSON.parse(fs.readFileSync(__dirname + '/fixtures/missing::first.json')))
-requests.get('/views/missing.json').reply(404, JSON.parse(fs.readFileSync(__dirname + '/fixtures/missing::views.json')))
+requests.get('/resource/missing.json?$select=count(*)').reply(404, JSON.parse(fs.readFileSync(__dirname + '/fixtures/missing-count.json')))
+requests.get('/resource/missing.json?$order=:id&$limit=1').reply(404, JSON.parse(fs.readFileSync(__dirname + '/fixtures/missing-first.json')))
+requests.get('/views/missing.json').reply(404, JSON.parse(fs.readFileSync(__dirname + '/fixtures/missing-views.json')))
 
 // responses for resource where requesting the first row fails
-requests.get('/resource/countFail.json?$select=count(*)').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools::count.json')))
-requests.get('/resource/countFail.json?$order=:id&$limit=1').reply(500, JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools::first.json')))
-requests.get('/views/countFail.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools::view.json')))
-requests.get('/resource/countFail.json').reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/schools::page.json')})
+requests.get('/resource/countFail.json?$select=count(*)').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools-count.json')))
+requests.get('/resource/countFail.json?$order=:id&$limit=1').reply(500, JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools-first.json')))
+requests.get('/views/countFail.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools-view.json')))
+requests.get('/resource/countFail.json').reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/schools-page.json')})
 
 // responses for a resource that has been filered
-requests.get('/resource/filtered.json?$select=count(*)').reply(500, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered::count.json')))
-requests.get('/resource/filtered.json?$order=:id&$limit=1').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered::first.json')))
-requests.get('/views/filtered.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered::view.json')))
-requests.get('/resource/filtered.json').reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/filtered::page.json')})
+requests.get('/resource/filtered.json?$select=count(*)').reply(500, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered-count.json')))
+requests.get('/resource/filtered.json?$order=:id&$limit=1').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered-first.json')))
+requests.get('/views/filtered.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/filtered-view.json')))
+requests.get('/resource/filtered.json').reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/filtered-page.json')})
 
 // responses for a zip file resource
-requests.get('/resource/zip.json?$select=count(*)').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::count.json')))
-requests.get('/resource/zip.json?$order=:id&$limit=1').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::first.json')))
-requests.get('/views/zip.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::view.json')))
-requests.get('/api/geospatial/zip?method=export&format=Original').times(2).reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/zip::data.zip')})
+requests.get('/resource/zip.json?$select=count(*)').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip-count.json')))
+requests.get('/resource/zip.json?$order=:id&$limit=1').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip-first.json')))
+requests.get('/views/zip.json').reply(200, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip-view.json')))
+requests.get('/api/geospatial/zip?method=export&format=Original').times(2).reply(200, function (uri) {return fs.createReadStream(__dirname + '/fixtures/zip-data.zip')})
 
 // use Koop's local cache as a db for tests
 koop.Cache = new koop.DataCache(koop)
@@ -53,7 +53,7 @@ var key = 'foobar'
 
 // stub out requests for a zip resource
 sinon.stub(socrata, 'ogrZip', function (stream, callback) {
-  callback(null, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip::geojson.json')))
+  callback(null, JSON.parse(fs.readFileSync(__dirname + '/fixtures/zip-geojson.json')))
 })
 
 test('adding a socrata instance', function (t) {
@@ -75,7 +75,7 @@ test('getting the first row', function (t) {
   t.plan(1)
   socrata.getFirst(host, key, function (err, data) {
     if (err) throw err
-    t.deepEqual(data, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::first.json')))
+    t.deepEqual(data, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes-first.json')))
   })
 })
 
@@ -83,7 +83,7 @@ test('getting the row count', function (t) {
   t.plan(1)
   socrata.getRowCount(host, key, function (err, count) {
     if (err) throw err
-    t.deepEqual(count, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::count.json'))[0].count)
+    t.deepEqual(count, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes-count.json'))[0].count)
   })
 })
 
@@ -128,7 +128,7 @@ test('getting a full page', function (t) {
       callback()
     }))
     .on('end', function () {
-      t.deepEqual(json, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes::page.json')))
+      t.deepEqual(json, JSON.parse(fs.readFileSync(__dirname + '/fixtures/crimes-page.json')))
     })
 })
 
@@ -174,7 +174,7 @@ test('parsing geojson', function (t) {
 test('piping data through the process stream', function (t) {
   t.plan(2)
   sinon.stub(socrata, 'getPage', function (url) {
-    return fs.createReadStream(__dirname + '/fixtures/crimes::page.json')
+    return fs.createReadStream(__dirname + '/fixtures/crimes-page.json')
   })
 
   sinon.stub(socrata, 'toGeojson', function (json, meta, callback) {
@@ -334,7 +334,7 @@ test('fill the cache with a dataset that fails on the first row count', function
 
 test('requesting a resource where the first row request fails', function (t) {
   t.plan(1)
-  var geojson = JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools::geojson.json'))
+  var geojson = JSON.parse(fs.readFileSync(__dirname + '/fixtures/schools-geojson.json'))
   socrata.getResource(host, id, 'countFail', {layer: 0}, function (err, data) {
     if (err) throw err
     t.deepEqual(data[0].features.length, geojson.features.length)
