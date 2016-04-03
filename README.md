@@ -28,19 +28,11 @@ var socrata = require('koop-socrata')
 koop.register(socrata)
 ```
 
-After that you need to create an `socrata:services` table in your spatial database.
+If you are using Postgres you will need to then create a database and enable Postgis
 
-```sql
-CREATE TABLE "socrata:services"
-(
-  id character varying(100),
-  host character varying(100)
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE "socrata:services"
-  OWNER TO username;
+```bash
+createdb koop
+psql -d "koop" -c "create extension postgis;"
 ```
 
 Once that's done you can restart your server and the Socrata routes will be available.
