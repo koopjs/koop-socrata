@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [1.0.4] 2016-04-03
 ### Fixed
 * New hosts can be registered without manually creating a services table
 
@@ -99,6 +99,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Keeping a legit changelog
 * Added tape testing with sinon stubs in the controller tests
 
+[1.0.4]: https://github.com/koopjs/koop-socrata/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/koopjs/koop-socrata/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/koopjs/koop-socrata/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/koopjs/koop-socrata/compare/v1.0.0...v1.0.1
