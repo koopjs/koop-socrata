@@ -25,14 +25,9 @@ var Socrata = function (koop) {
   // needs a host, generates an id
   socrata.register = function (id, host, callback) {
     var type = 'socrata:services'
-    koop.Cache.db.serviceCount(type, function (error, count) {
-      if (error) {
-        return callback(error, null)
-      }
-      id = id || count++
-      koop.Cache.db.serviceRegister(type, {'id': id, 'host': host}, function (err, success) {
-        callback(err, id)
-      })
+    if (!id && host) return callback(new Error('Try POSTing {"host":"url", "id":"yourId"}'))
+    koop.Cache.db.serviceRegister(type, {'id': id, 'host': host}, function (err, success) {
+      callback(err, id)
     })
   }
 

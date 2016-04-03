@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+* New hosts can be registered without manually creating a services table
+
 ## [1.0.3] - 2015-12-30
 ### Changed
 * Replace '::' in fixture filenames
@@ -43,7 +47,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 * No exception thrown when requesting a service that is processing
 * Can get resources that are filtered views of other resources
-* Not to send repsonse after processing has been sent
+* Not to send response after processing has been sent
 
 ## [0.3.2] - 2015-06-09
 ### Fixed
