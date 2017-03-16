@@ -88,7 +88,7 @@ var Controller = function (Socrata, BaseController) {
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json')
 
-            var dir = ['socrata', req.params.id, req.params.item ].join(':')
+            var dir = ['socrata', req.params.id, req.params.item].join(':')
             // build the file key as an MD5 hash that's a join on the paams and look for the file
             var toHash = JSON.stringify(req.params) + JSON.stringify(req.query)
             var key = crypto.createHash('md5').update(toHash).digest('hex')
@@ -336,7 +336,7 @@ var Controller = function (Socrata, BaseController) {
   }
 
   controller.preview = function (req, res) {
-    res.render(__dirname + '/../views/demo', {
+    res.render(path.join(__dirname, '/../views/demo'), {
       locals: {
         host: req.params.id,
         item: req.params.item
