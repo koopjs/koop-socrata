@@ -1,5 +1,7 @@
 # koop-socrata
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/koopjs/koop-socrata.svg)](https://greenkeeper.io/)
+
 > Socrata Provider for [Koop](https://github.com/koopjs/koop)
 
 [![npm version][npm-img]][npm-url]
