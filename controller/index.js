@@ -2,6 +2,7 @@ var SphericalMerc = require('sphericalmercator')
 var merc = new SphericalMerc({ size: 256 })
 var fs = require('fs')
 var crypto = require('crypto')
+var path = require('path')
 
 // a function that is given an instance of Koop at init
 var Controller = function (Socrata, BaseController) {
