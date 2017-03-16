@@ -55,12 +55,12 @@ var Socrata = function (koop) {
     var meta = {}
     var firstRow = []
     var errors = []
-    var location_field
+    var locationField
 
     // test id for '!' character indicating presence of a column name and handle
     if (id.indexOf('!') !== -1) {
       urlId = id.split('!')[0]
-      location_field = id.split('!')[1]
+      locationField = id.split('!')[1]
     } else {
       urlId = id
     }
@@ -190,7 +190,7 @@ var Socrata = function (koop) {
                 errors.push(err)
               } else {
                 meta.name = info.name
-                meta.location_field = location_field || info.location_field
+                meta.locationField = locatioField || info.locationField
                 meta.updated_at = info.updated_at
                 meta.fields = info.fields
                 meta.field_types = info.field_types || []
@@ -532,7 +532,7 @@ var Socrata = function (koop) {
 
   // drops the item from the cache
   socrata.dropItem = function (host, itemId, options, callback) {
-    var dir = [ 'socrata', host, itemId].join(':')
+    var dir = ['socrata', host, itemId].join(':')
     var errors = []
 
     koop.Cache.remove('Socrata', itemId, options, function (err, res) {
@@ -620,7 +620,6 @@ var Socrata = function (koop) {
   }
 
   return socrata
-
 }
 
 module.exports = Socrata
