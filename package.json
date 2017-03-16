@@ -31,7 +31,7 @@
   },
   "greenkeeper": {
     "ignore": ["koop"]
-  }
+  },
   "homepage": "https://github.com/koopjs/koop-socrata#readme",
   "keywords": [
     "csv",
