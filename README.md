@@ -1,16 +1,10 @@
 # koop-socrata
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/koopjs/koop-socrata.svg)](https://greenkeeper.io/)
-
-> Socrata Provider for [Koop](https://github.com/koopjs/koop)
+*Socrata Provider for [Koop](https://github.com/koopjs/koop)*
 
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
-
-[npm-img]: https://img.shields.io/npm/v/koop-socrata.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/koop-socrata
-[travis-img]: https://img.shields.io/travis/koopjs/koop-socrata.svg?style=flat-square
-[travis-url]: https://travis-ci.org/koopjs/koop-socrata
+[![Greenkeeper badge][greenkeeper-img]][greenkeeper-url]
 
 This provider makes it possible to access [Socrata's JSON API](http://dev.socrata.com/docs/formats/json.html) as either GeoJSON or an Esri FeatureService. This is particularly useful for making maps and doing analysis on the web.
 
@@ -105,7 +99,7 @@ Koop-Socrata will page through large datasets to gather all the rows. The defaul
 
 If you find yourself in a situation where Koop isn't returning data for a particular resource and you'd like to make sure it makes a fresh request, you can blow out the cobwebs by making the following request in the browser.
 
-```json
+```bash
 http://[koop]/socrata/[provider]/[resourceID]/drop
 >>> true
 ```
@@ -125,3 +119,10 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 ## License
 
 [Apache 2.0](LICENSE)
+
+[npm-img]: https://img.shields.io/npm/v/koop-socrata.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/koop-socrata
+[travis-img]: https://img.shields.io/travis/koopjs/koop-socrata.svg?style=flat-square
+[travis-url]: https://travis-ci.org/koopjs/koop-socrata
+[greenkeeper-img]: https://badges.greenkeeper.io/koopjs/koop-socrata.svg
+[greenkeeper-url]: https://greenkeeper.io/
