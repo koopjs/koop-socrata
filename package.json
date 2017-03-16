@@ -29,6 +29,9 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3"
   },
+  "greenkeeper": {
+    "ignore": ["koop"]
+  }
   "homepage": "https://github.com/koopjs/koop-socrata#readme",
   "keywords": [
     "csv",
