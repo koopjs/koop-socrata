@@ -190,7 +190,7 @@ var Socrata = function (koop) {
                 errors.push(err)
               } else {
                 meta.name = info.name
-                meta.locationField = locatioField || info.locationField
+                meta.locationField = locationField || info.locationField
                 meta.updated_at = info.updated_at
                 meta.fields = info.fields
                 meta.field_types = info.field_types || []
