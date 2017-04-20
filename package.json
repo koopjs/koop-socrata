@@ -21,7 +21,7 @@
     "sphericalmercator": "~1.0.2"
   },
   "devDependencies": {
-    "koop": "2.12.1",
+    "koop": "3.5.1",
     "nock": "~9.0.9",
     "sinon": "^2.0.0",
     "standard": "^9.0.1",
