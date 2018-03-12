@@ -17,7 +17,7 @@
     "ejs": "~2.5.6",
     "event-stream": "~3.3.1",
     "ogr2ogr": "~1.0.1",
-    "request": "^2.51.0",
+    "request": "^2.84.0",
     "sphericalmercator": "~1.0.2"
   },
   "devDependencies": {
