@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "koop": "2.12.1",
-    "nock": "~9.2.0",
+    "nock": "~9.3.2",
     "sinon": "^2.0.0",
     "standard": "^9.0.1",
     "supertest": "~3.0.0",
