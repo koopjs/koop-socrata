@@ -1,4 +1,6 @@
-# koop-socrata
+# koop-socrata (Koop 2.x)
+
+## Note this is the Koop 2.x version of the Socrata provider;  please see [https://github.com/koopjs/koop-provider-socrata](https://github.com/koopjs/koop-provider-socrata) for Koop 3.x version.
 
 *Socrata Provider for [Koop](https://github.com/koopjs/koop)*
 
